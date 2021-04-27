@@ -11,7 +11,7 @@ create table `userInfo` (
 )CHARSET=utf8mb4; -- 用户
 
 create table `enterprise` (
-	`id` varchar(16) PRIMARY KEY COMMENT '企业id',
+	`id` bigint(32) PRIMARY KEY AUTO_INCREMENT COMMENT '企业id',
 	`name` varchar(20) NOT NULL COMMENT '企业名称',
 	`code` varchar(10) NOT NULL COMMENT '用于HR注册的验证码',
 	`introduction` varchar(1024) COMMENT '简介',
@@ -23,7 +23,7 @@ create table `humanResource` (
 	`id`  varchar(16) PRIMARY KEY COMMENT 'hr用户名，应为特殊字符、数字、字母的组合',
 	`pswd` varchar(16) NOT NULL COMMENT '密码，有条件应MD5加密',
 	`name` char(5) NOT NULL COMMENT '姓名',
-	`enterpriseId` varchar(16) NOT NULL COMMENT '企业id',
+	`enterpriseId` bigint(32) NOT NULL COMMENT '企业id',
 	`department` varchar(10) COMMENT '部门名称',
 	`phone` char(13) NOT NULL COMMENT '联系电话',
 	`email` varchar(20) COMMENT '邮箱',
@@ -31,8 +31,9 @@ create table `humanResource` (
 )CHARSET=utf8mb4; -- hr用户
 
 create table `positionInfo` (
+	`id` bigint(32) PRIMARY KEY Auto_increment,
 	`position` varchar(8) NOT NULL COMMENT '一个值，取值与`userInfo`中的`interset`相同',
-	`enterpriseId` varchar(16)  COMMENT '发布公司',
+	`enterpriseId` bigint(32)  COMMENT '发布公司',
 	CONSTRAINT `enterpriseId_c` foreign key (`enterpriseId`) references `enterprise`(`id`),
 	`title` varchar(20) NOT NULL COMMENT '招聘标题',
 	`content` TEXT NOT NULL COMMENT '招聘正文',
@@ -40,19 +41,17 @@ create table `positionInfo` (
 	`hrId` varchar(16) COMMENT '联系人',
 	CONSTRAINT `hrId_c`  foreign key(`hrId`) references `humanResource`(`id`),
 	`degree` char(1) NOT NULL COMMENT '0为不限 1为高中 2为专科 3为本科 4为硕士 5为博士',
-	`views` int(10) unsigned default 0 COMMENT '浏览量',
-	PRIMARY Key `id` (`position`,`enterpriseId`)
+	`views` int(10) unsigned default 0 COMMENT '浏览量'
 )CHARSET=utf8mb4; -- 招聘信息
 
 create table `resume` (
-	`position` varchar(8) NOT NULL COMMENT 'copy positionInfo的postion字段',
-	`enterpriseId` varchar(16)  COMMENT 'copy positionInfo的enterpriseId',
-	constraint `position_enterpriseId` foreign key (`position`,`enterpriseId`) references `positionInfo`(`position`,`enterpriseId`),
+	`positionId` bigint(32)
+	constraint `positionId` foreign key (`positionId`) references `positionInfo`(`id`),
 	`userId` varchar(16) COMMENT '用户id',
 	constraint `userId_c` foreign key(`userId`) references `userInfo`(`id`) ,
 	`resume` varchar(1024) COMMENT '一个文件夹地址，里面存的是该用户的简历',
 	`isDealed` boolean COMMENT '处理状态，false为未处理',
-	PRIMARY Key `id` (`position`,`enterpriseId`,`userId`)
+	PRIMARY Key `id` (`positionId`,`userId`)
 )CHARSET=utf8mb4; -- 简历
 
 create table `info` (
@@ -66,6 +65,6 @@ create table `talk` (
 	constraint `talk_userId_c` foreign key (`userId`) references `userInfo`(`id`),
 	`hrId` varchar(16) COMMENT '会话人2应是hr',
 	constraint `taklk_hrId_c` foreign key (`hrId`) references `humanResource`(`id`),
-	 PRIMARY key `id` (`userId`,`hrId`)
+	key `id` (`userId`,`hrId`)
 ) CHARSET=utf8mb4;
 
