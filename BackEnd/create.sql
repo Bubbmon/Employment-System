@@ -62,17 +62,10 @@ create table `info` (
 )CHARSET=utf8mb4; -- 资讯板块
 
 create table `talk` (
-	`id` bigint(64) PRIMARY key AUTO_INCREMENT,
 	`userId` varchar(16) COMMENT '会话人1应是普通用户',
 	constraint `talk_userId_c` foreign key (`userId`) references `userInfo`(`id`),
 	`hrId` varchar(16) COMMENT '会话人2应是hr',
-	constraint `taklk_hrId_c` foreign key (`hrId`) references `humanResource`(`id`) 
+	constraint `taklk_hrId_c` foreign key (`hrId`) references `humanResource`(`id`),
+	 PRIMARY key `id` (`userId`,`hrId`)
 ) CHARSET=utf8mb4;
 
-create table `talkDetail` (
-	`id` bigint(64),
-	constraint `talk_c` foreign key (`id`) references `talk`(`id`),
-	`time` TIMESTAMP(6) NOT NULL COMMENT '消息发送时间',
-	`sender` char(1) NOT NULL COMMENT '发送人 0为普通用户 1为企业用户',
-	`message` varchar(1024) NOT NULL COMMENT '消息'
-) CHARSET=utf8mb4;

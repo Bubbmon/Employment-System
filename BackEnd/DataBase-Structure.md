@@ -2,10 +2,10 @@
 
 1. 普通用户信息表 userInfo
 
-| 字段     | 限制          | 类型         | 说明                                                                   |
+| 字段     | 类型          | 限制         | 说明                                                                   |
 | -------- | ------------- | ------------ | ---------------------------------------------------------------------- |
-| id       | PRIMARY KEY   | varchar(16)  | 用户名，应为特殊字符、数字、字母的组合                                 |
-| pswd     | NOT NULL      | varchar(16)  | 密码，有条件应 MD5 加密                                                |
+| id       | varchar(16)   | PRIMARY KEY  | 用户名，应为特殊字符、数字、字母的组合                                 |
+| pswd     | varchar(16)   | NOT NULL     | 密码，有条件应 MD5 加密                                                |
 | name     | char(5)       | NOT NULL     | 姓名                                                                   |
 | IDNO     | varchar(25)   | NOT NULL     | 身份证号                                                               |
 | phone    | char(13)      | NOT NULL     | 手机号                                                                 |
@@ -16,7 +16,7 @@
 
 2. 企业表 enterprise
 
-| 字段         | 限制          | 类型        | 说明                                             |
+| 字段         | 类型          | 限制        | 说明                                             |
 | ------------ | ------------- | ----------- | ------------------------------------------------ |
 | id           | varchar(16)   | PRIMARY KEY | 企业 id                                          |
 | name         | varchar(20)   | NOT NULL    | 企业名称                                         |
@@ -27,7 +27,7 @@
 
 3. HR 用户表 humanResource
 
-| 字段         | 限制        | 类型                                | 说明                                      |
+| 字段         | 类型        | 限制                                | 说明                                      |
 | ------------ | ----------- | ----------------------------------- | ----------------------------------------- |
 | id           | varchar(16) | PRIMARY KEY                         | hr 用户名，应为特殊字符、数字、字母的组合 |
 | pswd         | varchar(16) | NOT NULL                            | 密码，有条件应 MD5 加密                   |
@@ -39,7 +39,7 @@
 
 4. 招聘信息表 positionInfo
 
-| 字段         | 限制        | 类型                                                  | 说明                                                  |
+| 字段         | 类型        | 限制                                                  | 说明                                                  |
 | ------------ | ----------- | ----------------------------------------------------- | ----------------------------------------------------- |
 | position     | varchar(8)  | NOT NULL 与 enterpriseId 构成组合主键                 | 一个值，取值与 userInfo 中的 interset 相同            |
 | enterpriseId | varchar(16) | 表 enterprise 字段 id 的外键 与 position 构成组合主键 | 发布公司                                              |
@@ -54,7 +54,7 @@
 
 组合主键：(position,enterpriseId,userId)
 
-| 字段                                    | 限制                    | 类型                                                                      | 说明                                   |
+| 字段                                    | 类型                    | 限制                                                                      | 说明                                   |
 | --------------------------------------- | ----------------------- | ------------------------------------------------------------------------- | -------------------------------------- |
 | position                                | varchar(8)              | NOT NULL;对应于表 positionInfo 字段 position;与 enterpriseId 构成组合外键 | copy positionInfo 的 postion 字段      |
 | enterpriseId                            | varchar(16)             | 对应于表 positionInfo 的字段 enterpriseId;与 position 构成组合外键        | copy positionInfo 的 enterpriseId      |
@@ -65,7 +65,7 @@
 
 6. 资讯表 info
 
-| 字段    | 限制        | 类型                       | 说明     |
+| 字段    | 类型        | 限制                       | 说明     |
 | ------- | ----------- | -------------------------- | -------- |
 | id      | bigint(32)  | PRIMARY Key AUTO_INCREMENT |          |
 | title   | varchar(20) | NOT NULL                   | 资讯标题 |
@@ -73,17 +73,12 @@
 
 7. 聊天会话表 talk
 
-| 字段   | 限制        | 类型                            | 说明                  |
-| ------ | ----------- | ------------------------------- | --------------------- |
-| id     | bigint(64)  | PRIMARY key AUTO_INCREMENT      |                       |
-| userId | varchar(16) | 表 userInfo 字段 id 的外键      | 会话人 1 应是普通用户 |
-| hrId   | varchar(16) | 表 humanResource 字段 id 的外键 | 会话人 2 应是 hr      |
+PRIMARY KEY(`userId`,`hrId`)
 
-7. 聊天内容表 talkDetail
-
-| 字段    | 限制          | 类型                   | 说明                             |
-| ------- | ------------- | ---------------------- | -------------------------------- |
-| id      | bigint(64)    | 表 talk 字段 id 的外键 |                                  |
-| time    | TIMESTAMP(6)  | NOT NULL               | 消息发送时间                     |
-| sender  | char(1)       | NOT NULL               | 发送人 0 为普通用户 1 为企业用户 |
-| message | varchar(1024) | NOT NULL               | 消息                             |
+| 字段    | 类型          | 限制                            | 说明                             |
+| ------- | ------------- | ------------------------------- | -------------------------------- |
+| userId  | varchar(16)   | 表 userInfo 字段 id 的外键      | 会话人 1 应是普通用户            |
+| hrId    | varchar(16)   | 表 humanResource 字段 id 的外键 | 会话人 2 应是 hr                 |
+| time    | TIMESTAMP(6)  | NOT NULL                        | 消息发送时间                     |
+| sender  | char(1)       | NOT NULL                        | 发送人 0 为普通用户 1 为企业用户 |
+| message | varchar(1024) | NOT NULL                        | 消息                             |
