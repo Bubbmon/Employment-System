@@ -20,30 +20,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="890ff724-350d-4845-adf1-a515aa77eed2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/system/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/system/controller/AccountController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/system/controller/EnterpriseController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/system/controller/PositionController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/system/controller/SearchController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/system/controller/SendController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/system/entity/Customer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/system/entity/Enterprise.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/system/entity/HumanResource.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/system/entity/Info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/system/entity/PositionInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/system/entity/Resume.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/system/entity/Talk.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/system/entity/UserInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/system/mapper/EnterpriseMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/system/mapper/HumanResourceMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/system/mapper/UserInfoMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/system/service/AccountService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/application-prod.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/EnterpriseMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/HumanResourceMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/UserInfoMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../url.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../url.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/system/controller/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/system/controller/AccountController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/system/controller/EnterpriseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/system/controller/EnterpriseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/system/controller/PositionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/system/controller/PositionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/system/controller/SearchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/system/controller/SearchController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/system/controller/SendController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/system/controller/SendController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +95,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1623480011124</updated>
-      <workItem from="1623480013578" duration="14832000" />
+      <workItem from="1623480013578" duration="18142000" />
     </task>
     <servers />
   </component>

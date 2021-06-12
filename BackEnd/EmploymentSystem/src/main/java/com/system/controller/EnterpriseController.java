@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController("/enterprise")
 public class EnterpriseController {
+    /**
+     * 查询企业信息
+     * @param id 企业id
+     */
     @GetMapping(path = "/info/{id}")
     public String getEnterpriseInfo(@Param("id") String id) {
         return null;

@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @Author Legion
  * @Date 2021/6/12 15:19
- * @Description 账号相关的请求（注册，登陆，查询资料，修改资料，个人简历上传）
+ * @Description 账号相关的请求（注册，登陆，查询资料，修改资料，个人简历上传下载）
  */
 @RestController("/account")
 @Slf4j
@@ -24,6 +24,9 @@ public class AccountController {
     @Autowired
     AccountService accountService;
 
+    /**
+     * 招聘者注册
+     */
     @PostMapping(path = "/recruiter/signUp")
     public String userSignUp(@RequestHeader String id, @RequestHeader String password,
                              @RequestHeader String name, @RequestHeader String IDNO,
@@ -41,6 +44,9 @@ public class AccountController {
         return json;
     }
 
+    /**
+     * hr注册
+     */
     @PostMapping(path = "/hr/signUp")
     public String hrSignUp(@RequestHeader String id, @RequestHeader String password,
                            @RequestHeader String name, @RequestHeader String enterpriseName,
@@ -59,6 +65,9 @@ public class AccountController {
         return json;
     }
 
+    /**
+     * 登陆
+     */
     @PostMapping(path = "/signIn")
     public String signIn(@RequestHeader String id, @RequestHeader String password,
                          @RequestHeader boolean isRecruiter) {
@@ -69,6 +78,9 @@ public class AccountController {
         return json;
     }
 
+    /**
+     * 招聘者修改个人信息
+     */
     @PostMapping(path = "/recruiter/modify")
     public String userModify(@RequestHeader String id, @RequestHeader String password,
                              @RequestHeader String name, @RequestHeader String IDNO,
@@ -100,6 +112,9 @@ public class AccountController {
         return json;
     }
 
+    /**
+     * hr修改个人信息
+     */
     @PostMapping(path = "/hr/modify")
     public String hrModify(@RequestHeader String id, @RequestHeader String password,
                            @RequestHeader String name, @RequestHeader String phone,
@@ -118,6 +133,11 @@ public class AccountController {
         return json;
     }
 
+    /**
+     * 查询招聘人信息
+     * @param id 招聘人账户id
+     * @return
+     */
     @GetMapping(path = "/recruiter/info/{id}")
     public String getUserInfo(@Param("id")String id) {
         log.info("Receive getUserInfo: id="+id);
@@ -126,6 +146,11 @@ public class AccountController {
         return json;
     }
 
+    /**
+     * 查询hr信息
+     * @param id hr账户id
+     * @return
+     */
     @GetMapping(path = "/hr/info/{id}")
     public String getHrInfo(@Param("id") String id) {
         log.info("Receive getHrInfo: id="+id);
@@ -134,15 +159,26 @@ public class AccountController {
         return json;
     }
 
+    /**
+     * 招聘者上传个人简历
+     * @param token 用户标识
+     * @param file 简历数据
+     * @return
+     */
     @PostMapping(path = "/resume")
-    public String uploadResume(@RequestHeader String token,
+    public String uploadResume(@RequestHeader long token,
                                @RequestParam("resume") MultipartFile file) {
         // TODO: 还没写完
         return null;
     }
 
+    /**
+     * 招聘者下载个人简历
+     * @param token 用户标识
+     * @param response
+     */
     @GetMapping(path = "/resume")
-    public void downloadResume(@RequestHeader String token,
+    public void downloadResume(@RequestHeader long token,
                                HttpServletResponse response) {
         //TODO: 还没写完
 
