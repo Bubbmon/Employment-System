@@ -18,7 +18,8 @@ import java.util.List;
  * @Date 2021/6/12 15:19
  * @Description 账号相关的请求（注册，登陆，查询资料，修改资料，个人简历上传下载）
  */
-@RestController("/account")
+@RestController
+@RequestMapping("/account")
 @Slf4j
 public class AccountController {
     @Autowired

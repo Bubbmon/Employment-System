@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.*;
  * @Date 2021/6/12 18:42
  * @Description 招聘信息相关
  */
-@RestController("/position")
+@RestController
+@RequestMapping("/position")
 public class PositionController {
     /**
      * 获取招聘信息详情页

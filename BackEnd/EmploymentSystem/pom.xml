@@ -16,8 +16,19 @@
         <jedis.version>3.3.0</jedis.version>
         <lombok.version>1.18.12</lombok.version>
     </properties>
-
+    <!-- 否则找不到org.springframework.boot.bind.RelaxedPropertyResolver -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.2.RELEASE</version>
+    </parent>
     <dependencies>
+        <!-- druid配置里面有这个，要不然报错 -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -81,7 +92,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-
+                <version>${spring.version}</version>
                 <!--添加自己的启动类路径！-->
                 <configuration>
                     <mainClass>com.system.Main</mainClass>

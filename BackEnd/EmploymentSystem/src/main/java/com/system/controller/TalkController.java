@@ -2,6 +2,7 @@ package com.system.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -9,7 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @Date 2021/6/12 19:56
  * @Description
  */
-@RestController("/talk")
+@RestController
+@RequestMapping("/talk")
 public class TalkController {
     /**
      * 查看历史聊天记录
