@@ -22,7 +22,7 @@ public class SendController {
      * @return
      */
     @GetMapping(path = "/recruiter/all")
-    public String getUserAllSend(@RequestHeader long token) {
+    public String getUserAllSend(@RequestHeader String token) {
         return null;
     }
 
@@ -32,7 +32,7 @@ public class SendController {
      * @param positionId 招聘信息id
      */
     @GetMapping(path = "/recruiter/download")
-    public void sendDownload(@RequestHeader long token, @RequestHeader long positionId) {
+    public void sendDownload(@RequestHeader String token, @RequestHeader long positionId) {
 
     }
 
@@ -43,7 +43,7 @@ public class SendController {
      * @return 上传成功后会获得临时简历标识
      */
     @PostMapping(path = "/recruiter/upload")
-    public String sendUpload(@RequestHeader long token, @RequestParam("resume")MultipartFile file) {
+    public String sendUpload(@RequestHeader String token, @RequestParam("resume")MultipartFile file) {
         return null;
     }
 
@@ -56,7 +56,7 @@ public class SendController {
      * @return
      */
     @PostMapping(path = "/recruiter")
-    public String send(@RequestHeader long token, @RequestHeader boolean useSelf,
+    public String send(@RequestHeader String token, @RequestHeader boolean useSelf,
                        @RequestHeader long positionId, @RequestHeader String qualifier) {
         return null;
     }
@@ -68,7 +68,7 @@ public class SendController {
      * @return
      */
     @GetMapping(path = "/hr/{positionId}")
-    public String getHrSend(@RequestHeader long token, @PathVariable("positionId") long positionId) {
+    public String getHrSend(@RequestHeader String token, @PathVariable("positionId") long positionId) {
         return null;
     }
 
@@ -81,7 +81,7 @@ public class SendController {
      * @return
      */
     @GetMapping(path = "/hr/{positionId}/{id}")
-    public String hrResumeDownload(@RequestHeader long token, @PathVariable("positionId") long positionId,
+    public String hrResumeDownload(@RequestHeader String token, @PathVariable("positionId") long positionId,
                                    @PathVariable("id") String id, HttpServletResponse response) {
         return null;
     }
@@ -95,7 +95,7 @@ public class SendController {
      * @return
      */
     @PostMapping(path = "/hr/deal/{positionId}/{id}")
-    public String deal(@RequestHeader long token, @PathVariable("positionId") long positionId,
+    public String deal(@RequestHeader String token, @PathVariable("positionId") long positionId,
                        @PathVariable("id") String id, @RequestHeader boolean isDealed) {
         return null;
     }

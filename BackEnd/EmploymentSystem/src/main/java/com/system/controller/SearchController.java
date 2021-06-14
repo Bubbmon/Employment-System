@@ -30,7 +30,7 @@ public class SearchController {
      * @return
      */
     @GetMapping(path = "/recommend")
-    public String recommend(@RequestHeader long token) {
+    public String recommend(@RequestHeader String token) {
         return null;
     }
 

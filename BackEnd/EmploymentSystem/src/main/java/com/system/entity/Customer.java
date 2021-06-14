@@ -7,4 +7,5 @@ package com.system.entity;
  */
 public interface Customer {
     String getPswd();
+    String getId();
 }

@@ -8,6 +8,7 @@ import com.system.entity.UserInfo;
 import com.system.mapper.EnterpriseMapper;
 import com.system.mapper.HumanResourceMapper;
 import com.system.mapper.UserInfoMapper;
+import com.system.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,8 @@ public class AccountService {
     HumanResourceMapper humanResourceMapper;
     @Autowired
     EnterpriseMapper enterpriseMapper;
+    @Autowired
+    TokenUtil tokenUtil;
 
     /**
      * 注册入口
@@ -32,18 +35,16 @@ public class AccountService {
      */
     public String signUp(Customer customer) {
         int signUpResult = -1;
-        long token = -1;
+        String token = "";
         if (customer instanceof UserInfo) {
             signUpResult = userSignUp((UserInfo) customer);
-            token = getToken();
-            //TODO: 将token放入redis
-
+            token = tokenUtil.generateToken(true, customer.getId());
+            tokenUtil.save(token, customer.getId());
         }
         if(customer instanceof HumanResource) {
             signUpResult = hrSignUp((HumanResource) customer);
-            token = getToken();
-            //TODO: 将token放入redis
-
+            token = tokenUtil.generateToken(false, customer.getId());
+            tokenUtil.save(token, customer.getId());
         }
         return "{\"signUpResult\":"+signUpResult+",\"token\":"+token+"}";
     }
@@ -101,9 +102,8 @@ public class AccountService {
             customer = humanResourceMapper.search(id);
         }
         if(customer.getPswd().equals(pswd)) {
-            long token = getToken();
-            //TODO: 将token放入redis
-
+            String token = tokenUtil.generateToken(isRecruiter, customer.getId());
+            tokenUtil.save(token, customer.getId());
             return "{\"signInResult\":0,\"token\":"+token+"}";
         } else {
             return "{\"signInResult\":1}";
@@ -160,13 +160,5 @@ public class AccountService {
         Enterprise enterprise = enterpriseMapper.searchById(humanResource.getEnterpriseId());
         humanResource.setEnterpriseName(enterprise.getName());
         return JSON.toJSONString(humanResource);
-    }
-
-    /**
-     * 根据时间造一个token，加个锁免得大家都来
-     * @return token
-     */
-    private synchronized long getToken() {
-        return System.currentTimeMillis();
     }
 }

@@ -20,7 +20,7 @@ public class TalkController {
      * @return
      */
     @GetMapping("/history")
-    public String talkHistory(@RequestHeader long token, @RequestHeader String id) {
+    public String talkHistory(@RequestHeader String token, @RequestHeader String id) {
         return null;
     }
 

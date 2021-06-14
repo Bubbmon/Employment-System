@@ -168,7 +168,7 @@ public class AccountController {
      * @return
      */
     @PostMapping(path = "/resume")
-    public String uploadResume(@RequestHeader long token,
+    public String uploadResume(@RequestHeader String token,
                                @RequestParam("resume") MultipartFile file) {
         // TODO: 还没写完
         return null;
@@ -180,7 +180,7 @@ public class AccountController {
      * @param response
      */
     @GetMapping(path = "/resume")
-    public void downloadResume(@RequestHeader long token,
+    public void downloadResume(@RequestHeader String token,
                                HttpServletResponse response) {
         //TODO: 还没写完
 

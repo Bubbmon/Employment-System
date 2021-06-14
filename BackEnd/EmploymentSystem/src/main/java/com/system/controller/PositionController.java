@@ -35,7 +35,7 @@ public class PositionController {
      * @return
      */
     @PostMapping(path = "/post")
-    public String postPosition(@RequestHeader long token, @RequestHeader String position,
+    public String postPosition(@RequestHeader String token, @RequestHeader String position,
                                @RequestHeader String title, @RequestBody String content,
                                @RequestHeader String salary, @RequestHeader String degree) {
         return null;
@@ -53,7 +53,7 @@ public class PositionController {
      * @return
      */
     @PostMapping(path = "/modify/{positionId}")
-    public String modifyPosition(@RequestHeader long token, @RequestHeader String position,
+    public String modifyPosition(@RequestHeader String token, @RequestHeader String position,
                                  @RequestHeader String title, @RequestBody String content,
                                  @RequestHeader String salary, @RequestHeader String degree,
                                  @PathVariable("positionId") String positionId) {

@@ -14,9 +14,5 @@ spring:
     port: 6479
     host: localhost
     password: password
-    lettuce:
-      pool:
-        min-idle: 0
-        max-idle: 8
-        max-active: 8
-        max-wait: -1
+    # token过期时间，单位：秒
+    tokenTime: 1000
