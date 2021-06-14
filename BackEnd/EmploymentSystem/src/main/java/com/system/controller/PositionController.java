@@ -1,5 +1,6 @@
 package com.system.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/position")
+@Slf4j
+@CrossOrigin("*")
 public class PositionController {
     /**
      * 获取招聘信息详情页
@@ -17,7 +20,7 @@ public class PositionController {
      * @return
      */
     @GetMapping(path = "/{id}")
-    public String getPosition(@Param("id") String id) {
+    public String getPosition(@PathVariable("id") String id) {
         return null;
     }
 
@@ -53,7 +56,7 @@ public class PositionController {
     public String modifyPosition(@RequestHeader long token, @RequestHeader String position,
                                  @RequestHeader String title, @RequestBody String content,
                                  @RequestHeader String salary, @RequestHeader String degree,
-                                 @Param("positionId") String positionId) {
+                                 @PathVariable("positionId") String positionId) {
         return null;
     }
 
@@ -62,8 +65,9 @@ public class PositionController {
      * @return
      */
     @GetMapping(path = "/enterprise/{enterpriseId}")
-    public String getEnterprisePosition(@Param("enterpriseId") long enterpriseId) {
-        return null;
+    public String getEnterprisePosition(@PathVariable("enterpriseId") long enterpriseId) {
+        log.info("Receive getEnterprisePosition, enterpriseId="+enterpriseId);
+        return "Receive getEnterprisePosition, enterpriseId="+enterpriseId;
     }
 
 

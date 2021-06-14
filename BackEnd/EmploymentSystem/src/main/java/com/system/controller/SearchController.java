@@ -1,10 +1,7 @@
 package com.system.controller;
 
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author Legion
@@ -12,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Description 搜索相关
  */
 @RestController
+@CrossOrigin("*")
 public class SearchController {
     /**
      * 搜索
@@ -51,7 +49,7 @@ public class SearchController {
      * @return
      */
     @GetMapping(path = "/info/{id}")
-    public String info(@Param("id") String id) {
+    public String info(@PathVariable("id") String id) {
         return null;
     }
 }

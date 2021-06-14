@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @RestController
 @RequestMapping("/send")
+@CrossOrigin("*")
 public class SendController {
 
     /**
@@ -67,7 +68,7 @@ public class SendController {
      * @return
      */
     @GetMapping(path = "/hr/{positionId}")
-    public String getHrSend(@RequestHeader long token, @Param("positionId") long positionId) {
+    public String getHrSend(@RequestHeader long token, @PathVariable("positionId") long positionId) {
         return null;
     }
 
@@ -80,8 +81,8 @@ public class SendController {
      * @return
      */
     @GetMapping(path = "/hr/{positionId}/{id}")
-    public String hrResumeDownload(@RequestHeader long token, @Param("positionId") long positionId,
-                                   @Param("id") String id, HttpServletResponse response) {
+    public String hrResumeDownload(@RequestHeader long token, @PathVariable("positionId") long positionId,
+                                   @PathVariable("id") String id, HttpServletResponse response) {
         return null;
     }
 
@@ -94,8 +95,8 @@ public class SendController {
      * @return
      */
     @PostMapping(path = "/hr/deal/{positionId}/{id}")
-    public String deal(@RequestHeader long token, @Param("positionId") long positionId,
-                       @Param("id") String id, @RequestHeader boolean isDealed) {
+    public String deal(@RequestHeader long token, @PathVariable("positionId") long positionId,
+                       @PathVariable("id") String id, @RequestHeader boolean isDealed) {
         return null;
     }
 }

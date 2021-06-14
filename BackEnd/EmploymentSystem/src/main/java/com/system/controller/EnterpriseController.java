@@ -1,9 +1,7 @@
 package com.system.controller;
 
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author Legion
@@ -12,13 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/enterprise")
+@CrossOrigin("*")
 public class EnterpriseController {
     /**
      * 查询企业信息
      * @param id 企业id
      */
     @GetMapping(path = "/info/{id}")
-    public String getEnterpriseInfo(@Param("id") String id) {
+    public String getEnterpriseInfo(@PathVariable("id") String id) {
         return null;
     }
 }

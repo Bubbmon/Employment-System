@@ -21,6 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/account")
 @Slf4j
+@CrossOrigin("*")
 public class AccountController {
     @Autowired
     AccountService accountService;
@@ -140,7 +141,7 @@ public class AccountController {
      * @return
      */
     @GetMapping(path = "/recruiter/info/{id}")
-    public String getUserInfo(@Param("id")String id) {
+    public String getUserInfo(@PathVariable("id")String id) {
         log.info("Receive getUserInfo: id="+id);
         String json = accountService.getUserInfo(id);
         log.info("Result:" +json);
@@ -153,7 +154,7 @@ public class AccountController {
      * @return
      */
     @GetMapping(path = "/hr/info/{id}")
-    public String getHrInfo(@Param("id") String id) {
+    public String getHrInfo(@PathVariable("id") String id) {
         log.info("Receive getHrInfo: id="+id);
         String json = accountService.getHrInfo(id);
         log.info("Result:" +json);

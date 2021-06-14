@@ -1,6 +1,7 @@
 # 应用访问根路径
 server:
-  context-path: /employment
+  servlet:
+    context-path: /employment
 
 spring:
   # 选择不同环境的配置
