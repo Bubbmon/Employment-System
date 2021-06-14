@@ -24,14 +24,14 @@ public class TokenUtil {
     /**
      * 根据时间造一个token，加个锁免得大家都来
      * @param isRecruiter 是否为招聘者
-     * @return token:h/u+时间戳（其中h代表hr，u代表user）
+     * @return token:h/u+账号id+时间戳（其中h代表hr，u代表user）
      */
     public synchronized String generateToken(boolean isRecruiter, String id) {
         long time = System.currentTimeMillis();
         if (isRecruiter) {
-            return "u"+time;
+            return "u"+id+time;
         } else {
-            return "h"+time;
+            return "h"+id+time;
         }
     }
 
@@ -55,7 +55,7 @@ public class TokenUtil {
     }
 
     /**
-     * 检查token
+     * 检查token（通用）
      * @param token token
      * @return 账户id，如果没有则返回null
      */
@@ -64,14 +64,40 @@ public class TokenUtil {
             log.warn("The token is illegal");
             return null;
         }
-        HashOperations<String, String, String> hashOps = redisTemplate.opsForHash();
-        String id = null;
         if(token.charAt(0)=='h') {
-            id = hashOps.get("hr", token);
+            return checkHr(token);
         }else if (token.charAt(0)=='u') {
-            id = hashOps.get("user", token);
+            return checkUser(token);
         }
-        return id;
+        return null;
+    }
+
+    /**
+     * 检查token（hr）
+     * @param token token
+     * @return 账户id，如果没有则返回null
+     */
+    public String checkHr(String token) {
+        if (token==null || token.length()==0) {
+            log.warn("The token is illegal");
+            return null;
+        }
+        HashOperations<String, String, String> hashOps = redisTemplate.opsForHash();
+        return hashOps.get("hr", token);
+    }
+
+    /**
+     * 检查token（招聘者）
+     * @param token token
+     * @return 账户id，如果没有则返回null
+     */
+    public String checkUser(String token) {
+        if (token==null || token.length()==0) {
+            log.warn("The token is illegal");
+            return null;
+        }
+        HashOperations<String, String, String> hashOps = redisTemplate.opsForHash();
+        return hashOps.get("user", token);
     }
 
 
