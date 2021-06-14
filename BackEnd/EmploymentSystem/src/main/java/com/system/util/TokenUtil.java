@@ -18,8 +18,8 @@ import org.springframework.stereotype.Component;
 public class TokenUtil {
     @Autowired
     private RedisTemplate<String,String> redisTemplate;
-    @Value("redis.tokenTime")
-    private int seconds;
+    @Value("${spring.redis.tokenTime}")
+    private String seconds;
 
     /**
      * 根据时间造一个token，加个锁免得大家都来
@@ -45,13 +45,8 @@ public class TokenUtil {
             log.warn("The token is illegal");
             return;
         }
-        HashOperations<String, String, String> hashOps = redisTemplate.opsForHash();
-        if (token.charAt(0)=='h') {
-            hashOps.put("hr", token, id);
-        }
-        if (token.charAt(0)=='u') {
-            hashOps.put("user", token, id);
-        }
+        ValueOperations<String, String> valueOps = redisTemplate.opsForValue();
+        valueOps.set(token, id, Integer.parseInt(seconds));
     }
 
     /**
@@ -64,40 +59,8 @@ public class TokenUtil {
             log.warn("The token is illegal");
             return null;
         }
-        if(token.charAt(0)=='h') {
-            return checkHr(token);
-        }else if (token.charAt(0)=='u') {
-            return checkUser(token);
-        }
-        return null;
-    }
-
-    /**
-     * 检查token（hr）
-     * @param token token
-     * @return 账户id，如果没有则返回null
-     */
-    public String checkHr(String token) {
-        if (token==null || token.length()==0) {
-            log.warn("The token is illegal");
-            return null;
-        }
-        HashOperations<String, String, String> hashOps = redisTemplate.opsForHash();
-        return hashOps.get("hr", token);
-    }
-
-    /**
-     * 检查token（招聘者）
-     * @param token token
-     * @return 账户id，如果没有则返回null
-     */
-    public String checkUser(String token) {
-        if (token==null || token.length()==0) {
-            log.warn("The token is illegal");
-            return null;
-        }
-        HashOperations<String, String, String> hashOps = redisTemplate.opsForHash();
-        return hashOps.get("user", token);
+        ValueOperations<String, String> valueOps = redisTemplate.opsForValue();
+        return valueOps.get(token);
     }
 
 
