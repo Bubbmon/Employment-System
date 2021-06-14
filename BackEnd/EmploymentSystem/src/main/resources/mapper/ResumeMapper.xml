@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.system.mapper.ResumeMapper">
+
+    <select id="searchByUserId" parameterType="java.lang.String" resultType="com.system.entity.Resume">
+        SELECT * FROM resume WHERE userId=#{userId}
+    </select>
+
+    <select id="searchByPositionId" parameterType="java.lang.Long" resultType="com.system.entity.Resume">
+        SELECT * FROM resume WHERE positionId=#{positionId}
+    </select>
+
+    <select id="searchByIds" parameterType="com.system.entity.ResumeId" resultType="com.system.entity.Resume">
+        SELECT * FROM resume WHERE userId=#{userId} AND positionId=#{positionId}
+    </select>
+
+    <update id="modifyDeal" parameterType="com.system.entity.Resume">
+        UPDATE resume SET isDealed = #{isDealed} WHERE userId = #{userId} and positionId = #{positionId}
+    </update>
+
+</mapper>

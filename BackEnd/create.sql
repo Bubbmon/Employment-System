@@ -45,8 +45,8 @@ create table `positionInfo` (
 )CHARSET=utf8mb4; -- 招聘信息
 
 create table `resume` (
-	`positionId` bigint(32)
-	constraint `positionId` foreign key (`positionId`) references `positionInfo`(`id`),
+	`positionId` bigint(32),
+  CONSTRAINT `positionId` foreign key (`positionId`) references `positionInfo`(`id`),
 	`userId` varchar(16) COMMENT '用户id',
 	constraint `userId_c` foreign key(`userId`) references `userInfo`(`id`) ,
 	`resume` varchar(1024) COMMENT '一个文件夹地址，里面存的是该用户的简历',

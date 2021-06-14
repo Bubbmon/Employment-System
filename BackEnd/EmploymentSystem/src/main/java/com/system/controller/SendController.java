@@ -1,6 +1,9 @@
 package com.system.controller;
 
+import com.system.service.ResumeService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,10 +14,14 @@ import javax.servlet.http.HttpServletResponse;
  * @Date 2021/6/12 18:57
  * @Description 投递相关
  */
+@Slf4j
 @RestController
 @RequestMapping("/send")
 @CrossOrigin("*")
 public class SendController {
+
+    @Autowired
+    ResumeService resumeService;
 
     /**
      * 招聘者查看已经投递的简历信息（摘要）
@@ -23,7 +30,10 @@ public class SendController {
      */
     @GetMapping(path = "/recruiter/all")
     public String getUserAllSend(@RequestHeader String token) {
-        return null;
+        log.info("Receive token:"+token);
+        String sendResumeInfo = resumeService.getSendResumeInfo(token);
+        log.info("Get user all send:"+sendResumeInfo);
+        return sendResumeInfo;
     }
 
     /**
@@ -68,8 +78,11 @@ public class SendController {
      * @return
      */
     @GetMapping(path = "/hr/{positionId}")
-    public String getHrSend(@RequestHeader String token, @PathVariable("positionId") long positionId) {
-        return null;
+    public String getHrSend(@RequestHeader String token, @PathVariable("positionId")long positionId) {
+        log.info("Get token:"+token+" and positionId:"+positionId);
+        String resumes = resumeService.getHrResumes(token, positionId);
+        log.info("Get hr send result:"+resumes);
+        return resumes;
     }
 
     /**
@@ -94,9 +107,12 @@ public class SendController {
      * @param isDealed 是否已处理
      * @return
      */
-    @PostMapping(path = "/hr/deal/{positionId}/{id}")
+    @GetMapping(path = "/hr/deal/{positionId}/{id}")
     public String deal(@RequestHeader String token, @PathVariable("positionId") long positionId,
                        @PathVariable("id") String id, @RequestHeader boolean isDealed) {
-        return null;
+        log.info("Receive token:"+token+",positionId:"+positionId+",id:"+id+",isDealed:"+isDealed);
+        String dealResult = resumeService.dealResume(token, positionId, id, isDealed);
+        log.info("Get resume deal result:"+dealResult);
+        return dealResult;
     }
 }

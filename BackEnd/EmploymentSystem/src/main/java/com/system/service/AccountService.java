@@ -150,7 +150,7 @@ public class AccountService {
     }
 
     /**
-     * 查询招聘者个人信息
+     * 查询HR个人信息
      * @param id 账号
      * @return json串，没有密码，带企业名
      */

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.system.mapper.UserInfoMapper">
 
-    <select id="search" parameterType="Integer">
+    <select id="search" parameterType="java.lang.String" resultType="com.system.entity.UserInfo">
         SELECT id,pswd,`name`,IDNO,phone,email,age,interest FROM userInfo WHERE id=#{id}
     </select>
 

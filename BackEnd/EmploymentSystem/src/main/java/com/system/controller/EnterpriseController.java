@@ -1,6 +1,9 @@
 package com.system.controller;
 
-import org.apache.ibatis.annotations.Param;
+import com.system.entity.Enterprise;
+import com.system.service.EnterpriseService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -8,16 +11,23 @@ import org.springframework.web.bind.annotation.*;
  * @Date 2021/6/12 18:38
  * @Description 企业相关
  */
+@Slf4j
 @RestController
 @RequestMapping("/enterprise")
 @CrossOrigin("*")
 public class EnterpriseController {
+
+    @Autowired
+    EnterpriseService enterpriseService;
     /**
      * 查询企业信息
      * @param id 企业id
      */
     @GetMapping(path = "/info/{id}")
-    public String getEnterpriseInfo(@PathVariable("id") String id) {
-        return null;
+    public String getEnterpriseInfo(@PathVariable("id") String id){
+        log.info("Get enterprise id:"+id);
+        String enterpriseInfo = enterpriseService.getEnterpriseInfo(id);
+        log.info("Get enterprise info:"+enterpriseInfo);
+        return enterpriseInfo;
     }
 }

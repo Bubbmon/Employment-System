@@ -1,6 +1,9 @@
 package com.system.entity;
 
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+
+import javax.persistence.EmbeddedId;
 
 /**
  * @Author Legion
@@ -9,7 +12,9 @@ import lombok.Data;
  */
 @Data
 public class Resume {
+    @Id
     private long positionId;
+    @Id
     private String userId;
     private String resume;
     private boolean isDealed;
