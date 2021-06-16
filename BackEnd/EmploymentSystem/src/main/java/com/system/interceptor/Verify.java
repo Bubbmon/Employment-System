@@ -1,4 +1,4 @@
-package com.system.Check;
+package com.system.interceptor;
 
 import com.system.util.TokenUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -36,10 +36,10 @@ public class Verify {
     @Autowired
     TokenUtil tokenUtil;
 
-    @Pointcut("@annotation(com.system.Check.NeedLogIn)")
-    public void NeedLogIn(){ }
+    @Pointcut("@annotation(com.system.interceptor.NeedVerify)")
+    public void NeedVerify(){ }
 
-    @Around("NeedLogIn()")
+    @Around("NeedVerify()")
     public void verifyAccount(ProceedingJoinPoint joinPoint) throws Throwable {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();

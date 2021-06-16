@@ -1,10 +1,11 @@
 package com.system.controller;
 
-import com.system.Check.NeedLogIn;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.system.interceptor.NeedVerify;
+import com.system.service.TalkService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 /**
  * @Author Legion
@@ -14,6 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/talk")
 public class TalkController {
+    @Autowired
+    TalkService talkService;
+
     /**
      * 查看历史聊天记录
      * @param token 用户标识
@@ -21,10 +25,15 @@ public class TalkController {
      * @return
      */
     @GetMapping("/history")
-    @NeedLogIn
+    @NeedVerify
     public String talkHistory(@RequestHeader String token, @RequestHeader String id) {
         return null;
     }
 
-    //TODO: websocket构建session
+
+    @PostMapping("/talkTo")
+    public String talkTo(@RequestHeader String token,@RequestHeader String id, @RequestHeader String message) throws IOException {
+        talkService.talkToToken(token,id,message);
+        return message;
+    }
 }

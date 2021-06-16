@@ -7,6 +7,9 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
+import org.springframework.web.socket.WebSocketSession;
+
+import java.util.List;
 
 /**
  * @Author Legion
@@ -33,6 +36,11 @@ public class TokenUtil {
         } else {
             return "h"+id+time;
         }
+    }
+    public String getUserId(WebSocketSession session){
+        List<String> ls =session.getHandshakeHeaders().get("token");
+        if(ls==null||ls.size()==0) return null;
+        else return check(ls.get(0));
     }
 
     /**

@@ -1,8 +1,8 @@
 package com.system.controller;
 
-import com.system.Check.NeedLogIn;
 import com.system.entity.HumanResource;
 import com.system.entity.UserInfo;
+import com.system.interceptor.NeedVerify;
 import com.system.service.AccountService;
 import com.system.service.ResumeService;
 import lombok.extern.slf4j.Slf4j;
@@ -85,7 +85,7 @@ public class AccountController {
     /**
      * 招聘者修改个人信息
      */
-    @NeedLogIn
+    @NeedVerify
     @PostMapping(path = "/recruiter/modify")
     public String userModify(@RequestHeader String id, @RequestHeader String password,
                              @RequestHeader String name, @RequestHeader String IDNO,
@@ -120,7 +120,7 @@ public class AccountController {
     /**
      * hr修改个人信息
      */
-    @NeedLogIn
+    @NeedVerify
     @PostMapping(path = "/hr/modify")
     public String hrModify(@RequestHeader String id, @RequestHeader String password,
                            @RequestHeader String name, @RequestHeader String phone,
@@ -171,7 +171,7 @@ public class AccountController {
      * @param file 简历数据
      * @return
      */
-    @NeedLogIn
+    @NeedVerify
     @PostMapping(path = "/resume")
     public String uploadResume(@RequestHeader String token,
                                @RequestParam("resume") MultipartFile file) {
@@ -186,7 +186,7 @@ public class AccountController {
      * @param token 用户标识
      * @param response
      */
-    @NeedLogIn
+    @NeedVerify
     @GetMapping(path = "/resume")
     public void downloadResume(@RequestHeader String token,
                                HttpServletResponse response) {
