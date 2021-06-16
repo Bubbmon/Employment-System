@@ -4,6 +4,9 @@ server:
     context-path: /employment
 
 spring:
+
+  aop:
+    auto: true
   # 选择不同环境的配置
   profiles:
     active: dev
@@ -56,3 +59,7 @@ management:
   server:
     port: 12585
     address: 127.0.0.1
+
+code:
+  validAccess: "{'code':'403','message':'can not access'}"
+  notLogIn: "{'code':'403','message':'not log in'}"

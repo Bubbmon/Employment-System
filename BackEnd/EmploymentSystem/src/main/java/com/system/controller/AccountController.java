@@ -1,11 +1,10 @@
 package com.system.controller;
 
+import com.system.Check.NeedLogIn;
 import com.system.entity.HumanResource;
 import com.system.entity.UserInfo;
 import com.system.service.AccountService;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -83,6 +82,7 @@ public class AccountController {
     /**
      * 招聘者修改个人信息
      */
+    @NeedLogIn
     @PostMapping(path = "/recruiter/modify")
     public String userModify(@RequestHeader String id, @RequestHeader String password,
                              @RequestHeader String name, @RequestHeader String IDNO,
@@ -117,6 +117,7 @@ public class AccountController {
     /**
      * hr修改个人信息
      */
+    @NeedLogIn
     @PostMapping(path = "/hr/modify")
     public String hrModify(@RequestHeader String id, @RequestHeader String password,
                            @RequestHeader String name, @RequestHeader String phone,
@@ -167,6 +168,7 @@ public class AccountController {
      * @param file 简历数据
      * @return
      */
+    @NeedLogIn
     @PostMapping(path = "/resume")
     public String uploadResume(@RequestHeader String token,
                                @RequestParam("resume") MultipartFile file) {
@@ -179,6 +181,7 @@ public class AccountController {
      * @param token 用户标识
      * @param response
      */
+    @NeedLogIn
     @GetMapping(path = "/resume")
     public void downloadResume(@RequestHeader String token,
                                HttpServletResponse response) {

@@ -4,6 +4,9 @@ server:
     context-path: /employment
 
 spring:
+
+  aop:
+    auto: true
   # 选择不同环境的配置
   profiles:
     active: dev
@@ -56,3 +59,9 @@ management:
   server:
     port: 12585
     address: 127.0.0.1
+
+code:
+  notLogInCode: 420
+  notLogInMessage: 'not log in'
+  logInExpiredCode: 421
+  logInExpiredMessage: 'log in expired'

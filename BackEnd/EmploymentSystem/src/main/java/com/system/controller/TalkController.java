@@ -1,5 +1,6 @@
 package com.system.controller;
 
+import com.system.Check.NeedLogIn;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ public class TalkController {
      * @return
      */
     @GetMapping("/history")
+    @NeedLogIn
     public String talkHistory(@RequestHeader String token, @RequestHeader String id) {
         return null;
     }

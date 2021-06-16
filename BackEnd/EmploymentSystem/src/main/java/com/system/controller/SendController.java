@@ -1,5 +1,6 @@
 package com.system.controller;
 
+import com.system.Check.NeedLogIn;
 import com.system.service.ResumeService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
@@ -29,6 +30,7 @@ public class SendController {
      * @return
      */
     @GetMapping(path = "/recruiter/all")
+    @NeedLogIn
     public String getUserAllSend(@RequestHeader String token) {
         log.info("Receive token:"+token);
         String sendResumeInfo = resumeService.getSendResumeInfo(token);
@@ -42,6 +44,7 @@ public class SendController {
      * @param positionId 招聘信息id
      */
     @GetMapping(path = "/recruiter/download")
+    @NeedLogIn
     public void sendDownload(@RequestHeader String token, @RequestHeader long positionId) {
 
     }
@@ -53,6 +56,7 @@ public class SendController {
      * @return 上传成功后会获得临时简历标识
      */
     @PostMapping(path = "/recruiter/upload")
+    @NeedLogIn
     public String sendUpload(@RequestHeader String token, @RequestParam("resume")MultipartFile file) {
         return null;
     }
@@ -66,6 +70,7 @@ public class SendController {
      * @return
      */
     @PostMapping(path = "/recruiter")
+    @NeedLogIn
     public String send(@RequestHeader String token, @RequestHeader boolean useSelf,
                        @RequestHeader long positionId, @RequestHeader String qualifier) {
         return null;
@@ -78,6 +83,7 @@ public class SendController {
      * @return
      */
     @GetMapping(path = "/hr/{positionId}")
+    @NeedLogIn
     public String getHrSend(@RequestHeader String token, @PathVariable("positionId")long positionId) {
         log.info("Get token:"+token+" and positionId:"+positionId);
         String resumes = resumeService.getHrResumes(token, positionId);
@@ -94,6 +100,7 @@ public class SendController {
      * @return
      */
     @GetMapping(path = "/hr/{positionId}/{id}")
+    @NeedLogIn
     public String hrResumeDownload(@RequestHeader String token, @PathVariable("positionId") long positionId,
                                    @PathVariable("id") String id, HttpServletResponse response) {
         return null;
@@ -108,6 +115,7 @@ public class SendController {
      * @return
      */
     @GetMapping(path = "/hr/deal/{positionId}/{id}")
+    @NeedLogIn
     public String deal(@RequestHeader String token, @PathVariable("positionId") long positionId,
                        @PathVariable("id") String id, @RequestHeader boolean isDealed) {
         log.info("Receive token:"+token+",positionId:"+positionId+",id:"+id+",isDealed:"+isDealed);

@@ -26,7 +26,7 @@ public class TokenUtil {
      * @param isRecruiter 是否为招聘者
      * @return token:h/u+账号id+时间戳（其中h代表hr，u代表user）
      */
-    public synchronized String generateToken(boolean isRecruiter, String id) {
+    public synchronized static String generateToken(boolean isRecruiter, String id) {
         long time = System.currentTimeMillis();
         if (isRecruiter) {
             return "u"+id+time;

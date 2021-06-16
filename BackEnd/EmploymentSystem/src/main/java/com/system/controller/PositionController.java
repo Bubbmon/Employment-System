@@ -1,7 +1,7 @@
 package com.system.controller;
 
+import com.system.Check.NeedLogIn;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -21,7 +21,7 @@ public class PositionController {
      */
     @GetMapping(path = "/{id}")
     public String getPosition(@PathVariable("id") String id) {
-        return null;
+        return "{1:1}";
     }
 
     /**
@@ -34,6 +34,7 @@ public class PositionController {
      * @param degree 学历
      * @return
      */
+    @NeedLogIn
     @PostMapping(path = "/post")
     public String postPosition(@RequestHeader String token, @RequestHeader String position,
                                @RequestHeader String title, @RequestBody String content,
@@ -52,6 +53,7 @@ public class PositionController {
      * @param positionId 招聘信息id
      * @return
      */
+    @NeedLogIn
     @PostMapping(path = "/modify/{positionId}")
     public String modifyPosition(@RequestHeader String token, @RequestHeader String position,
                                  @RequestHeader String title, @RequestBody String content,
