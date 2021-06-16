@@ -13,6 +13,10 @@
             (#{degree} is null or degree=#{degree}) and
             (#{position} is null or `position`=#{position})
     </select>
+    <select id="findFromEnterprise" resultType="com.system.entity.PositionInfo">
+        select * from positionInfo
+        where enterpriseId=#{enterpriseId}
+    </select>
 
     <select id="recommend" resultType="PositionInfo">
         select id, `position`, enterpriseId, title, salary, hrId, degree, views from positionInfo
@@ -20,5 +24,19 @@
         order by views desc
         limit #{count}
     </select>
+
+    <insert id="postPosition">
+        <selectKey resultType="java.lang.Long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into positionInfo(enterpriseName,enterpriseId,hrId,position,title,content,salary,degree)
+        values(#{enterpriseName},#{enterpriseId},#{hrId},#{position},#{title},#{content},#{salary},#{degree})
+    </insert>
+    <update id="updatePosition">
+        update positionInfo
+        set position=#{position},enterpriseName=#{enterpriseName},enterpriseId=#{enterpriseId},
+        title=#{title},content=#{content},salary=#{salary},hrId={#hrId},degree=#{degree},views=#{views}
+        where positionId = #{positionId}
+    </update>
 
 </mapper>

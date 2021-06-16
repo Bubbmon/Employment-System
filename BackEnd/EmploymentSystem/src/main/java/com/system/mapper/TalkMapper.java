@@ -19,7 +19,6 @@ public interface TalkMapper {
     List<Talk> getTalk(@Param("user")String user,@Param("hr")String hr);
 
 
-    @Options(useGeneratedKeys = true)
     @Insert("insert into talk(userId,hrId,time,message) values(#{userId},#{hrId},#{time},#{message})")
     boolean insertTalk(Talk talk);
 }

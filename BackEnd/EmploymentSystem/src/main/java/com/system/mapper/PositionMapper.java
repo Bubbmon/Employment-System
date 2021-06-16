@@ -12,5 +12,12 @@ import java.util.List;
 public interface PositionMapper{
     PositionInfo getPositionInfo(long positionId);
     List<PositionInfo> search(String keyword, String position, String degree);
+    List<PositionInfo> findFromEnterprise(long enterpriseId);
     List<PositionInfo> recommend(String position, int count);
+    void updatePosition(String hrId, String position,String title, String content,
+                        String salary, String degree,String positionId);
+    Long postPosition(String enterpriseName,long enterpriseId,String hrId,
+                      String position,String title, String content,String salary,
+                      String degree);
+
 }

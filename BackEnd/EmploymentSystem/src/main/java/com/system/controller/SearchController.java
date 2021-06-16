@@ -1,6 +1,5 @@
 package com.system.controller;
 
-import com.system.Check.NeedLogIn;
 import com.system.entity.Enterprise;
 import com.system.entity.Info;
 import com.system.entity.PositionInfo;
@@ -11,11 +10,9 @@ import com.system.mapper.PositionMapper;
 import com.system.mapper.UserInfoMapper;
 import com.system.util.TokenUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
