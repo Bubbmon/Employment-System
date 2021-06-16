@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 /**
@@ -37,6 +39,11 @@ public class AccountController {
                              @RequestHeader String phone) {
         // TODO: 密码的解码
         log.info("Receive userSignUp: id="+id+", pswd="+password+", name="+name+", IDNO="+IDNO+", phone="+phone);
+        try {
+            name = URLDecoder.decode(name,"utf-8");
+        } catch (UnsupportedEncodingException e) {
+            log.error("UnsupportedEncodingException");
+        }
         UserInfo userInfo = new UserInfo();
         userInfo.setId(id);
         userInfo.setPswd(password);
@@ -57,6 +64,12 @@ public class AccountController {
                            @RequestHeader String code, @RequestHeader String phone) {
         // TODO: 密码的解码
         log.info("Receive hrSignUp: id="+id+", pswd="+password+", name="+name+", enterpriseName"+enterpriseName+", code"+code+", phone="+phone);
+        try {
+            name = URLDecoder.decode(name,"utf-8");
+            enterpriseName = URLDecoder.decode(enterpriseName, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            log.error("UnsupportedEncodingException");
+        }
         HumanResource humanResource = new HumanResource();
         humanResource.setId(id);
         humanResource.setPswd(password);
@@ -90,19 +103,15 @@ public class AccountController {
     public String userModify(@RequestHeader String id, @RequestHeader String password,
                              @RequestHeader String name, @RequestHeader String IDNO,
                              @RequestHeader String phone, @RequestHeader String email,
-                             @RequestHeader int age, @RequestBody List<String> interest) {
+                             @RequestHeader int age, @RequestHeader String interest) {
         // TODO: 密码的解码
         log.info("Receive userModify: id="+id+", pswd="+password+", name="+name+", IDNO="+IDNO+", " +
                 "phone="+phone+", email="+email+", age="+age+", interest="+interest);
-        StringBuffer sb = new StringBuffer();
-        sb.append(" ");
-        if (interest!=null && interest.size()>=0) {
-            for(String str: interest) {
-                sb.append(str).append(" ");
-            }
+        try {
+            name = URLDecoder.decode(name,"utf-8");
+        } catch (UnsupportedEncodingException e) {
+            log.error("UnsupportedEncodingException");
         }
-        sb.deleteCharAt(sb.length()-1);
-        String interestStr = sb.toString();
         UserInfo userInfo = new UserInfo();
         userInfo.setId(id);
         userInfo.setPswd(password);
@@ -111,7 +120,7 @@ public class AccountController {
         userInfo.setPhone(phone);
         userInfo.setEmail(email);
         userInfo.setAge(age);
-        userInfo.setInterest(interestStr);
+        userInfo.setInterest(interest);
         String json = accountService.modify(userInfo);
         log.info("Result:"+json);
         return json;
@@ -124,16 +133,23 @@ public class AccountController {
     @PostMapping(path = "/hr/modify")
     public String hrModify(@RequestHeader String id, @RequestHeader String password,
                            @RequestHeader String name, @RequestHeader String phone,
-                           @RequestHeader String email) {
+                           @RequestHeader String email, @RequestHeader String department) {
         // TODO: 密码的解码
         log.info("Receive hrModify: id="+id+", pswd="+password+", name="+name+
                 "phone="+phone+", email="+email);
+        try {
+            name = URLDecoder.decode(name,"utf-8");
+            department = URLDecoder.decode(department);
+        } catch (UnsupportedEncodingException e) {
+            log.error("UnsupportedEncodingException");
+        }
         HumanResource humanResource = new HumanResource();
         humanResource.setId(id);
         humanResource.setPswd(password);
         humanResource.setName(name);
         humanResource.setPhone(phone);
         humanResource.setEmail(email);
+        humanResource.setDepartment(department);
         String json = accountService.modify(humanResource);
         log.info("Result:"+json);
         return json;

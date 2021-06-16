@@ -6,4 +6,19 @@
         select * from positionInfo where id=#{positionId}
     </select>
 
+    <select id="search" resultType="PositionInfo">
+        select id, `position`, enterpriseId, title, salary, hrId, degree, views from positionInfo
+        where
+            (#{keyword} is null or match(content) against(#{keyword})) and
+            (#{degree} is null or degree=#{degree}) and
+            (#{position} is null or `position`=#{position})
+    </select>
+
+    <select id="recommend" resultType="PositionInfo">
+        select id, `position`, enterpriseId, title, salary, hrId, degree, views from positionInfo
+        where #{position} is null or`position`=#{position}
+        order by views desc
+        limit #{count}
+    </select>
+
 </mapper>

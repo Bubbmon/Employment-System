@@ -45,7 +45,7 @@
 | position     | varchar(8)  | NOT NULL                        | 一个值，取值与 userInfo 中的 interset 相同            |
 | enterpriseId | bigint(32)  | 表 enterprise 字段 id 的外键    | 发布公司                                              |
 | title        | varchar(20) | NOT NULL                        | 招聘标题                                              |
-| content      | TEXT        | NOT NULL                        | 招聘正文                                              |
+| content      | TEXT        | fulltext key                    | 招聘正文                                              |
 | salary       | varchar(10) |                                 | 薪酬                                                  |
 | hrId         | varchar(16) | 表 humanResource 字段 id 的外键 | 联系人                                                |
 | degree       | char(1)     | NOT NULL                        | 0 为不限 1 为高中 2 为专科 3 为本科 4 为硕士 5 为博士 |

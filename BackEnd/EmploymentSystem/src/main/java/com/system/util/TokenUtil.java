@@ -7,6 +7,10 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @Author Legion
@@ -26,7 +30,7 @@ public class TokenUtil {
      * @param isRecruiter 是否为招聘者
      * @return token:h/u+账号id+时间戳（其中h代表hr，u代表user）
      */
-    public synchronized static String generateToken(boolean isRecruiter, String id) {
+    public synchronized String generateToken(boolean isRecruiter, String id) {
         long time = System.currentTimeMillis();
         if (isRecruiter) {
             return "u"+id+time;
@@ -61,6 +65,22 @@ public class TokenUtil {
         }
         ValueOperations<String, String> valueOps = redisTemplate.opsForValue();
         return valueOps.get(token);
+    }
+
+    /**
+     * 判断该token对应用户的身份是否为求职者
+     * @param token
+     * @return
+     * @throws Exception
+     */
+    public boolean isRecruiter(String token)  {
+        if (token==null || token.length()==0) {
+            log.warn("The token is illegal");
+            return true;
+        }
+        char first = token.charAt(0);
+        if (first=='h') return false;
+        return true;
     }
 
 

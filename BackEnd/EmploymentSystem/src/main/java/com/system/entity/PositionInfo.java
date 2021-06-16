@@ -11,6 +11,7 @@ import lombok.Data;
 public class PositionInfo {
     private long id;
     private String position;
+    private String enterpriseName;
     private long enterpriseId;
     private String title;
     private String content;

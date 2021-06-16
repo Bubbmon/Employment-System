@@ -80,6 +80,7 @@ public class AccountService {
             Enterprise enterprise = enterpriseMapper.searchByName(humanResource.getEnterpriseName());
             if(enterprise==null) return 2;
             if(!enterprise.getCode().equals(humanResource.getCode())) return 2;
+            humanResource.setEnterpriseId(enterprise.getId());
             int insert = humanResourceMapper.insert(humanResource);
             return insert==0? 2:0;
         } catch (Exception e) {
@@ -125,9 +126,9 @@ public class AccountService {
             update = humanResourceMapper.update((HumanResource) customer);
         }
         if (update!=1) {
-            return "{\"modifyResult\":0}";
-        } else {
             return "{\"modifyResult\":1}";
+        } else {
+            return "{\"modifyResult\":0}";
         }
     }
 

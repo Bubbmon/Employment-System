@@ -1,6 +1,7 @@
 package com.system.Check;
 
 import com.system.util.TokenUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  **/
 @Component
 @Aspect
+@Slf4j
 public class Verify {
 
     @Value("code.notLogInCode")
@@ -40,17 +42,18 @@ public class Verify {
     public void NeedLogIn(){ }
 
     @Around("NeedLogIn()")
-    public void verifyAccount(ProceedingJoinPoint joinPoint) throws Throwable {
+    public String verifyAccount(ProceedingJoinPoint joinPoint) throws Throwable {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
         String token = request.getHeader("token");
         if(token==null) {
             response.sendError(notLogInCode,notLogInMessage);
-            return;
+            return "";
         }else if(tokenUtil.check(token)==null){
             response.sendError(logInExpiredCode,logInExpiredMessage);
+            return "";
         }
-        joinPoint.proceed();
+        return (String) joinPoint.proceed();
     }
 
 //    @Pointcut("@annotation(com.system.Check.HrBelongsEnterpriseCheck)")
