@@ -53,9 +53,8 @@ public class Verify {
         joinPoint.proceed();
     }
 
-    @Pointcut("@annotation(com.system.Check.HrBelongsEnterpriseCheck)")
-    public void hrBelongsEnterpriseCheck(){
-
-    }
+//    @Pointcut("@annotation(com.system.Check.HrBelongsEnterpriseCheck)")
+//    public void hrBelongsEnterpriseCheck(){
+//    }
 
 }

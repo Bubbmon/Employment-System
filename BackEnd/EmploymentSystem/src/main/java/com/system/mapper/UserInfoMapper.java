@@ -21,5 +21,7 @@ public interface UserInfoMapper {
 
     int update(UserInfo userInfo);
 
+    String searchResume(String id);
 
+    int updateResume(UserInfo userInfo);
 }

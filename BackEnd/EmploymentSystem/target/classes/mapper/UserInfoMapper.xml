@@ -6,11 +6,19 @@
         SELECT id,pswd,`name`,IDNO,phone,email,age,interest FROM userInfo WHERE id=#{id}
     </select>
 
-    <insert id="insert" parameterType="UserInfo">
+    <insert id="insert" parameterType="com.system.entity.UserInfo">
         INSERT INTO userInfo(id,pswd,`name`,IDNO,phone) VALUES (#{id},#{pswd},#{name},#{IDNO},#{phone})
     </insert>
 
-    <update id="update" parameterType="UserInfo">
-        UPDATE userInfo SET pswd=#{pswd}, `name`=#{name}, IDNO=#{IDNO}, phone=#{phone}, email=#{email}, age=#{age}, interest=#{interest};
+    <update id="update" parameterType="com.system.entity.UserInfo">
+        UPDATE userInfo SET pswd=#{pswd}, `name`=#{name}, IDNO=#{IDNO}, phone=#{phone}, email=#{email}, age=#{age}, interest=#{interest} WHERE id = #{id}
+    </update>
+
+    <select id="searchResume" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT resume FROM userInfo WHERE id = #{id}
+    </select>
+
+    <update id="updateResume" parameterType="com.system.entity.UserInfo">
+        UPDATE userInfo SET resume = #{resume} WHERE id = #{id}
     </update>
 </mapper>

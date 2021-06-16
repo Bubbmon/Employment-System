@@ -17,4 +17,5 @@ public class UserInfo implements Customer {
     private String email;
     private int age;
     private String interest;
+    private String resume;
 }

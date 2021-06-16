@@ -3,7 +3,6 @@ package com.system.controller;
 import com.system.Check.NeedLogIn;
 import com.system.service.ResumeService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,8 +44,10 @@ public class SendController {
      */
     @GetMapping(path = "/recruiter/download")
     @NeedLogIn
-    public void sendDownload(@RequestHeader String token, @RequestHeader long positionId) {
-
+    public void sendDownload(@RequestHeader String token, @RequestHeader long positionId,HttpServletResponse response){
+        log.info("Receive token:"+token+",positionId:"+positionId);
+        String result = resumeService.userDownloadResume(token, positionId, response);
+        log.info("Resume download result:"+result);
     }
 
     /**
@@ -57,8 +58,11 @@ public class SendController {
      */
     @PostMapping(path = "/recruiter/upload")
     @NeedLogIn
-    public String sendUpload(@RequestHeader String token, @RequestParam("resume")MultipartFile file) {
-        return null;
+    public String sendUpload(@RequestHeader String token, @RequestParam("resume") MultipartFile file) {
+        log.info("Receive token:"+token+",resume:"+file.getOriginalFilename());
+        String result = resumeService.uploadResume(token,file);
+        log.info("Get temporary qualifier:"+result);
+        return result;
     }
 
     /**
@@ -72,8 +76,11 @@ public class SendController {
     @PostMapping(path = "/recruiter")
     @NeedLogIn
     public String send(@RequestHeader String token, @RequestHeader boolean useSelf,
-                       @RequestHeader long positionId, @RequestHeader String qualifier) {
-        return null;
+                       @RequestHeader long positionId, @RequestHeader String qualifier){
+        log.info("Receive token:"+token+",userSelf:"+useSelf+",positionId:"+positionId+",qualifier:"+qualifier);
+        String sendResult = resumeService.sendResume(token, useSelf, positionId, qualifier);
+        log.info("Get send resume result:"+sendResult);
+        return sendResult;
     }
 
     /**
@@ -101,9 +108,11 @@ public class SendController {
      */
     @GetMapping(path = "/hr/{positionId}/{id}")
     @NeedLogIn
-    public String hrResumeDownload(@RequestHeader String token, @PathVariable("positionId") long positionId,
+    public void hrResumeDownload(@RequestHeader String token, @PathVariable("positionId") long positionId,
                                    @PathVariable("id") String id, HttpServletResponse response) {
-        return null;
+        log.info("Receive token:"+token+",positionId:"+positionId+",id:"+id);
+        String result = resumeService.hrDownloadResume(token, positionId, id, response);
+        log.info("Get hr download result:"+result);
     }
 
     /**

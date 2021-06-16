@@ -4,6 +4,11 @@ server:
     context-path: /employment
 
 spring:
+  # 能上传的文件大小限制
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
 
   aop:
     auto: true
@@ -65,3 +70,4 @@ code:
   notLogInMessage: 'not log in'
   logInExpiredCode: 421
   logInExpiredMessage: 'log in expired'
+

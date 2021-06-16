@@ -3,7 +3,9 @@ package com.system.mapper;
 import com.system.entity.Resume;
 import com.system.entity.ResumeId;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -23,4 +25,8 @@ public interface ResumeMapper{
     Resume searchByIds(ResumeId resumeId);
 
     int modifyDeal(Resume resume);
+
+    int insertResume(Resume resume);
+
+    int updateResume(Resume resume);
 }

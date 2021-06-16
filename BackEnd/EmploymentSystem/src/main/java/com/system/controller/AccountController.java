@@ -4,6 +4,7 @@ import com.system.Check.NeedLogIn;
 import com.system.entity.HumanResource;
 import com.system.entity.UserInfo;
 import com.system.service.AccountService;
+import com.system.service.ResumeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,8 @@ import java.util.List;
 public class AccountController {
     @Autowired
     AccountService accountService;
+    @Autowired
+    ResumeService resumeService;
 
     /**
      * 招聘者注册
@@ -172,7 +175,9 @@ public class AccountController {
     @PostMapping(path = "/resume")
     public String uploadResume(@RequestHeader String token,
                                @RequestParam("resume") MultipartFile file) {
-        // TODO: 还没写完
+        log.info("Receive token:"+token+",file:"+file.getOriginalFilename());
+        String uploadResult = resumeService.sendSelfResume(token, file);
+        log.info("Get upload self resume result:"+uploadResult);
         return null;
     }
 
@@ -185,8 +190,9 @@ public class AccountController {
     @GetMapping(path = "/resume")
     public void downloadResume(@RequestHeader String token,
                                HttpServletResponse response) {
-        //TODO: 还没写完
-
+        log.info("Receive token:"+token);
+        String downloadResult = resumeService.downloadSelfResume(token, response);
+        log.info("Get self resume download result:"+downloadResult);
     }
 
 

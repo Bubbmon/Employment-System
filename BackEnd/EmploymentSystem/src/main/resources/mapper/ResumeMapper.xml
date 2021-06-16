@@ -18,4 +18,12 @@
         UPDATE resume SET isDealed = #{isDealed} WHERE userId = #{userId} and positionId = #{positionId}
     </update>
 
+    <insert id="insertResume" parameterType="com.system.entity.Resume">
+        INSERT INTO resume VALUES (#{positionId},#{userId},#{resume},#{isDealed})
+    </insert>
+
+    <update id="updateResume" parameterType="com.system.entity.Resume">
+        UPDATE resume SET resume = #{resume} WHERE positionId=#{positionId} AND userId=#{userId}
+    </update>
+
 </mapper>
