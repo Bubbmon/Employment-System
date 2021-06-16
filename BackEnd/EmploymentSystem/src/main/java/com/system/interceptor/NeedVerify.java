@@ -1,4 +1,4 @@
-package com.system.Check;
+package com.system.interceptor;
 
 
 import java.lang.annotation.ElementType;
@@ -8,5 +8,5 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface NeedLogIn {
+public @interface NeedVerify {
 }

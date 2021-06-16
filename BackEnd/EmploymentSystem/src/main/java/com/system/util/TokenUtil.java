@@ -7,10 +7,16 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
+<<<<<<< HEAD
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletResponse;
+=======
+import org.springframework.web.socket.WebSocketSession;
+
+import java.util.List;
+>>>>>>> 9171a888de71fdd55113f576d21f17ad9eafc481
 
 /**
  * @Author Legion
@@ -37,6 +43,11 @@ public class TokenUtil {
         } else {
             return "h"+id+time;
         }
+    }
+    public String getUserId(WebSocketSession session){
+        List<String> ls =session.getHandshakeHeaders().get("token");
+        if(ls==null||ls.size()==0) return null;
+        else return check(ls.get(0));
     }
 
     /**

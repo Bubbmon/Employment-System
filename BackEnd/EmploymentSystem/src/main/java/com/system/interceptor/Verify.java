@@ -1,4 +1,4 @@
-package com.system.Check;
+package com.system.interceptor;
 
 import com.system.util.TokenUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -38,11 +38,16 @@ public class Verify {
     @Autowired
     TokenUtil tokenUtil;
 
-    @Pointcut("@annotation(com.system.Check.NeedLogIn)")
-    public void NeedLogIn(){ }
+    @Pointcut("@annotation(com.system.interceptor.NeedVerify)")
+    public void NeedVerify(){ }
 
+<<<<<<< HEAD:BackEnd/EmploymentSystem/src/main/java/com/system/Check/Verify.java
     @Around("NeedLogIn()")
     public String verifyAccount(ProceedingJoinPoint joinPoint) throws Throwable {
+=======
+    @Around("NeedVerify()")
+    public void verifyAccount(ProceedingJoinPoint joinPoint) throws Throwable {
+>>>>>>> 9171a888de71fdd55113f576d21f17ad9eafc481:BackEnd/EmploymentSystem/src/main/java/com/system/interceptor/Verify.java
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
         String token = request.getHeader("token");

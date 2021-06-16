@@ -1,6 +1,6 @@
 package com.system.controller;
 
-import com.system.Check.NeedLogIn;
+import com.system.interceptor.NeedVerify;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +34,7 @@ public class PositionController {
      * @param degree 学历
      * @return
      */
-    @NeedLogIn
+    @NeedVerify
     @PostMapping(path = "/post")
     public String postPosition(@RequestHeader String token, @RequestHeader String position,
                                @RequestHeader String title, @RequestBody String content,
@@ -53,7 +53,7 @@ public class PositionController {
      * @param positionId 招聘信息id
      * @return
      */
-    @NeedLogIn
+    @NeedVerify
     @PostMapping(path = "/modify/{positionId}")
     public String modifyPosition(@RequestHeader String token, @RequestHeader String position,
                                  @RequestHeader String title, @RequestBody String content,
