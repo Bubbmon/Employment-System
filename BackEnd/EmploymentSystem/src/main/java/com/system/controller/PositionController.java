@@ -38,7 +38,7 @@ public class PositionController {
      * @param degree 学历
      * @return
      */
-   // @NeedVerify
+    @NeedVerify
     @PostMapping(path = "/post")
     public String postPosition(@RequestHeader String token, @RequestHeader String position,
                                @RequestHeader String title, @RequestBody String content,
@@ -58,7 +58,7 @@ public class PositionController {
      * @param positionId 招聘信息id
      * @return
      */
-//    @NeedVerify
+    @NeedVerify
     @PostMapping(path = "/modify/{positionId}")
     public String modifyPosition(@RequestHeader String token, @RequestHeader String position,
                                  @RequestHeader String title, @RequestBody String content,

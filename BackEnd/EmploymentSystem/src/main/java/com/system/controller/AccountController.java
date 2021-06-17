@@ -194,7 +194,7 @@ public class AccountController {
         log.info("Receive token:"+token+",file:"+file.getOriginalFilename());
         String uploadResult = resumeService.sendSelfResume(token, file);
         log.info("Get upload self resume result:"+uploadResult);
-        return null;
+        return uploadResult;
     }
 
     /**

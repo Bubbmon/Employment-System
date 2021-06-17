@@ -5,6 +5,7 @@ import com.system.entity.Enterprise;
 import com.system.entity.HumanResource;
 import com.system.entity.PositionDetail;
 import com.system.entity.PositionInfo;
+import com.system.mapper.EnterpriseMapper;
 import com.system.mapper.HumanResourceMapper;
 import com.system.mapper.PositionMapper;
 import com.system.util.TokenUtil;
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Service;
  **/
 @Service
 public class PositionService {
+    @Autowired
+    EnterpriseMapper enterpriseMapper;
     @Autowired
     PositionMapper positionMapper;
     @Autowired
@@ -36,10 +39,12 @@ public class PositionService {
         PositionInfo positionInfo = positionMapper.getPositionInfo(id);
         String hrId = positionInfo.getHrId();
         HumanResource hrInfo = humanResourceMapper.search(hrId);
+        long enterpriseId = positionInfo.getEnterpriseId();
+        Enterprise enterprise = enterpriseMapper.searchById(enterpriseId);
         PositionDetail detail = new PositionDetail();
         detail.setId(id);
         detail.setPosition(positionInfo.getPosition());
-        detail.setEnterpriseName(positionInfo.getEnterpriseName());
+        detail.setEnterpriseName(enterprise.getName());
         detail.setTitle(positionInfo.getTitle());
         detail.setSalary(positionInfo.getSalary());
         detail.setDegree(positionInfo.getDegree());
@@ -55,7 +60,6 @@ public class PositionService {
         HumanResource hr = humanResourceMapper.search(id);
         PositionInfo positionInfo = new PositionInfo();
         positionInfo.setEnterpriseId(hr.getEnterpriseId());
-        positionInfo.setEnterpriseName(hr.getEnterpriseName());
         positionInfo.setHrId(id);
         positionInfo.setPosition(position);
         positionInfo.setTitle(title);

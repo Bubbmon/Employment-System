@@ -3,7 +3,7 @@
 <mapper namespace="com.system.mapper.HumanResourceMapper">
 
     <select id="search" parameterType="java.lang.String" resultType="com.system.entity.HumanResource">
-        SELECT id,pswd,`name`,enterpriseId,enterpriseName,department,phone,email FROM humanResource WHERE id=#{id}
+        SELECT id,pswd,`name`,enterpriseId,department,phone,email FROM humanResource WHERE id=#{id}
     </select>
 
     <insert id="insert" parameterType="HumanResource">

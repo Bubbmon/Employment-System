@@ -29,8 +29,8 @@
         <selectKey resultType="java.lang.Long" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        insert into positionInfo(enterpriseName,enterpriseId,hrId,`position`,title,content,salary,degree)
-        values(#{enterpriseName},#{enterpriseId},#{hrId},#{position},#{title},#{content},#{salary},#{degree})
+        insert into positionInfo(enterpriseId,hrId,`position`,title,content,salary,degree)
+        values(#{enterpriseId},#{hrId},#{position},#{title},#{content},#{salary},#{degree})
     </insert>
     <update id="updatePosition" parameterType="com.system.entity.PositionInfo">
         update positionInfo

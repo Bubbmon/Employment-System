@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,7 @@ public class ResumeService{
     @Autowired
     UserInfoMapper userInfoMapper;
 
+    String absolutePath = this.getClass().getResource("/").getPath();
 
     /**
      * 招聘者上传个人简历
@@ -44,9 +46,10 @@ public class ResumeService{
     public String sendSelfResume(String token, MultipartFile file){
         StringBuilder sb = new StringBuilder();
         int resumeResult = 0;
-        String userId = tokenUtil.check(token);
+      //  String userId = tokenUtil.check(token);
+        String userId = token;
         String encode = java.net.URLEncoder.encode(file.getOriginalFilename(),"utf-8");
-        String resumeAddress = "E:\\ideaProject\\Employment-System\\selfResumes\\"+userId+"\\"+encode;
+        String resumeAddress = absolutePath + "selfResumes/"+userId+"/"+encode;
         File newFile = new File(resumeAddress);
         if(!newFile.exists()){
             newFile.mkdirs();
@@ -73,9 +76,10 @@ public class ResumeService{
      * @return
      */
     public String downloadSelfResume(String token,HttpServletResponse response){
-        String userId = tokenUtil.check(token);
+       // String userId = tokenUtil.check(token);
+        String userId = token;
         String path = userInfoMapper.searchResume(userId);
-        int index = path.lastIndexOf("\\");
+        int index = path.lastIndexOf("/");
         String fileName = path.substring(index+1);
         String result = DownloadUtil.download(fileName, path, response);
         return result;
@@ -154,7 +158,7 @@ public class ResumeService{
             qualifier = fileName + "_" + System.currentTimeMillis() + "_" + suffix;
             qualifier = URLEncoder.encode(qualifier, "utf-8");
             String wholeName = qualifier + "." + suffix;
-            File newFile = new File("E:\\ideaProject\\Employment-System\\nowResumes\\"+id+"\\"+wholeName);
+            File newFile = new File(absolutePath+"nowResumes/"+id+"/"+wholeName);
             if(!newFile.exists()){
                 newFile.mkdirs();
             }
@@ -189,7 +193,7 @@ public class ResumeService{
         }else{
             if(qualifier != null) {
                 String wholeName = qualifier + "." + qualifier.split("_")[2];
-                resumeAddress = "E:\\ideaProject\\Employment-System\\nowResumes\\" + userId + "\\" + wholeName;
+                resumeAddress = absolutePath + "nowResumes/" + userId + "/" + wholeName;
             }else{
                 sendResult = 1;
             }
@@ -228,7 +232,7 @@ public class ResumeService{
         String userId = tokenUtil.check(token);
         Resume resume = resumeMapper.searchByIds(new ResumeId(positionId, userId));
         String resumeAddress = resume.getResume();
-        int firstIndex = resumeAddress.lastIndexOf("\\");
+        int firstIndex = resumeAddress.lastIndexOf("/");
         int lastIndex = resumeAddress.lastIndexOf(".");
         String substr = resumeAddress.substring(firstIndex+1,lastIndex);
         String fileName = null;
@@ -283,7 +287,7 @@ public class ResumeService{
         }else{
             Resume resume = resumeMapper.searchByIds(new ResumeId(positionId, id));
             String resumeAddress = resume.getResume();
-            int firstIndex = resumeAddress.lastIndexOf("\\");
+            int firstIndex = resumeAddress.lastIndexOf("/");
             int lastIndex = resumeAddress.lastIndexOf(".");
             String substr = resumeAddress.substring(firstIndex+1,lastIndex);
             String fileName = null;
