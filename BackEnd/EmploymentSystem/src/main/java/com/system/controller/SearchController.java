@@ -1,5 +1,6 @@
 package com.system.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.system.entity.Enterprise;
 import com.system.entity.Info;
 import com.system.entity.PositionInfo;
@@ -9,6 +10,7 @@ import com.system.mapper.InfoMapper;
 import com.system.mapper.PositionMapper;
 import com.system.mapper.UserInfoMapper;
 import com.system.util.TokenUtil;
+import jdk.nashorn.internal.parser.JSONParser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -84,7 +86,7 @@ public class SearchController {
         Map<String,Object> map = new HashMap<>();
         map.put("pageCount",pageCount);
         map.put("info",list);
-        String result = map.toString();
+        String result = JSON.toJSONString(map);
         log.info("Result: " + result);
         return result;
     }
@@ -104,7 +106,7 @@ public class SearchController {
             interest = userInfo.getInterest();
         }
         List<PositionInfo> list = positionMapper.recommend(interest, count);
-        String result = list.toString();
+        String result = JSON.toJSONString(list);
         log.info("Result: "+result);
         return result;
     }
@@ -117,7 +119,7 @@ public class SearchController {
     public String infoList() {
         log.info("Receive infoList");
         List<Info> list = infoMapper.searchAll();
-        String result = list.toString();
+        String result = JSON.toJSONString(list);
         log.info("Result: "+result);
         return result;
     }
@@ -131,7 +133,7 @@ public class SearchController {
     public String info(@PathVariable("id") long id) {
         log.info("Receive info: id="+id);
         Info info = infoMapper.searchById(id);
-        String result = info.toString();
+        String result = JSON.toJSONString(info);
         log.info("Result: "+result);
         return result;
     }
