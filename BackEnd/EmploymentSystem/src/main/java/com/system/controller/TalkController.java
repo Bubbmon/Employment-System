@@ -2,6 +2,7 @@ package com.system.controller;
 
 import com.system.interceptor.NeedVerify;
 import com.system.service.TalkService;
+import com.system.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,8 @@ import java.io.IOException;
 public class TalkController {
     @Autowired
     TalkService talkService;
+    @Autowired
+    TokenUtil util;
 
     /**
      * 查看历史聊天记录
@@ -27,7 +30,7 @@ public class TalkController {
     @GetMapping("/history")
     @NeedVerify
     public String talkHistory(@RequestHeader String token, @RequestHeader String id) {
-        return null;
+        return talkService.getHistory(util.check(token),id);
     }
 
 

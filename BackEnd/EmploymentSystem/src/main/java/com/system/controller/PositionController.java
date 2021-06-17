@@ -1,7 +1,9 @@
 package com.system.controller;
 
 import com.system.interceptor.NeedVerify;
+import com.system.service.PositionService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -14,14 +16,16 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @CrossOrigin("*")
 public class PositionController {
+    @Autowired
+    PositionService positionService;
     /**
      * 获取招聘信息详情页
      * @param id 招聘信息id
      * @return
      */
     @GetMapping(path = "/{id}")
-    public String getPosition(@PathVariable("id") String id) {
-        return "{1:1}";
+    public String getPosition(@PathVariable("id") long id) {
+        return positionService.getPosition(id);
     }
 
     /**
@@ -39,7 +43,8 @@ public class PositionController {
     public String postPosition(@RequestHeader String token, @RequestHeader String position,
                                @RequestHeader String title, @RequestBody String content,
                                @RequestHeader String salary, @RequestHeader String degree) {
-        return null;
+        long positionId = positionService.postPosition(token,position,title,content,salary,degree);
+        return "{\"positionResult\":0,\"positionId\":"+ positionId+"}";
     }
 
     /**
@@ -58,8 +63,9 @@ public class PositionController {
     public String modifyPosition(@RequestHeader String token, @RequestHeader String position,
                                  @RequestHeader String title, @RequestBody String content,
                                  @RequestHeader String salary, @RequestHeader String degree,
-                                 @PathVariable("positionId") String positionId) {
-        return null;
+                                 @PathVariable("positionId") long positionId){
+        String result = positionService.updatePosition(token, position, title, content, salary, degree, positionId);
+        return result;
     }
 
     /**
@@ -69,7 +75,7 @@ public class PositionController {
     @GetMapping(path = "/enterprise/{enterpriseId}")
     public String getEnterprisePosition(@PathVariable("enterpriseId") long enterpriseId) {
         log.info("Receive getEnterprisePosition, enterpriseId="+enterpriseId);
-        return "Receive getEnterprisePosition, enterpriseId="+enterpriseId;
+        return positionService.getEnterprisePosition(enterpriseId);
     }
 
 

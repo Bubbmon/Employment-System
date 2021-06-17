@@ -1,5 +1,8 @@
 package com.system.service;
 
+import com.alibaba.fastjson.JSON;
+import com.system.entity.Talk;
+import com.system.mapper.TalkMapper;
 import com.system.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -7,6 +10,9 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -23,6 +29,8 @@ public class TalkService {
     public static ConcurrentHashMap<String,WebSocketSession> map;
     @Autowired
     TokenUtil util;
+    @Autowired
+    TalkMapper talkMapper;
 
     public void put(String key, WebSocketSession session){
         if(key!=null) map.put(key,session);
@@ -34,10 +42,17 @@ public class TalkService {
     public void talkToToken(String token,String to,String message) throws IOException {
         talkTo(util.check(token),to,message);
     }
+
+    public String getHistory(String from,String to){
+        List<Talk> one = talkMapper.getTalk(from,to),
+                   two = talkMapper.getTalk(to,from);
+        return JSON.toJSONString(one.addAll(two));
+    }
     public void talkTo(String from,String to,String message) throws IOException {
         WebSocketSession session = map.get(to);
         if(session!=null&&session.isOpen()){
             session.sendMessage(new TextMessage("{'id':'"+from+"','message':'"+message+"'}"));
+            talkMapper.insertTalk(new Talk(from,to,'0',message));
         }else{
             ;// TODO: 放到缓冲区？
         }

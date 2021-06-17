@@ -41,24 +41,17 @@ public class Verify {
     @Pointcut("@annotation(com.system.interceptor.NeedVerify)")
     public void NeedVerify(){ }
 
-<<<<<<< HEAD:BackEnd/EmploymentSystem/src/main/java/com/system/Check/Verify.java
-    @Around("NeedLogIn()")
-    public String verifyAccount(ProceedingJoinPoint joinPoint) throws Throwable {
-=======
     @Around("NeedVerify()")
     public void verifyAccount(ProceedingJoinPoint joinPoint) throws Throwable {
->>>>>>> 9171a888de71fdd55113f576d21f17ad9eafc481:BackEnd/EmploymentSystem/src/main/java/com/system/interceptor/Verify.java
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
         String token = request.getHeader("token");
         if(token==null) {
             response.sendError(notLogInCode,notLogInMessage);
-            return "";
         }else if(tokenUtil.check(token)==null){
             response.sendError(logInExpiredCode,logInExpiredMessage);
-            return "";
         }
-        return (String) joinPoint.proceed();
+        joinPoint.proceed();
     }
 
 //    @Pointcut("@annotation(com.system.Check.HrBelongsEnterpriseCheck)")
