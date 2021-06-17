@@ -1,6 +1,5 @@
 package com.system.controller;
 
-import com.system.Check.NeedLogIn;
 import com.system.entity.Enterprise;
 import com.system.entity.Info;
 import com.system.entity.PositionInfo;
