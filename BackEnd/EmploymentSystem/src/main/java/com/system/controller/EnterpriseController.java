@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@RequestMapping("/enterprise")
+@RequestMapping(path = "/enterprise",produces = "application/json;charset=utf-8")
 @CrossOrigin("*")
 public class EnterpriseController {
 

@@ -15,7 +15,7 @@ import java.net.URLDecoder;
  * @Description 招聘信息相关
  */
 @RestController
-@RequestMapping("/position")
+@RequestMapping(value = "/position", produces = "application/json;charset=utf-8")
 @Slf4j
 @CrossOrigin("*")
 public class PositionController {
@@ -46,12 +46,6 @@ public class PositionController {
     public String postPosition(@RequestHeader String token, @RequestHeader String position,
                                @RequestHeader String title, @RequestBody String content,
                                @RequestHeader String salary, @RequestHeader String degree) {
-        try {
-            title = URLDecoder.decode(title,"utf-8");
-            salary = URLDecoder.decode(salary, "utf-8");
-        } catch (UnsupportedEncodingException e) {
-            log.error("UnsupportedEncodingException");
-        }
         long positionId = positionService.postPosition(token,position,title,content,salary,degree);
         return "{\"positionResult\":0,\"positionId\":"+ positionId+"}";
     }
@@ -73,12 +67,6 @@ public class PositionController {
                                  @RequestHeader String title, @RequestBody String content,
                                  @RequestHeader String salary, @RequestHeader String degree,
                                  @PathVariable("positionId") long positionId){
-        try {
-            title = URLDecoder.decode(title,"utf-8");
-            salary = URLDecoder.decode(salary, "utf-8");
-        } catch (UnsupportedEncodingException e) {
-            log.error("UnsupportedEncodingException");
-        }
         String result = positionService.updatePosition(token, position, title, content, salary, degree, positionId);
         return result;
     }

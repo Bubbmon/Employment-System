@@ -17,7 +17,7 @@ import java.net.URLDecoder;
  * @Description
  */
 @RestController
-@RequestMapping("/talk")
+@RequestMapping(path = "/talk", produces = "application/json;charset=utf-8")
 @Slf4j
 public class TalkController {
     @Autowired
@@ -40,11 +40,6 @@ public class TalkController {
 
     @PostMapping("/talkTo")
     public String talkTo(@RequestHeader String token,@RequestHeader String id, @RequestHeader String message) throws IOException {
-        try {
-            message = URLDecoder.decode(message, "utf-8");
-        } catch (UnsupportedEncodingException e) {
-                log.error("UnsupportedEncodingException");
-        }
         talkService.talkToToken(token,id,message);
         return message;
     }

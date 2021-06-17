@@ -33,17 +33,12 @@ public class AccountController {
     /**
      * 招聘者注册
      */
-    @PostMapping(path = "/recruiter/signUp")
+    @PostMapping(path = "/recruiter/signUp", produces = "application/json;charset=utf-8")
     public String userSignUp(@RequestHeader String id, @RequestHeader String password,
                              @RequestHeader String name, @RequestHeader String IDNO,
                              @RequestHeader String phone) {
         // TODO: 密码的解码
         log.info("Receive userSignUp: id="+id+", pswd="+password+", name="+name+", IDNO="+IDNO+", phone="+phone);
-        try {
-            name = URLDecoder.decode(name,"utf-8");
-        } catch (UnsupportedEncodingException e) {
-            log.error("UnsupportedEncodingException");
-        }
         UserInfo userInfo = new UserInfo();
         userInfo.setId(id);
         userInfo.setPswd(password);
@@ -58,18 +53,12 @@ public class AccountController {
     /**
      * hr注册
      */
-    @PostMapping(path = "/hr/signUp")
+    @PostMapping(path = "/hr/signUp", produces = "application/json;charset=utf-8")
     public String hrSignUp(@RequestHeader String id, @RequestHeader String password,
                            @RequestHeader String name, @RequestHeader String enterpriseName,
                            @RequestHeader String code, @RequestHeader String phone) {
         // TODO: 密码的解码
         log.info("Receive hrSignUp: id="+id+", pswd="+password+", name="+name+", enterpriseName"+enterpriseName+", code"+code+", phone="+phone);
-        try {
-            name = URLDecoder.decode(name,"utf-8");
-            enterpriseName = URLDecoder.decode(enterpriseName, "utf-8");
-        } catch (UnsupportedEncodingException e) {
-            log.error("UnsupportedEncodingException");
-        }
         HumanResource humanResource = new HumanResource();
         humanResource.setId(id);
         humanResource.setPswd(password);
@@ -85,7 +74,7 @@ public class AccountController {
     /**
      * 登陆
      */
-    @PostMapping(path = "/signIn")
+    @PostMapping(path = "/signIn", produces = "application/json;charset=utf-8")
     public String signIn(@RequestHeader String id, @RequestHeader String password,
                          @RequestHeader boolean isRecruiter) {
         // TODO: 密码的解码
@@ -99,7 +88,7 @@ public class AccountController {
      * 招聘者修改个人信息
      */
     @NeedVerify
-    @PostMapping(path = "/recruiter/modify")
+    @PostMapping(path = "/recruiter/modify", produces = "application/json;charset=utf-8")
     public String userModify(@RequestHeader String id, @RequestHeader String password,
                              @RequestHeader String name, @RequestHeader String IDNO,
                              @RequestHeader String phone, @RequestHeader String email,
@@ -107,11 +96,6 @@ public class AccountController {
         // TODO: 密码的解码
         log.info("Receive userModify: id="+id+", pswd="+password+", name="+name+", IDNO="+IDNO+", " +
                 "phone="+phone+", email="+email+", age="+age+", interest="+interest);
-        try {
-            name = URLDecoder.decode(name,"utf-8");
-        } catch (UnsupportedEncodingException e) {
-            log.error("UnsupportedEncodingException");
-        }
         UserInfo userInfo = new UserInfo();
         userInfo.setId(id);
         userInfo.setPswd(password);
@@ -130,19 +114,13 @@ public class AccountController {
      * hr修改个人信息
      */
     @NeedVerify
-    @PostMapping(path = "/hr/modify")
+    @PostMapping(path = "/hr/modify", produces = "application/json;charset=utf-8")
     public String hrModify(@RequestHeader String id, @RequestHeader String password,
                            @RequestHeader String name, @RequestHeader String phone,
                            @RequestHeader String email, @RequestHeader String department) {
         // TODO: 密码的解码
         log.info("Receive hrModify: id="+id+", pswd="+password+", name="+name+
                 "phone="+phone+", email="+email);
-        try {
-            name = URLDecoder.decode(name,"utf-8");
-            department = URLDecoder.decode(department,"utf-8");
-        } catch (UnsupportedEncodingException e) {
-            log.error("UnsupportedEncodingException");
-        }
         HumanResource humanResource = new HumanResource();
         humanResource.setId(id);
         humanResource.setPswd(password);
@@ -160,7 +138,7 @@ public class AccountController {
      * @param id 招聘人账户id
      * @return
      */
-    @GetMapping(path = "/recruiter/info/{id}")
+    @GetMapping(path = "/recruiter/info/{id}", produces = "application/json;charset=utf-8")
     public String getUserInfo(@PathVariable("id")String id) {
         log.info("Receive getUserInfo: id="+id);
         String json = accountService.getUserInfo(id);
@@ -173,7 +151,7 @@ public class AccountController {
      * @param id hr账户id
      * @return
      */
-    @GetMapping(path = "/hr/info/{id}")
+    @GetMapping(path = "/hr/info/{id}", produces = "application/json;charset=utf-8")
     public String getHrInfo(@PathVariable("id") String id) {
         log.info("Receive getHrInfo: id="+id);
         String json = accountService.getHrInfo(id);
@@ -188,7 +166,7 @@ public class AccountController {
      * @return
      */
     @NeedVerify
-    @PostMapping(path = "/resume")
+    @PostMapping(path = "/resume", produces = "application/json;charset=utf-8")
     public String uploadResume(@RequestHeader String token,
                                @RequestParam("resume") MultipartFile file) {
         log.info("Receive token:"+token+",file:"+file.getOriginalFilename());

@@ -28,7 +28,7 @@ public class SendController {
      * @param token 用户标识
      * @return
      */
-    @GetMapping(path = "/recruiter/all")
+    @GetMapping(path = "/recruiter/all", produces = "application/json;charset=utf-8")
     @NeedVerify
     public String getUserAllSend(@RequestHeader String token) {
         log.info("Receive token:"+token);
@@ -73,7 +73,7 @@ public class SendController {
      * @param qualifier 临时简历标识
      * @return
      */
-    @PostMapping(path = "/recruiter")
+    @PostMapping(path = "/recruiter", produces = "application/json;charset=utf-8")
     @NeedVerify
     public String send(@RequestHeader String token, @RequestHeader boolean useSelf,
                        @RequestHeader long positionId, @RequestHeader String qualifier){
@@ -89,7 +89,7 @@ public class SendController {
      * @param positionId 招聘信息id
      * @return
      */
-    @GetMapping(path = "/hr/{positionId}")
+    @GetMapping(path = "/hr/{positionId}",produces = "application/json;charset=utf-8")
     @NeedVerify
     public String getHrSend(@RequestHeader String token, @PathVariable("positionId")long positionId) {
         log.info("Get token:"+token+" and positionId:"+positionId);
@@ -123,7 +123,7 @@ public class SendController {
      * @param isDealed 是否已处理
      * @return
      */
-    @GetMapping(path = "/hr/deal/{positionId}/{id}")
+    @GetMapping(path = "/hr/deal/{positionId}/{id}",produces = "application/json;charset=utf-8")
     @NeedVerify
     public String deal(@RequestHeader String token, @PathVariable("positionId") long positionId,
                        @PathVariable("id") String id, @RequestHeader boolean isDealed) {

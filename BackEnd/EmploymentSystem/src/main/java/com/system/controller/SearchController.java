@@ -27,6 +27,7 @@ import java.util.Map;
  * @Description 搜索相关
  */
 @RestController
+@RequestMapping(produces = "application/json;charset=utf-8")
 @CrossOrigin("*")
 @Slf4j
 public class SearchController {
@@ -63,14 +64,8 @@ public class SearchController {
         int pageSize = 10;
         if (pageSizeStr!=null && pageSizeStr.length()!=0) pageSize = Integer.parseInt(pageSizeStr);
         if (pageSize<=0) pageSize = 10;
-        try {
-            keyword = URLDecoder.decode(keyword,"utf-8");
-        } catch (UnsupportedEncodingException e) {
-            log.error("UnsupportedEncodingException");
-        }
         List<PositionInfo> list = positionMapper.search(keyword, position, degree);
         int size = list.size();
-        int pageCount = size/pageSize + 1;
         if (page*pageSize<=size) {
             list = list.subList((page-1)*pageSize, page*pageSize);
         } else if ((page-1)*pageSize<size) {
@@ -84,7 +79,7 @@ public class SearchController {
             positionInfo.setEnterpriseName(enterprise.getName());
         }
         Map<String,Object> map = new HashMap<>();
-        map.put("pageCount",pageCount);
+        map.put("num",size);
         map.put("info",list);
         String result = JSON.toJSONString(map);
         log.info("Result: " + result);

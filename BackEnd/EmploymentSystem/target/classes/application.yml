@@ -2,6 +2,8 @@
 server:
   servlet:
     context-path: /employment
+  tomcat:
+    uri-encoding: UTF-8
 
 spring:
   # 能上传的文件大小限制
@@ -9,6 +11,12 @@ spring:
     multipart:
       max-file-size: 500MB
       max-request-size: 500MB
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+
 
   aop:
     auto: true
