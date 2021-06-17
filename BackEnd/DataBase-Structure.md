@@ -27,29 +27,32 @@
 
 3. HR 用户表 humanResource
 
-| 字段         | 类型        | 限制                                | 说明                                      |
-| ------------ | ----------- | ----------------------------------- | ----------------------------------------- |
-| id           | varchar(16) | PRIMARY KEY                         | hr 用户名，应为特殊字符、数字、字母的组合 |
-| pswd         | varchar(16) | NOT NULL                            | 密码，有条件应 MD5 加密                   |
-| name         | char(5)     | NOT NULL                            | 姓名                                      |
-| enterpriseId | bigint(32)  | NOT NULL 表 enterprise 的 id 的外键 | 企业 id                                   |
-| department   | varchar(10) |                                     | 部门名称                                  |
-| phone        | char(13)    | NOT NULL                            | 联系电话                                  |
-| email        | varchar(20) |                                     | 邮箱                                      |
+| 字段           | 类型        | 限制                                | 说明                                      |
+| -------------- | ----------- | ----------------------------------- | ----------------------------------------- |
+| id             | varchar(16) | PRIMARY KEY                         | hr 用户名，应为特殊字符、数字、字母的组合 |
+| pswd           | varchar(16) | NOT NULL                            | 密码，有条件应 MD5 加密                   |
+| name           | char(5)     | NOT NULL                            | 姓名                                      |
+| enterpriseId   | bigint(32)  | NOT NULL 表 enterprise 的 id 的外键 | 企业 id                                   |
+| enterpriseName | varchar(20) | NOT NULL                            | 企业名称                                  |
+| department     | varchar(10) |                                     | 部门名称                                  |
+| phone          | char(13)    | NOT NULL                            | 联系电话                                  |
+| email          | varchar(20) |                                     | 邮箱                                      |
+| code           | varchar(10) | NOT NULL                            | 用于 HR 注册的验证码                      |
 
 4. 招聘信息表 positionInfo
 
-| 字段         | 类型        | 限制                            | 说明                                                  |
-| ------------ | ----------- | ------------------------------- | ----------------------------------------------------- |
-| id           | bigint(32)  | primary key auto_increment      |                                                       |
-| position     | varchar(8)  | NOT NULL                        | 一个值，取值与 userInfo 中的 interset 相同            |
-| enterpriseId | bigint(32)  | 表 enterprise 字段 id 的外键    | 发布公司                                              |
-| title        | varchar(20) | NOT NULL                        | 招聘标题                                              |
-| content      | TEXT        | fulltext key                    | 招聘正文                                              |
-| salary       | varchar(10) |                                 | 薪酬                                                  |
-| hrId         | varchar(16) | 表 humanResource 字段 id 的外键 | 联系人                                                |
-| degree       | char(1)     | NOT NULL                        | 0 为不限 1 为高中 2 为专科 3 为本科 4 为硕士 5 为博士 |
-| views        | int(10)     | 无符号 默认 0                   | 浏览量                                                |
+| 字段           | 类型        | 限制                            | 说明                                                  |
+| -------------- | ----------- | ------------------------------- | ----------------------------------------------------- |
+| id             | bigint(32)  | primary key auto_increment      |                                                       |
+| position       | varchar(8)  | NOT NULL                        | 一个值，取值与 userInfo 中的 interset 相同            |
+| enterpriseId   | bigint(32)  | 表 enterprise 字段 id 的外键    | 发布公司                                              |
+| enterpriseName | varchar(20) | NOT NULL                        | 公司名称                                              |
+| title          | varchar(20) | NOT NULL                        | 招聘标题                                              |
+| content        | TEXT        | fulltext key                    | 招聘正文                                              |
+| salary         | varchar(10) |                                 | 薪酬                                                  |
+| hrId           | varchar(16) | 表 humanResource 字段 id 的外键 | 联系人                                                |
+| degree         | char(1)     | NOT NULL                        | 0 为不限 1 为高中 2 为专科 3 为本科 4 为硕士 5 为博士 |
+| views          | int(10)     | 无符号 默认 0                   | 浏览量                                                |
 
 1. 简历表 resume （只放针对某个招聘的简历）
 

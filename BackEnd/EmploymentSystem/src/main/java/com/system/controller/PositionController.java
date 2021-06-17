@@ -38,13 +38,13 @@ public class PositionController {
      * @param degree 学历
      * @return
      */
-    @NeedVerify
+   // @NeedVerify
     @PostMapping(path = "/post")
     public String postPosition(@RequestHeader String token, @RequestHeader String position,
                                @RequestHeader String title, @RequestBody String content,
                                @RequestHeader String salary, @RequestHeader String degree) {
         long positionId = positionService.postPosition(token,position,title,content,salary,degree);
-        return "{'positionResult':0,'positionId':"+ positionId+"}";
+        return "{\"positionResult\":0,\"positionId\":"+ positionId+"}";
     }
 
     /**
@@ -58,14 +58,14 @@ public class PositionController {
      * @param positionId 招聘信息id
      * @return
      */
-    @NeedVerify
+//    @NeedVerify
     @PostMapping(path = "/modify/{positionId}")
     public String modifyPosition(@RequestHeader String token, @RequestHeader String position,
                                  @RequestHeader String title, @RequestBody String content,
                                  @RequestHeader String salary, @RequestHeader String degree,
-                                 @PathVariable("positionId") String positionId) {
-        positionService.updatePosition(token, position, title, content, salary, degree,positionId);
-        return "{'positionResult':0}";
+                                 @PathVariable("positionId") long positionId){
+        String result = positionService.updatePosition(token, position, title, content, salary, degree, positionId);
+        return result;
     }
 
     /**

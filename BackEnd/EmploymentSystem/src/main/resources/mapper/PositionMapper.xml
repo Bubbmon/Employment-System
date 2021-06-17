@@ -13,8 +13,8 @@
             (#{degree} is null or degree=#{degree}) and
             (#{position} is null or `position`=#{position})
     </select>
-    <select id="findFromEnterprise" resultType="com.system.entity.PositionInfo">
-        select * from positionInfo
+    <select id="findFromEnterprise" parameterType="java.lang.Long" resultType="com.system.entity.PositionDetail">
+        select id,`position`,title,salary,degree,views from positionInfo
         where enterpriseId=#{enterpriseId}
     </select>
 
@@ -25,18 +25,20 @@
         limit #{count}
     </select>
 
-    <insert id="postPosition">
+    <insert id="postPosition" parameterType="com.system.entity.PositionInfo">
         <selectKey resultType="java.lang.Long" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        insert into positionInfo(enterpriseName,enterpriseId,hrId,position,title,content,salary,degree)
+        insert into positionInfo(enterpriseName,enterpriseId,hrId,`position`,title,content,salary,degree)
         values(#{enterpriseName},#{enterpriseId},#{hrId},#{position},#{title},#{content},#{salary},#{degree})
     </insert>
-    <update id="updatePosition">
+    <update id="updatePosition" parameterType="com.system.entity.PositionInfo">
         update positionInfo
-        set position=#{position},enterpriseName=#{enterpriseName},enterpriseId=#{enterpriseId},
-        title=#{title},content=#{content},salary=#{salary},hrId={#hrId},degree=#{degree},views=#{views}
-        where positionId = #{positionId}
+        set  position=#{position},title=#{title},content=#{content},salary=#{salary},degree=#{degree},views=0
+        where id = #{id}
     </update>
 
+    <update id="updateView" parameterType="java.lang.Long">
+        UPDATE positionInfo SET views = views + 1 WHERE id = #{id}
+    </update>
 </mapper>
