@@ -3,10 +3,13 @@ package com.system.controller;
 import com.system.interceptor.NeedVerify;
 import com.system.service.TalkService;
 import com.system.util.TokenUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 /**
  * @Author Legion
@@ -15,6 +18,7 @@ import java.io.IOException;
  */
 @RestController
 @RequestMapping("/talk")
+@Slf4j
 public class TalkController {
     @Autowired
     TalkService talkService;
@@ -36,6 +40,11 @@ public class TalkController {
 
     @PostMapping("/talkTo")
     public String talkTo(@RequestHeader String token,@RequestHeader String id, @RequestHeader String message) throws IOException {
+        try {
+            message = URLDecoder.decode(message, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+                log.error("UnsupportedEncodingException");
+        }
         talkService.talkToToken(token,id,message);
         return message;
     }

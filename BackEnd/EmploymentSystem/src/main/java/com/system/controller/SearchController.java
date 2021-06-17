@@ -13,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +61,11 @@ public class SearchController {
         int pageSize = 10;
         if (pageSizeStr!=null && pageSizeStr.length()!=0) pageSize = Integer.parseInt(pageSizeStr);
         if (pageSize<=0) pageSize = 10;
+        try {
+            keyword = URLDecoder.decode(keyword,"utf-8");
+        } catch (UnsupportedEncodingException e) {
+            log.error("UnsupportedEncodingException");
+        }
         List<PositionInfo> list = positionMapper.search(keyword, position, degree);
         int size = list.size();
         int pageCount = size/pageSize + 1;

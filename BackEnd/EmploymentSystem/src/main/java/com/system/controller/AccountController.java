@@ -139,7 +139,7 @@ public class AccountController {
                 "phone="+phone+", email="+email);
         try {
             name = URLDecoder.decode(name,"utf-8");
-            department = URLDecoder.decode(department);
+            department = URLDecoder.decode(department,"utf-8");
         } catch (UnsupportedEncodingException e) {
             log.error("UnsupportedEncodingException");
         }
