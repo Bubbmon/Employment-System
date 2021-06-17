@@ -46,7 +46,7 @@ public class AccountService {
             token = tokenUtil.generateToken(false, customer.getId());
             tokenUtil.save(token, customer.getId());
         }
-        return "{\"signUpResult\":"+signUpResult+",\"token\":"+token+"}";
+        return "{\"signUpResult\":"+signUpResult+",\"token\":\""+token+"\"}";
     }
 
     /**
@@ -97,15 +97,17 @@ public class AccountService {
      */
     public String signIn(String id, String pswd, boolean isRecruiter) {
         Customer customer = null;
+        if (id==null || pswd==null) return "{\"signInResult\":1}";
         if (isRecruiter) {
             customer = userInfoMapper.search(id);
         } else {
             customer = humanResourceMapper.search(id);
         }
+        if (customer==null) return "{\"signInResult\":1}";
         if(customer.getPswd().equals(pswd)) {
             String token = tokenUtil.generateToken(isRecruiter, customer.getId());
             tokenUtil.save(token, customer.getId());
-            return "{\"signInResult\":0,\"token\":"+token+"}";
+            return "{\"signInResult\":0,\"token\":\""+token+"\"}";
         } else {
             return "{\"signInResult\":1}";
         }
@@ -117,7 +119,6 @@ public class AccountService {
      * @return json串，包括modifyResult(0:成功，1:失败)
      */
     public String modify(Customer customer) {
-        int modifyResult = -1;
         int update = -1;
         if (customer instanceof UserInfo) {
             update = userInfoMapper.update((UserInfo) customer);
