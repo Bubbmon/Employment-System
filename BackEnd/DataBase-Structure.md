@@ -77,8 +77,17 @@
 
 | 字段    | 类型          | 限制                            | 说明                             |
 | ------- | ------------- | ------------------------------- | -------------------------------- |
-| userId  | varchar(16)   | 表 userInfo 字段 id 的外键      | 会话人 1 应是普通用户            |
-| hrId    | varchar(16)   | 表 humanResource 字段 id 的外键 | 会话人 2 应是 hr                 |
+| from | varchar(16)   | 不必是 表 userInfo 字段 id 的外键 ，好麻烦     | 会话人 1 不必一定是普通用户            |
+| to   | varchar(16)   | 不必是 表 humanResource 字段 id 的外键 ，好麻烦| 会话人 2 不必一定是 hr                 |
 | time    | TIMESTAMP(6)  | NOT NULL                        | 消息发送时间                     |
-| sender  | char(1)       | NOT NULL                        | 发送人 0 为普通用户 1 为企业用户 |
 | message | varchar(1024) | NOT NULL                        | 消息                             |
+
+8. 未发送的会话 unsentTalk
+
+| 字段    | 类型          | 限制                            | 说明                             |
+| ------- | ------------- | ------------------------------- | -------------------------------- |
+| from | varchar(16)   | 不必是 表 userInfo 字段 id 的外键 ，好麻烦     | 会话人 1 不必一定是普通用户            |
+| to   | varchar(16)   | 不必是 表 humanResource 字段 id 的外键 ，好麻烦| 会话人 2 不必一定是 hr                 |
+| time    | TIMESTAMP(6)  | NOT NULL                        | 消息发送时间                     |
+| message | varchar(1024) | NOT NULL                        | 消息                             |
+
