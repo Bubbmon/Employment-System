@@ -9,6 +9,19 @@
     <insert id="insertHistoryTalk" parameterType="com.system.entity.Talk">
         insert into talk(from,to,message) values(#{from},#{to},#{message})
     </insert>
+
+    <insert id="insertHistoryTalks" parameterType="java.util.List">
+        insert into talk(from,to,message,time)
+        values
+        <foreach collection="talks" index="index" item="talk" separator=",">
+            (
+                #{item.from},
+                #{item.to},
+                #{item.message},
+                #{item.time}
+            )
+        </foreach>
+    </insert>
     
     <insert id="insertUnsentTalk" parameterType="com.system.entity.Talk">
         insert into unsentTalk(from,to,message) values(#{from},#{to},#{message})

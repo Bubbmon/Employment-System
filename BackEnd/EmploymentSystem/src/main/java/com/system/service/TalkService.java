@@ -51,20 +51,21 @@ public class TalkService {
         WebSocketSession session = map.get(to);
         if(session!=null&&session.isOpen()){
             session.sendMessage(new TextMessage("{'id':'"+from+"','message':'"+message+"'}"));
+            talkMapper.insertHistoryTalk(new Talk(from,to,message));
         }else{
             talkMapper.insertUnsentTalk(new Talk(from,to,message));
         }
-        talkMapper.insertHistoryTalk(new Talk(from,to,message));
     }
 
-    public String sendHistoryToken(String token) throws IOException {
+    public String sendUnsentTalkToken(String token) {
         String userId = util.check(token);
-        if(userId!=null) return sendHistory(userId);
+        if(userId!=null) return sendUnsentTalk(userId);
         else return "";
     }
-    public String sendHistory(String to) throws IOException {
+    public String sendUnsentTalk(String to) {
         List<Talk> talks = talkMapper.selectUnsentTalk(to);
         talkMapper.deleteUnsentTalk(to);
+        talkMapper.insertHistoryTalks(talks);
         return JSON.toJSONString(talks);
 
     }

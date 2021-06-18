@@ -6,7 +6,6 @@ import com.system.util.DecodeUtil;
 import com.system.util.TokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -40,7 +39,7 @@ public class TalkController {
     @GetMapping("/new")
     @NeedVerify
     public String getUnsentHistory(@RequestHeader String token) throws IOException {
-        return talkService.sendHistoryToken(token);
+        return talkService.sendUnsentTalkToken(token);
     }
 
     @PostMapping("/talkTo")
