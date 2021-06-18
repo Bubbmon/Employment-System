@@ -23,7 +23,7 @@
     </insert>
 
     <update id="updateResume" parameterType="com.system.entity.Resume">
-        UPDATE resume SET resume = #{resume} WHERE positionId=#{positionId} AND userId=#{userId}
+        UPDATE resume SET resume = #{resume},isDealed = false WHERE positionId=#{positionId} AND userId=#{userId}
     </update>
 
 </mapper>

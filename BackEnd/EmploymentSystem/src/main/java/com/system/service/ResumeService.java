@@ -46,8 +46,7 @@ public class ResumeService{
     public String sendSelfResume(String token, MultipartFile file){
         StringBuilder sb = new StringBuilder();
         int resumeResult = 0;
-      //  String userId = tokenUtil.check(token);
-        String userId = token;
+        String userId = tokenUtil.check(token);
         String encode = java.net.URLEncoder.encode(file.getOriginalFilename(),"utf-8");
         String resumeAddress = absolutePath + "selfResumes/"+userId+"/"+encode;
         File newFile = new File(resumeAddress);
@@ -76,8 +75,7 @@ public class ResumeService{
      * @return
      */
     public String downloadSelfResume(String token,HttpServletResponse response){
-       // String userId = tokenUtil.check(token);
-        String userId = token;
+        String userId = tokenUtil.check(token);
         String path = userInfoMapper.searchResume(userId);
         int index = path.lastIndexOf("/");
         String fileName = path.substring(index+1);

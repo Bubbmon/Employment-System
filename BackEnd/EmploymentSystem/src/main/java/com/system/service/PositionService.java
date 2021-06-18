@@ -45,6 +45,7 @@ public class PositionService {
         Enterprise enterprise = enterpriseMapper.searchById(enterpriseId);
         PositionDetail detail = new PositionDetail();
         detail.setId(id);
+        detail.setEnterpriseId(enterpriseId);
         detail.setPosition(positionInfo.getPosition());
         detail.setEnterpriseName(enterprise.getName());
         detail.setTitle(positionInfo.getTitle());

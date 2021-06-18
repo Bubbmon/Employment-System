@@ -6,6 +6,7 @@ import lombok.Data;
 public class PositionDetail{
     private long id;
     private String position;
+    private long enterpriseId;
     private String enterpriseName;
     private String title;
     private String salary;
