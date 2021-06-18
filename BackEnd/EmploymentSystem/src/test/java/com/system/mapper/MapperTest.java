@@ -7,10 +7,8 @@ import com.system.entity.Info;
 import com.system.entity.PositionInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -24,16 +22,16 @@ import java.util.List;
  **/
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {Main.class})
-@Rollback(false)
+@Rollback()
 public class MapperTest {
 
-    @MockBean
+    @Autowired
     EnterpriseMapper enterpriseMapper;
     @Autowired
     HumanResourceMapper humanResourceMapper;
-    @MockBean
+    @Autowired
     InfoMapper infoMapper;
-    @MockBean
+    @Autowired
     PositionMapper positionMapper;
 
 
@@ -49,8 +47,17 @@ public class MapperTest {
       insert into info(title,content) values("这里正在招人，需要不是吧","听过北极部正在招人，这是怎么回事呢？下面请小编带大家一起来...");
       insert into info(title,content) values("广州正在招人，需要在北京的人","听过北极部正在招人，这是怎么回事呢？下面请小编带大家一起来...");
       insert into info(title,content) values("微信正在招人，需要广州","听过北极部正在招人，这是怎么回事呢？下面请小编带大家一起来...");
+      delete from positionInfo where true;
+      delete from humanResource where true;
      */
+
     @Test
+    public void test(){
+        enterpriseMapperTest();
+        hrMapperTest();
+        positionMapperTest();
+    }
+
     public void enterpriseMapperTest(){
         Enterprise enterprise = enterpriseMapper.searchById(1);
         assert enterprise.getName().equals("腾讯");
@@ -58,13 +65,11 @@ public class MapperTest {
         assert enterprise.getId()==2;
     }
 
-    @Test
     public void hrMapperTest(){
-        HumanResource hr1 = new HumanResource("2029","123456","lollipop",2,"保洁部","打不通的电话号","搜不到的邮件地址","微信","weChat的co匙");
-        int result = humanResourceMapper.insert(hr1);
-        System.out.println(result);
+        HumanResource hr1 = new HumanResource("2029","123456","loll",2,"保洁部","打不通的电话号","搜不到的邮件地址","微信","weChat的co匙");
+        humanResourceMapper.insert(hr1);
         // 这里企业的code是错的，但是应该会通过，因为根本没验证
-        HumanResource hr2 = new HumanResource("2030","123456","lollipop2",1,"保洁部","打不通的电话号","搜不到的邮件地址","微信","weChat的co匙");
+        HumanResource hr2 = new HumanResource("2030","123456","loll2",1,"保洁部","打不通的电话号","搜不到的邮件地址","微信","weChat的co匙");
         humanResourceMapper.insert(hr2);
         String newPhone = "能打通的电话号";
         hr2.setPhone(newPhone);
@@ -73,20 +78,11 @@ public class MapperTest {
         assert hr3.getPhone().equals(newPhone);
     }
 
-    @Test
-    public void infoMapperTest(){
-        List<Info> infos=infoMapper.searchAll();
-        assert infos.size()==7;
-        Info info = infoMapper.searchById(1L);
-        assert info!=null;
-        info = infoMapper.searchById(100L);
-        assert info==null;
-    }
-    @Test
     public void positionMapperTest(){
         PositionInfo positionInfo = new PositionInfo("科考队员","腾讯",1,"北极部正在招人，需要保洁队员",
-                "听过北极部正在招人，这是怎么回事呢？下面请小编带大家一起来...","薪资待遇：可以抚摸企鹅","2029",'0');
+                "听过北极部正在招人，这是怎么回事呢？下面请小编带大家一起来...","可以摸企鹅","2029",'0');
         Long positionId = positionMapper.postPosition(positionInfo);
+        System.out.println(positionId);
         assert positionId!=null;
         PositionInfo positionInfo111 = positionMapper.getPositionInfo(positionId);
         assert positionInfo111!=null;
