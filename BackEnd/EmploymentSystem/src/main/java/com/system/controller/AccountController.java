@@ -128,7 +128,7 @@ public class AccountController {
         department = DecodeUtil.decode(department);
         // TODO: 密码的解码
         log.info("Receive hrModify: id="+id+", pswd="+password+", name="+name+
-                "phone="+phone+", email="+email);
+                "phone="+phone+", email="+email+", department="+department);
         HumanResource humanResource = new HumanResource();
         humanResource.setId(id);
         humanResource.setPswd(password);
