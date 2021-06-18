@@ -8,6 +8,7 @@ import com.system.entity.PositionInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.Rollback;
@@ -28,7 +29,7 @@ public class MapperTest {
 
     @MockBean
     EnterpriseMapper enterpriseMapper;
-    @MockBean
+    @Autowired
     HumanResourceMapper humanResourceMapper;
     @MockBean
     InfoMapper infoMapper;
@@ -60,7 +61,8 @@ public class MapperTest {
     @Test
     public void hrMapperTest(){
         HumanResource hr1 = new HumanResource("2029","123456","lollipop",2,"保洁部","打不通的电话号","搜不到的邮件地址","微信","weChat的co匙");
-        humanResourceMapper.insert(hr1);
+        int result = humanResourceMapper.insert(hr1);
+        System.out.println(result);
         // 这里企业的code是错的，但是应该会通过，因为根本没验证
         HumanResource hr2 = new HumanResource("2030","123456","lollipop2",1,"保洁部","打不通的电话号","搜不到的邮件地址","微信","weChat的co匙");
         humanResourceMapper.insert(hr2);

@@ -43,17 +43,17 @@ public class SearchController {
      * 搜索
      * @param keyword 关键词
      * @param position 岗位类型
-     * @param degree 学历
+     * @param degreeStr 学历
      * @param pageStr 页码
      * @param pageSizeStr 单页大小
      * @return
      */
     @GetMapping(path = "/search")
     public String search(@RequestParam("keyword")String keyword, @RequestParam("position") String position,
-                         @RequestParam("degree") char degree, @RequestParam("page") String pageStr,
+                         @RequestParam("degree") String degreeStr, @RequestParam("page") String pageStr,
                          @RequestParam("pageSize") String pageSizeStr) {
         keyword = DecodeUtil.decode(keyword);
-        log.info("Receive search: keyword="+keyword+", position="+position+", degree="+degree+", page="+pageStr+", pageSize="+pageSizeStr);
+        log.info("Receive search: keyword="+keyword+", position="+position+", degree="+degreeStr+", page="+pageStr+", pageSize="+pageSizeStr);
         if(keyword==null || keyword.length()==0) keyword = null;
         if(position==null || position.length()==0) position = null;
         int page = 1;
@@ -62,6 +62,8 @@ public class SearchController {
         int pageSize = 10;
         if (pageSizeStr!=null && pageSizeStr.length()!=0) pageSize = Integer.parseInt(pageSizeStr);
         if (pageSize<=0) pageSize = 10;
+        Character degree = null;
+        if (degreeStr!=null && degreeStr.length()!=0) degree = degreeStr.charAt(0);
         List<PositionInfo> list = positionMapper.search(keyword, position, degree);
         int size = list.size();
         if (page*pageSize<=size) {

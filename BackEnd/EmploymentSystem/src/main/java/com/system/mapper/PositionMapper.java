@@ -12,7 +12,7 @@ import java.util.List;
 @Component
 public interface PositionMapper{
     PositionInfo getPositionInfo(@Param("positionId")long positionId);
-    List<PositionInfo> search(String keyword, String position, char degree);
+    List<PositionInfo> search(String keyword, String position, Character degree);
     List<PositionInfo> findFromEnterprise(long enterpriseId);
     List<PositionInfo> recommend(String position, int count);
     int updatePosition(PositionInfo positionInfo);
