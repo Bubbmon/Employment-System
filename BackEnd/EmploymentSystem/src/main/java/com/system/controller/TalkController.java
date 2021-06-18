@@ -6,11 +6,10 @@ import com.system.util.DecodeUtil;
 import com.system.util.TokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 
 /**
  * @Author Legion
@@ -37,7 +36,6 @@ public class TalkController {
     public String talkHistory(@RequestHeader String token, @RequestHeader String id) {
         return talkService.getHistory(util.check(token),id);
     }
-
 
     @PostMapping("/talkTo")
     public String talkTo(@RequestHeader String token,@RequestHeader String id, @RequestHeader String message) throws IOException {
