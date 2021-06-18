@@ -57,11 +57,15 @@ public class TalkService {
         talkMapper.insertHistoryTalk(new Talk(from,to,message));
     }
 
-    public void sendHistory(String to, WebSocketSession session) throws IOException {
+    public String sendHistoryToken(String token) throws IOException {
+        String userId = util.check(token);
+        if(userId!=null) return sendHistory(userId);
+        else return "";
+    }
+    public String sendHistory(String to) throws IOException {
         List<Talk> talks = talkMapper.selectUnsentTalk(to);
-        if(session!=null&&session.isOpen()){
-            session.sendMessage(new TextMessage(JSON.toJSONString(talks)));
-            talkMapper.deleteUnsentTalk(to);
-        }
+        talkMapper.deleteUnsentTalk(to);
+        return JSON.toJSONString(talks);
+
     }
 }

@@ -27,12 +27,11 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
     TokenUtil tokenUtil;
 
     @Override
-    public void afterConnectionEstablished(WebSocketSession session) throws IOException {
+    public void afterConnectionEstablished(WebSocketSession session) {
         String userId=tokenUtil.getUserId(session);
         log.info("ws: user="+userId+" connectionEstablished.");
         if(userId!=null) {
             talkService.put(userId,session);
-            talkService.sendHistory(userId,session);
         }
     }
 
