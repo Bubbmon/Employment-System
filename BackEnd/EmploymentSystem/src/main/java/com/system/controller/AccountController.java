@@ -5,6 +5,7 @@ import com.system.entity.UserInfo;
 import com.system.interceptor.NeedVerify;
 import com.system.service.AccountService;
 import com.system.service.ResumeService;
+import com.system.util.DecodeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +38,7 @@ public class AccountController {
     public String userSignUp(@RequestHeader String id, @RequestHeader String password,
                              @RequestHeader String name, @RequestHeader String IDNO,
                              @RequestHeader String phone) {
+        name = DecodeUtil.decode(name);
         // TODO: 密码的解码
         log.info("Receive userSignUp: id="+id+", pswd="+password+", name="+name+", IDNO="+IDNO+", phone="+phone);
         UserInfo userInfo = new UserInfo();
@@ -57,6 +59,8 @@ public class AccountController {
     public String hrSignUp(@RequestHeader String id, @RequestHeader String password,
                            @RequestHeader String name, @RequestHeader String enterpriseName,
                            @RequestHeader String code, @RequestHeader String phone) {
+        name = DecodeUtil.decode(name);
+        enterpriseName = DecodeUtil.decode(enterpriseName);
         // TODO: 密码的解码
         log.info("Receive hrSignUp: id="+id+", pswd="+password+", name="+name+", enterpriseName"+enterpriseName+", code"+code+", phone="+phone);
         HumanResource humanResource = new HumanResource();
@@ -93,6 +97,7 @@ public class AccountController {
                              @RequestHeader String name, @RequestHeader String IDNO,
                              @RequestHeader String phone, @RequestHeader String email,
                              @RequestHeader int age, @RequestHeader String interest) {
+        name = DecodeUtil.decode(name);
         // TODO: 密码的解码
         log.info("Receive userModify: id="+id+", pswd="+password+", name="+name+", IDNO="+IDNO+", " +
                 "phone="+phone+", email="+email+", age="+age+", interest="+interest);
@@ -118,6 +123,8 @@ public class AccountController {
     public String hrModify(@RequestHeader String id, @RequestHeader String password,
                            @RequestHeader String name, @RequestHeader String phone,
                            @RequestHeader String email, @RequestHeader String department) {
+        name = DecodeUtil.decode(name);
+        department = DecodeUtil.decode(department);
         // TODO: 密码的解码
         log.info("Receive hrModify: id="+id+", pswd="+password+", name="+name+
                 "phone="+phone+", email="+email);

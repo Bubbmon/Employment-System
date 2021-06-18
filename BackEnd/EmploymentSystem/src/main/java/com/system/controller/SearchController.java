@@ -9,6 +9,7 @@ import com.system.mapper.EnterpriseMapper;
 import com.system.mapper.InfoMapper;
 import com.system.mapper.PositionMapper;
 import com.system.mapper.UserInfoMapper;
+import com.system.util.DecodeUtil;
 import com.system.util.TokenUtil;
 import jdk.nashorn.internal.parser.JSONParser;
 import lombok.extern.slf4j.Slf4j;
@@ -54,6 +55,7 @@ public class SearchController {
     public String search(@RequestParam("keyword")String keyword, @RequestParam("position") String position,
                          @RequestParam("degree") String degree, @RequestParam("page") String pageStr,
                          @RequestParam("pageSize") String pageSizeStr) {
+        keyword = DecodeUtil.decode(keyword);
         log.info("Receive search: keyword="+keyword+", position="+position+", degree="+degree+", page="+pageStr+", pageSize="+pageSizeStr);
         if(keyword==null || keyword.length()==0) keyword = null;
         if(position==null || position.length()==0) position = null;

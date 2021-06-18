@@ -2,6 +2,7 @@ package com.system.controller;
 
 import com.system.interceptor.NeedVerify;
 import com.system.service.PositionService;
+import com.system.util.DecodeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -46,6 +47,7 @@ public class PositionController {
     public String postPosition(@RequestHeader String token, @RequestHeader String position,
                                @RequestHeader String title, @RequestBody String content,
                                @RequestHeader String salary, @RequestHeader String degree) {
+        title = DecodeUtil.decode(title);
         long positionId = positionService.postPosition(token,position,title,content,salary,degree);
         return "{\"positionResult\":0,\"positionId\":"+ positionId+"}";
     }
@@ -67,6 +69,7 @@ public class PositionController {
                                  @RequestHeader String title, @RequestBody String content,
                                  @RequestHeader String salary, @RequestHeader String degree,
                                  @PathVariable("positionId") long positionId){
+        title = DecodeUtil.decode(title);
         String result = positionService.updatePosition(token, position, title, content, salary, degree, positionId);
         return result;
     }

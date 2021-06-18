@@ -2,6 +2,7 @@ package com.system.controller;
 
 import com.system.interceptor.NeedVerify;
 import com.system.service.TalkService;
+import com.system.util.DecodeUtil;
 import com.system.util.TokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,7 @@ public class TalkController {
 
     @PostMapping("/talkTo")
     public String talkTo(@RequestHeader String token,@RequestHeader String id, @RequestHeader String message) throws IOException {
+        message = DecodeUtil.decode(message);
         talkService.talkToToken(token,id,message);
         return message;
     }
