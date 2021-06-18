@@ -83,7 +83,6 @@ public class MapperTest {
         positionMapper.postPosition(positionInfo);
         Long positionId = positionInfo.getId();
         System.out.println(positionInfo.getId());
-        assert positionId!=null;
         PositionInfo positionInfo111 = positionMapper.getPositionInfo(positionId);
         assert positionInfo111!=null;
         assert positionInfo111.getId()==positionId;
@@ -102,12 +101,7 @@ public class MapperTest {
         positionMapper.postPosition(positionInfo2);
         PositionInfo positionInfo3 =positionMapper.getPositionInfo(positionInfo2.getId());
         assert positionInfo3!=null;
-        assert positionInfo2!=null;
         assert positionInfo3.getId()==positionInfo2.getId();
-
-        List<PositionInfo> positions2 = positionMapper.findFromEnterprise(1);
-        assert positions2!=null;
-        assert positions.size()!=0;
 
         PositionInfo positionInfo4 = new PositionInfo("科考队","微信",2,"微信正在招科考队。",
                 "听过微信正在招北极熊，这是怎么回事呢？下面请小编带大家一起来...","薪资待遇：可以吃企鹅","2030",'2');
@@ -115,6 +109,10 @@ public class MapperTest {
         List<PositionInfo> positions3 = positionMapper.recommend("科考队",1);
         assert positions3!=null;
         assert positions3.size()==1;
+
+        List<PositionInfo> positions2 = positionMapper.findFromEnterprise(1);
+        assert positions2!=null;
+        assert positions2.size()!=0;
     }
 
 }
