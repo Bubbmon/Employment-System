@@ -35,9 +35,11 @@ public class PositionService {
      * @return
      */
     public String getPosition(long id){
-        positionMapper.updateView(id);
         PositionInfo positionInfo = positionMapper.getPositionInfo(id);
+        if(positionInfo==null) return "";
         String hrId = positionInfo.getHrId();
+        if(hrId==null) return "";
+        positionMapper.updateView(id);
         HumanResource hrInfo = humanResourceMapper.search(hrId);
         long enterpriseId = positionInfo.getEnterpriseId();
         Enterprise enterprise = enterpriseMapper.searchById(enterpriseId);

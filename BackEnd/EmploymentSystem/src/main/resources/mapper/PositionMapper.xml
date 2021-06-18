@@ -26,11 +26,11 @@
     </select>
 
     <insert id="postPosition" parameterType="com.system.entity.PositionInfo">
-        <selectKey resultType="java.lang.Long" order="AFTER">
-            SELECT LAST_INSERT_ID()
-        </selectKey>
         insert into positionInfo(enterpriseId,hrId,`position`,title,content,salary,degree)
         values(#{enterpriseId},#{hrId},#{position},#{title},#{content},#{salary},#{degree})
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
     </insert>
     <update id="updatePosition" parameterType="com.system.entity.PositionInfo">
         update positionInfo
