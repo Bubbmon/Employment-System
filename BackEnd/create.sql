@@ -41,7 +41,8 @@ create table `positionInfo` (
 	`hrId` varchar(16) COMMENT '联系人',
 	CONSTRAINT `hrId_c`  foreign key(`hrId`) references `humanResource`(`id`),
 	`degree` char(1) NOT NULL COMMENT '0为不限 1为高中 2为专科 3为本科 4为硕士 5为博士',
-	`views` int(10) unsigned default 0 COMMENT '浏览量'
+	`views` int(10) unsigned default 0 COMMENT '浏览量',
+	FULLTEXT KEY `content` (`content`) /*!50100 WITH PARSER `ngram` */
 )CHARSET=utf8mb4; -- 招聘信息
 
 create table `resume` (
