@@ -42,16 +42,18 @@ public class Verify {
     public void NeedVerify(){ }
 
     @Around("NeedVerify()")
-    public void verifyAccount(ProceedingJoinPoint joinPoint) throws Throwable {
+    public String verifyAccount(ProceedingJoinPoint joinPoint) throws Throwable {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
         String token = request.getHeader("token");
         if(token==null) {
             response.sendError(notLogInCode,notLogInMessage);
+            return "";
         }else if(tokenUtil.check(token)==null){
             response.sendError(logInExpiredCode,logInExpiredMessage);
+            return "";
         }
-        joinPoint.proceed();
+        return (String) joinPoint.proceed();
     }
 
 //    @Pointcut("@annotation(com.system.Check.HrBelongsEnterpriseCheck)")
