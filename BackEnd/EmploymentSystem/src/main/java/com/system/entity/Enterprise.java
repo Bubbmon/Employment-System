@@ -1,6 +1,8 @@
 package com.system.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @Author Legion
@@ -8,6 +10,8 @@ import lombok.Data;
  * @Description
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Enterprise {
     private long id;
     private String name;

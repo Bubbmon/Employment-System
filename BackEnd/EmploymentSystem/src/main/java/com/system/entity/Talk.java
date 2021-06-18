@@ -17,12 +17,10 @@ import java.sql.Timestamp;
 @Data
 public class Talk {
     @NonNull
-    private String userId;
+    private String from;
     @NonNull
-    private String hrId;
+    private String to;
     private Timestamp time; // 插入的时候直接mysql生成好了
-    @NonNull
-    private char sender;
     @NonNull
     private String message;
 }

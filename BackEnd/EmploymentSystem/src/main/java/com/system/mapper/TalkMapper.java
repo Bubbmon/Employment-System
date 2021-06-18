@@ -15,10 +15,10 @@ import java.util.List;
 @Mapper
 @Component
 public interface TalkMapper {
-    @Select("select * from talk where userId=#{user} and hrId=#{hr}")
-    List<Talk> getTalk(@Param("user")String user,@Param("hr")String hr);
-
-
-    @Insert("insert into talk(userId,hrId,time,message) values(#{userId},#{hrId},#{time},#{message})")
-    boolean insertTalk(Talk talk);
+    List<Talk> getTalk(String user,String hr);
+    void insertHistoryTalks(List<Talk> talks);
+    void insertHistoryTalk(Talk talk);
+    void insertUnsentTalk(Talk talk);
+    List<Talk> selectUnsentTalk(String to);
+    void deleteUnsentTalk(String to);
 }

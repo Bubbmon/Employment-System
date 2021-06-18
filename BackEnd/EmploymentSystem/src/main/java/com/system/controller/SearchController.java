@@ -11,13 +11,10 @@ import com.system.mapper.PositionMapper;
 import com.system.mapper.UserInfoMapper;
 import com.system.util.DecodeUtil;
 import com.system.util.TokenUtil;
-import jdk.nashorn.internal.parser.JSONParser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,13 +50,12 @@ public class SearchController {
      */
     @GetMapping(path = "/search")
     public String search(@RequestParam("keyword")String keyword, @RequestParam("position") String position,
-                         @RequestParam("degree") String degree, @RequestParam("page") String pageStr,
+                         @RequestParam("degree") char degree, @RequestParam("page") String pageStr,
                          @RequestParam("pageSize") String pageSizeStr) {
         keyword = DecodeUtil.decode(keyword);
         log.info("Receive search: keyword="+keyword+", position="+position+", degree="+degree+", page="+pageStr+", pageSize="+pageSizeStr);
         if(keyword==null || keyword.length()==0) keyword = null;
         if(position==null || position.length()==0) position = null;
-        if (degree==null || degree.length()==0) degree = null;
         int page = 1;
         if (pageStr!=null && pageStr.length()!=0) page = Integer.parseInt(pageStr);
         if (page<=0) page = 1;

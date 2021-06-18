@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 
 /**
  * @Author Legion
@@ -38,11 +36,16 @@ public class TalkController {
         return talkService.getHistory(util.check(token),id);
     }
 
+    @GetMapping("/new")
+    @NeedVerify
+    public String getUnsentHistory(@RequestHeader String token) throws IOException {
+        return talkService.sendUnsentTalkToken(token);
+    }
 
     @PostMapping("/talkTo")
     public String talkTo(@RequestHeader String token,@RequestHeader String id, @RequestHeader String message) throws IOException {
         message = DecodeUtil.decode(message);
         talkService.talkToToken(token,id,message);
-        return message;
+        return "{\"dealResult\":0}";
     }
 }

@@ -10,8 +10,6 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -48,13 +46,27 @@ public class TalkService {
                    two = talkMapper.getTalk(to,from);
         return JSON.toJSONString(one.addAll(two));
     }
+
     public void talkTo(String from,String to,String message) throws IOException {
         WebSocketSession session = map.get(to);
         if(session!=null&&session.isOpen()){
             session.sendMessage(new TextMessage("{'id':'"+from+"','message':'"+message+"'}"));
-            talkMapper.insertTalk(new Talk(from,to,'0',message));
+            talkMapper.insertHistoryTalk(new Talk(from,to,message));
         }else{
-            ;// TODO: 放到缓冲区？
+            talkMapper.insertUnsentTalk(new Talk(from,to,message));
         }
+    }
+
+    public String sendUnsentTalkToken(String token) {
+        String userId = util.check(token);
+        if(userId!=null) return sendUnsentTalk(userId);
+        else return "";
+    }
+    public String sendUnsentTalk(String to) {
+        List<Talk> talks = talkMapper.selectUnsentTalk(to);
+        talkMapper.deleteUnsentTalk(to);
+        talkMapper.insertHistoryTalks(talks);
+        return JSON.toJSONString(talks);
+
     }
 }
