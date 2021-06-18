@@ -30,19 +30,23 @@ create table `humanResource` (
 	constraint `enterpriseId_hrid`  foreign key (`enterpriseId`) references `enterprise`(`id`) 
 )CHARSET=utf8mb4; -- hr用户
 
-create table `positionInfo` (
-	`id` bigint(32) PRIMARY KEY Auto_increment,
-	`position` varchar(8) NOT NULL COMMENT '一个值，取值与`userInfo`中的`interset`相同',
-	`enterpriseId` bigint(32)  COMMENT '发布公司',
-	CONSTRAINT `enterpriseId_c` foreign key (`enterpriseId`) references `enterprise`(`id`),
-	`title` varchar(20) NOT NULL COMMENT '招聘标题',
-	`content` TEXT NOT NULL COMMENT '招聘正文',
-	`salary` varchar(10) COMMENT '薪酬',
-	`hrId` varchar(16) COMMENT '联系人',
-	CONSTRAINT `hrId_c`  foreign key(`hrId`) references `humanResource`(`id`),
-	`degree` char(1) NOT NULL COMMENT '0为不限 1为高中 2为专科 3为本科 4为硕士 5为博士',
-	`views` int(10) unsigned default 0 COMMENT '浏览量'
-)CHARSET=utf8mb4; -- 招聘信息
+CREATE TABLE `positionInfo` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `position` varchar(8) NOT NULL COMMENT '一个值，取值与`userInfo`中的`interset`相同',
+  `enterpriseId` bigint DEFAULT NULL COMMENT '发布公司',
+  `title` varchar(20) NOT NULL COMMENT '招聘标题',
+  `content` text NOT NULL COMMENT '招聘正文',
+  `salary` varchar(10) DEFAULT NULL COMMENT '薪酬',
+  `hrId` varchar(16) DEFAULT NULL COMMENT '联系人',
+  `degree` char(1) NOT NULL COMMENT '0为不限 1为高中 2为专科 3为本科 4为硕士 5为博士',
+  `views` int unsigned DEFAULT '0' COMMENT '浏览量',
+  PRIMARY KEY (`id`),
+  KEY `enterpriseId_c` (`enterpriseId`),
+  KEY `hrId_c` (`hrId`),
+  FULLTEXT KEY `content` (`content`) /*!50100 WITH PARSER `ngram` */ ,
+  CONSTRAINT `enterpriseId_c` FOREIGN KEY (`enterpriseId`) REFERENCES `enterprise` (`id`),
+  CONSTRAINT `hrId_c` FOREIGN KEY (`hrId`) REFERENCES `humanResource` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci; -- 招聘信息
 
 create table `resume` (
 	`positionId` bigint(32),
@@ -63,16 +67,16 @@ create table `info` (
 create table `talk` (
 	`from` varchar(16) COMMENT '消息发送者，不一定是普通用户',
 	`to` varchar(16) COMMENT '不一定是hr',
-	`time` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
 	`message` varchar(1024) NOT NULL,
-	key `id` (`userId`,`hrId`)
+	key `id` (`from`,`to`,`time`)
 ) CHARSET=utf8mb4;
 
 create table `unsentTalk` (
 	`from` varchar(16) COMMENT '消息发送者，不一定是普通用户',
 	`to` varchar(16) COMMENT '不一定是hr',
-	`time` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`message` varchar(1024) NOT NULL,
-	key `id` (`userId`,`hrId`)
+	key `id` (`from`,`to`,`time`)
 ) CHARSET=utf8mb4;
 
