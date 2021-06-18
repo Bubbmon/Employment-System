@@ -15,7 +15,7 @@ public interface PositionMapper{
     List<PositionInfo> search(String keyword, String position, Character degree);
     List<PositionInfo> findFromEnterprise(long enterpriseId);
     List<PositionInfo> recommend(String position, int count);
-    int updatePosition(PositionInfo positionInfo);
-    Long postPosition(PositionInfo positionInfo);
+    long updatePosition(PositionInfo positionInfo);
+    void postPosition(PositionInfo positionInfo);
     void updateView(@Param("id") long positionId);
 }
