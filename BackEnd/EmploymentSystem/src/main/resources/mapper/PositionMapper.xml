@@ -25,16 +25,13 @@
         limit #{count}
     </select>
 
-    <insert id="postPosition" parameterType="com.system.entity.PositionInfo">
+    <insert id="postPosition" parameterType="com.system.entity.PositionInfo" useGeneratedKeys="true" keyProperty="id">
         insert into positionInfo(enterpriseId,hrId,`position`,title,content,salary,degree)
         values(#{enterpriseId},#{hrId},#{position},#{title},#{content},#{salary},#{degree})
-        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
-            SELECT LAST_INSERT_ID()
-        </selectKey>
     </insert>
     <update id="updatePosition" parameterType="com.system.entity.PositionInfo">
         update positionInfo
-        set  position=#{position},title=#{title},content=#{content},salary=#{salary},degree=#{degree},views=0
+        set  position=#{position},title=#{title},content=#{content},salary=#{salary},degree=#{degree}
         where id = #{id}
     </update>
 

@@ -3,7 +3,6 @@ package com.system.mapper;
 import com.system.Main;
 import com.system.entity.Enterprise;
 import com.system.entity.HumanResource;
-import com.system.entity.Info;
 import com.system.entity.PositionInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -81,8 +80,9 @@ public class MapperTest {
     public void positionMapperTest(){
         PositionInfo positionInfo = new PositionInfo("科考队员","腾讯",1,"北极部正在招人，需要保洁队员",
                 "听过北极部正在招人，这是怎么回事呢？下面请小编带大家一起来...","可以摸企鹅","2029",'0');
-        Long positionId = positionMapper.postPosition(positionInfo);
-        System.out.println(positionId);
+        positionMapper.postPosition(positionInfo);
+        Long positionId = positionInfo.getId();
+        System.out.println(positionInfo.getId());
         assert positionId!=null;
         PositionInfo positionInfo111 = positionMapper.getPositionInfo(positionId);
         assert positionInfo111!=null;
@@ -99,8 +99,10 @@ public class MapperTest {
 
         String newContent="修改后的内容";
         positionInfo2.setContent(newContent);
-        positionMapper.updatePosition(positionInfo2);
+        positionMapper.postPosition(positionInfo2);
         PositionInfo positionInfo3 =positionMapper.getPositionInfo(positionInfo2.getId());
+        assert positionInfo3!=null;
+        assert positionInfo2!=null;
         assert positionInfo3.getId()==positionInfo2.getId();
 
         List<PositionInfo> positions2 = positionMapper.findFromEnterprise(1);

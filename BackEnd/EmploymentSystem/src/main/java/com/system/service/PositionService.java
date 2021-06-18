@@ -68,7 +68,8 @@ public class PositionService {
         positionInfo.setContent(content);
         positionInfo.setSalary(salary);
         positionInfo.setDegree(degree.charAt(0));
-        return positionMapper.postPosition(positionInfo);
+        positionMapper.postPosition(positionInfo);
+        return positionInfo.getId();
     }
 
     /**
@@ -93,7 +94,7 @@ public class PositionService {
             positionInfo.setContent(content);
             positionInfo.setSalary(salary);
             positionInfo.setDegree(degree.charAt(0));
-            int count = positionMapper.updatePosition(positionInfo);
+            long count = positionMapper.updatePosition(positionInfo);
             if(count == 0) {
                 result = 1;
             }
