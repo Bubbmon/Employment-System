@@ -1,12 +1,15 @@
 package com.system.util;
 
+import org.apache.tomcat.util.codec.binary.Base64;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
 public class DownloadUtil{
     public static String download(String fileName,String path, HttpServletResponse response){
         String message = null;
-        response.setHeader("content-type","application/octet-stream");
+        String suffix = fileName.substring(fileName.indexOf(".")+1);
+        response.setHeader("Content-Type","application/octet-stream");
         response.setContentType("application/octet-stream");
         try {
             /*告知浏览器以何种方式显示响应返回的文件，attachment附件下载，inline在线打开
@@ -24,9 +27,16 @@ public class DownloadUtil{
             fis = new FileInputStream(file);
             bis = new BufferedInputStream(fis);
             OutputStream os = response.getOutputStream();
+            byte[] bytes = null;
             int i = bis.read(buffer);
             while(i != -1){
-                os.write(buffer,0,i);
+                if(suffix.equals("jpg") || suffix.equals("png")) {
+                    bytes = Base64.encodeBase64(buffer);
+                }else{
+                    bytes = buffer;
+                }
+                os.write(bytes,0,i);
+                os.flush();
                 i = bis.read(buffer);
             }
         }catch(Exception e){

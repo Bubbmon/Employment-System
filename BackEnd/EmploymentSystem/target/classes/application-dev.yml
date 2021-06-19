@@ -5,7 +5,12 @@ spring:
   datasource:
     username: root
     # password: toor
+<<<<<<< HEAD
     password: password
+=======
+    # password: password
+    password: 123456
+>>>>>>> 811e23b2a0903dc0830c0279a8a905f31a984355
     url: jdbc:mysql://localhost:3306/employment?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     # Loading class `com.mysql.jdbc.Driver'. This is deprecated. The new driver class is `com.mysql.cj.jdbc.Driver'.
     driver-class-name: com.mysql.cj.jdbc.Driver

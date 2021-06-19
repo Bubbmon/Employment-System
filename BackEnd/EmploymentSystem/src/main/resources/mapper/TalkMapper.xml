@@ -3,15 +3,15 @@
 <mapper namespace="com.system.mapper.TalkMapper">
 
     <select id="getTalk" resultType="com.system.entity.Talk">
-        select * from talk where from = #{from} and to = #{to}
+        select * from talk where `from` = #{from} and to = #{to}
     </select>
 
     <insert id="insertHistoryTalk" parameterType="com.system.entity.Talk">
-        insert into talk(from,to,message) values(#{from},#{to},#{message})
+        insert into talk(`from`,`to`,message) values(#{from},#{to},#{message})
     </insert>
 
     <insert id="insertHistoryTalks" parameterType="java.util.List">
-        insert into talk(from,to,message,time)
+        insert into talk(`from`,`to`,message,time)
         values
         <foreach collection="talks" index="index" item="talk" separator=",">
             (
@@ -24,14 +24,14 @@
     </insert>
     
     <insert id="insertUnsentTalk" parameterType="com.system.entity.Talk">
-        insert into unsentTalk(from,to,message) values(#{from},#{to},#{message})
+        insert into unsentTalk(`from`,`to`,message) values(#{from},#{to},#{message})
     </insert>
     
     <select id="selectUnsentTalk" resultType="com.system.entity.Talk">
-        select * from unsentTalk where to = #{to}
+        select * from unsentTalk where `to` = #{to}
     </select>
 
     <delete id="deleteUnsentTalk">
-        delete from unsentTalk where to = #{to}
+        delete from unsentTalk where `to` = #{to}
     </delete>
 </mapper>
