@@ -23,8 +23,10 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TalkService {
     static {
         map=new ConcurrentHashMap<>();
+        sessionKey = new ConcurrentHashMap<>();
     }
     public static ConcurrentHashMap<String,WebSocketSession> map;
+    public static ConcurrentHashMap<WebSocketSession,String> sessionKey;
     @Autowired
     TokenUtil util;
     @Autowired
@@ -33,10 +35,18 @@ public class TalkService {
     public void put(String key, WebSocketSession session){
         if(key!=null) map.put(key,session);
     }
+    public void put(WebSocketSession session,String value){
+        if(sessionKey!=null) sessionKey.put(session,value);
+    }
     public void remove(String key){
         if(key!=null) map.remove(key);
     }
-
+    public void remove(WebSocketSession session){
+        if(sessionKey!=null) sessionKey.remove(session);
+    }
+    public String getUserId(WebSocketSession session){
+        return sessionKey.get(session);
+    }
     public void talkToToken(String token,String to,String message) throws IOException {
         talkTo(util.check(token),to,message);
     }

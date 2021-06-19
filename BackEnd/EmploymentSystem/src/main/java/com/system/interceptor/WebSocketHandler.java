@@ -28,8 +28,6 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
 
     @Value("${wsPrefix.open}")
     private String open;
-    @Value("${wsPrefix.close}")
-    private String close;
     @Value("${code.logInExpiredCode}")
     private Integer logInExpiredCode;
     @Value("${code.logInExpiredMessage}")
@@ -45,15 +43,12 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
         if(msg.startsWith(open)){
             String userId=tokenUtil.check(msg.replace(open,""));
             if(userId!=null) {
+                talkService.put(session,userId);
                 talkService.put(userId,session);
             }else{
                 session.sendMessage(new TextMessage("{\"error_code\":"+logInExpiredCode+", \"error_msg\":\""+logInExpiredMessage+"\"}"));
             }
             log.info("ws: user="+userId+" come int.");
-        }else if(msg.startsWith(close)){
-            String userId=tokenUtil.check(msg.replace(close,""));
-            if(userId!=null) talkService.remove(userId);
-            log.info("ws: user="+userId+" out.");
         }else{
             session.sendMessage(new TextMessage("your prefix in ["+msg+"]is wrong!"));
         }
@@ -61,6 +56,9 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
+        String userId = talkService.getUserId(session);
+        talkService.remove(session);
+        talkService.remove(userId);
         log.info("ws: some one close a connection.");
     }
 
