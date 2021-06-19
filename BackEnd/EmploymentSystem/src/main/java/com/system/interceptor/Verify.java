@@ -26,14 +26,14 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 public class Verify {
 
-    @Value("code.notLogInCode")
-    private static Integer notLogInCode;
-    @Value("code.notLogInMessage")
-    private static String notLogInMessage;
-    @Value("code.logInExpiredCode")
-    private static Integer logInExpiredCode;
-    @Value("code.logInExpiredMessage")
-    private static String logInExpiredMessage;
+    @Value("${code.notLogInCode}")
+    private Integer notLogInCode;
+    @Value("${code.notLogInMessage}")
+    private String notLogInMessage;
+    @Value("${code.logInExpiredCode}")
+    private Integer logInExpiredCode;
+    @Value("${code.logInExpiredMessage}")
+    private String logInExpiredMessage;
 
     @Autowired
     TokenUtil tokenUtil;
@@ -47,17 +47,11 @@ public class Verify {
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
         String token = request.getHeader("token");
         if(token==null) {
-            response.sendError(notLogInCode,notLogInMessage);
-            return "";
+            return "{\"error_code\":"+notLogInCode+", \"error_msg\":\""+notLogInMessage+"\"}";
         }else if(tokenUtil.check(token)==null){
-            response.sendError(logInExpiredCode,logInExpiredMessage);
-            return "";
+            return "{\"error_code\":"+logInExpiredCode+", \"error_msg\":\""+logInExpiredMessage+"\"}";
         }
         return (String) joinPoint.proceed();
     }
-
-//    @Pointcut("@annotation(com.system.Check.HrBelongsEnterpriseCheck)")
-//    public void hrBelongsEnterpriseCheck(){
-//    }
 
 }

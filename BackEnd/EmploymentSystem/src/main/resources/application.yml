@@ -79,3 +79,7 @@ code:
   logInExpiredCode: 421
   logInExpiredMessage: 'log in expired'
 
+wsPrefix:
+  open: '#open#'
+  close: '#close#'
+
