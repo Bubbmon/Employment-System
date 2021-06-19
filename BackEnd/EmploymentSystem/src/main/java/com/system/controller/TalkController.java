@@ -18,7 +18,7 @@ import java.io.IOException;
  */
 @RestController
 @RequestMapping(path = "/talk", produces = "application/json;charset=utf-8")
-@Slf4j
+@LogMe
 public class TalkController {
     @Autowired
     TalkService talkService;
@@ -33,20 +33,17 @@ public class TalkController {
      */
     @GetMapping("/history")
     @NeedVerify
-    @LogMe
     public String talkHistory(@RequestHeader String token, @RequestHeader String id) {
-        log.debug("get talkHistory "+ "token="+token +" id"+id);
         return talkService.getHistory(util.check(token),id);
     }
 
     @GetMapping("/new")
     @NeedVerify
-    @LogMe
     public String getUnsentHistory(@RequestHeader String token) {
         return talkService.sendUnsentTalkToken(token);
     }
 
-    @LogMe
+
     @NeedVerify
     @PostMapping("/talkTo")
     public String talkTo(@RequestHeader String token,@RequestHeader String id, @RequestHeader String message) throws IOException {

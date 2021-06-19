@@ -22,7 +22,7 @@ import java.util.Enumeration;
 @Aspect
 @Component
 public class Log {
-    @Pointcut("@annotation(com.system.interceptor.LogMe)")
+    @Pointcut("@within(com.system.interceptor.LogMe)")
     public void log(){}
 
     @Around("log()")
