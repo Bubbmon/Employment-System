@@ -58,6 +58,14 @@ public class ResumeService{
         }
         try{
             file.transferTo(newFile);
+            String originAddress = userInfoMapper.searchResume(userId);
+            List<String> resumes = resumeMapper.selectResumes(userId);
+            if(!resumes.contains(originAddress)){
+                File oldFile = new File(originAddress);
+                if(oldFile.exists()){
+                    oldFile.delete();
+                }
+            }
             UserInfo userInfo = userInfoMapper.search(userId);
             userInfo.setResume(resumeAddress);
             int count = userInfoMapper.updateResume(userInfo);

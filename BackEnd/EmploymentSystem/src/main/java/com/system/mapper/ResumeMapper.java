@@ -29,4 +29,6 @@ public interface ResumeMapper{
     int insertResume(Resume resume);
 
     int updateResume(Resume resume);
+
+    List<String> selectResumes(String userId);
 }
