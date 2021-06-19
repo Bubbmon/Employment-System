@@ -1,5 +1,6 @@
 package com.system.controller;
 
+import com.system.interceptor.LogMe;
 import com.system.interceptor.NeedVerify;
 import com.system.service.TalkService;
 import com.system.util.DecodeUtil;
@@ -32,20 +33,24 @@ public class TalkController {
      */
     @GetMapping("/history")
     @NeedVerify
+    @LogMe
     public String talkHistory(@RequestHeader String token, @RequestHeader String id) {
+        log.debug("get talkHistory "+ "token="+token +" id"+id);
         return talkService.getHistory(util.check(token),id);
     }
 
     @GetMapping("/new")
     @NeedVerify
-    public String getUnsentHistory(@RequestHeader String token) throws IOException {
+    @LogMe
+    public String getUnsentHistory(@RequestHeader String token) {
         return talkService.sendUnsentTalkToken(token);
     }
 
+    @LogMe
     @PostMapping("/talkTo")
     public String talkTo(@RequestHeader String token,@RequestHeader String id, @RequestHeader String message) throws IOException {
         message = DecodeUtil.decode(message);
-        talkService.talkToToken(token,id,message);
+        //talkService.talkToToken(token,id,message);
         return "{\"dealResult\":0}";
     }
 }
