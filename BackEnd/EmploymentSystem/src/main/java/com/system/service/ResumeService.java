@@ -9,6 +9,7 @@ import com.system.mapper.UserInfoMapper;
 import com.system.util.DownloadUtil;
 import com.system.util.TokenUtil;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +21,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 public class ResumeService{
 
@@ -35,7 +37,6 @@ public class ResumeService{
     UserInfoMapper userInfoMapper;
 
     String absolutePath = this.getClass().getResource("/").getPath();
-
     /**
      * 招聘者上传个人简历
      * @param token
@@ -48,7 +49,8 @@ public class ResumeService{
         int resumeResult = 0;
         String userId = tokenUtil.check(token);
         String encode = java.net.URLEncoder.encode(file.getOriginalFilename(),"utf-8");
-        String resumeAddress = absolutePath + "selfResumes/"+userId+"/"+encode;
+        String resumeAddress = absolutePath + "selfResumes/"+encode;
+        log.info(resumeAddress);
         File newFile = new File(resumeAddress);
         if(!newFile.exists()){
             newFile.mkdirs();
@@ -153,10 +155,12 @@ public class ResumeService{
             int dotPos = file.getOriginalFilename().lastIndexOf(".");
             String fileName = file.getOriginalFilename().substring(0,dotPos);
             String suffix = file.getOriginalFilename().substring(dotPos+1);
-            qualifier = fileName + "_" + System.currentTimeMillis() + "_" + suffix;
+            qualifier = fileName + "$" + System.currentTimeMillis() + "$" + suffix;
             qualifier = URLEncoder.encode(qualifier, "utf-8");
             String wholeName = qualifier + "." + suffix;
-            File newFile = new File(absolutePath+"nowResumes/"+id+"/"+wholeName);
+            String resumeAddress = absolutePath+"nowResumes/"+wholeName;
+            log.info(resumeAddress);
+            File newFile = new File(resumeAddress);
             if(!newFile.exists()){
                 newFile.mkdirs();
             }
@@ -190,8 +194,8 @@ public class ResumeService{
             resumeAddress = userInfoMapper.searchResume(userId);
         }else{
             if(qualifier != null) {
-                String wholeName = qualifier + "." + qualifier.split("_")[2];
-                resumeAddress = absolutePath + "nowResumes/" + userId + "/" + wholeName;
+                String wholeName = qualifier + "." + qualifier.split("$")[2];
+                resumeAddress = absolutePath + "nowResumes/" + wholeName;
             }else{
                 sendResult = 1;
             }
@@ -234,10 +238,10 @@ public class ResumeService{
         int lastIndex = resumeAddress.lastIndexOf(".");
         String substr = resumeAddress.substring(firstIndex+1,lastIndex);
         String fileName = null;
-        if(!substr.contains("_")){ //个人简历
+        if(!substr.contains("$")){ //个人简历
             fileName = resumeAddress.substring(firstIndex+1);
         }else{
-            String[] addressArray = substr.split("_");
+            String[] addressArray = substr.split("$");
             fileName = addressArray[0]+"."+ addressArray[2];
         }
         String message = DownloadUtil.download(fileName,resumeAddress,response);
@@ -289,10 +293,10 @@ public class ResumeService{
             int lastIndex = resumeAddress.lastIndexOf(".");
             String substr = resumeAddress.substring(firstIndex+1,lastIndex);
             String fileName = null;
-            if(!substr.contains("_")){ //个人简历
+            if(!substr.contains("$")){ //个人简历
                 fileName = resumeAddress.substring(firstIndex+1);
             }else{
-                String[] addressArray = substr.split("_");
+                String[] addressArray = substr.split("$");
                 fileName = addressArray[0]+"."+ addressArray[2];
             }
             message = DownloadUtil.download(fileName,resumeAddress,response);
