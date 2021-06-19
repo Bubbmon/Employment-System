@@ -127,9 +127,9 @@ public class AccountService {
             update = humanResourceMapper.update((HumanResource) customer);
         }
         if (update!=1) {
-            return "{\"modifyResult\":0}";
-        } else {
             return "{\"modifyResult\":1}";
+        } else {
+            return "{\"modifyResult\":0}";
         }
     }
 
