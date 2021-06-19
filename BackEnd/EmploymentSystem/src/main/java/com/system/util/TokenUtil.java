@@ -72,6 +72,8 @@ public class TokenUtil {
             return null;
         }
         ValueOperations<String, String> valueOps = redisTemplate.opsForValue();
+        String result = valueOps.get(token);
+        if (result==null) return null;
         return valueOps.get(token).trim();
     }
 
