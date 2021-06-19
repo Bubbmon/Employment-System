@@ -36,7 +36,8 @@ public class ResumeService{
     @Autowired
     UserInfoMapper userInfoMapper;
 
-    String absolutePath = "/root/resumes/";
+//    String absolutePath = "/root/resumes/";
+    String absolutePath = this.getClass().getResource("/").getPath();
     /**
      * 招聘者上传个人简历
      * @param token
@@ -91,7 +92,6 @@ public class ResumeService{
      */
     public String getSendResumeInfo(String token){
         List<SendResumeInfo> sendResumes = new ArrayList<>();
-        //TODO:区分hr和招聘者
         if(token.charAt(0) == 'u'){
             String id = tokenUtil.check(token);
             List<Resume> resumes = resumeMapper.searchByUserId(id);
@@ -120,8 +120,8 @@ public class ResumeService{
     public String getHrResumes(String token,long positionId){
         List<ReceiveResumeInfo> receiveResumes = new ArrayList<>();
         PositionInfo positionInfo = positionMapper.getPositionInfo(positionId);
+        int hasPrivilege = 0;
         String hrId = positionInfo.getHrId();
-        //TODO:不是发布公告的HR怎么办
         if(tokenUtil.check(token).equals(hrId)){
             List<Resume> resumes = resumeMapper.searchByPositionId(positionId);
             for(Resume resume : resumes){
@@ -134,9 +134,12 @@ public class ResumeService{
                 receiveResume.setPhone(userInfo.getPhone());
                 receiveResume.setDealed(isDealed);
                 receiveResumes.add(receiveResume);
-          }
-       }
-        return JSON.toJSONString(receiveResumes);
+            }
+            hasPrivilege = 0;
+       }else{
+            hasPrivilege = 1;
+        }
+        return "{\"hasPrivilege\":"+hasPrivilege+",\"resumeList\":"+JSON.toJSONString(receiveResumes)+"}";
     }
 
     /**
