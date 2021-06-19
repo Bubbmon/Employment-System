@@ -47,10 +47,11 @@ public class TalkController {
     }
 
     @LogMe
+    @NeedVerify
     @PostMapping("/talkTo")
     public String talkTo(@RequestHeader String token,@RequestHeader String id, @RequestHeader String message) throws IOException {
         message = DecodeUtil.decode(message);
-        //talkService.talkToToken(token,id,message);
+        talkService.talkToToken(token,id,message);
         return "{\"dealResult\":0}";
     }
 }
