@@ -98,7 +98,9 @@ public class SearchController {
         String interest = null;
         if (id!=null) {
             UserInfo userInfo = userInfoMapper.search(id);
-            interest = userInfo.getInterest();
+            if (userInfo!=null) {
+                interest = userInfo.getInterest();
+            }
         }
         List<PositionInfo> list = positionMapper.recommend(interest, count);
         String result = JSON.toJSONString(list);
