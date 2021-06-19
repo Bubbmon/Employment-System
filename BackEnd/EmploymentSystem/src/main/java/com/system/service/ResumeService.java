@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,8 +48,7 @@ public class ResumeService{
         StringBuilder sb = new StringBuilder();
         int resumeResult = 0;
         String userId = tokenUtil.check(token);
-        String encode = java.net.URLEncoder.encode(file.getOriginalFilename(),"utf-8");
-        String resumeAddress = absolutePath + "selfResumes/"+encode;
+        String resumeAddress = absolutePath + "selfResumes/"+file.getOriginalFilename();
         log.info(resumeAddress);
         File newFile = new File(resumeAddress);
         if(!newFile.exists()){
@@ -58,14 +56,6 @@ public class ResumeService{
         }
         try{
             file.transferTo(newFile);
-            String originAddress = userInfoMapper.searchResume(userId);
-            List<String> resumes = resumeMapper.selectResumes(userId);
-            if(!resumes.contains(originAddress)){
-                File oldFile = new File(originAddress);
-                if(oldFile.exists()){
-                    oldFile.delete();
-                }
-            }
             UserInfo userInfo = userInfoMapper.search(userId);
             userInfo.setResume(resumeAddress);
             int count = userInfoMapper.updateResume(userInfo);
@@ -167,7 +157,6 @@ public class ResumeService{
             String fileName = file.getOriginalFilename().substring(0,dotPos);
             String suffix = file.getOriginalFilename().substring(dotPos+1);
             qualifier = fileName + "$" + System.currentTimeMillis() + "$" + suffix;
-            qualifier = URLEncoder.encode(qualifier, "utf-8");
             String wholeName = qualifier + "." + suffix;
             String resumeAddress = absolutePath+"nowResumes/"+wholeName;
             log.info(resumeAddress);

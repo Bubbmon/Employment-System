@@ -25,9 +25,4 @@
     <update id="updateResume" parameterType="com.system.entity.Resume">
         UPDATE resume SET resume = #{resume},isDealed = false WHERE positionId=#{positionId} AND userId=#{userId}
     </update>
-
-    <select id="selectResumes" parameterType="java.lang.String">
-        SELECT resumes FROM resume WHERE userId = #{userId}
-    </select>
-
 </mapper>

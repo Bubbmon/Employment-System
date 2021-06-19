@@ -30,12 +30,7 @@ public class DownloadUtil{
             byte[] bytes = null;
             int i = bis.read(buffer);
             while(i != -1){
-                if(suffix.equals("jpg") || suffix.equals("png")) {
-                    bytes = Base64.encodeBase64(buffer);
-                }else{
-                    bytes = buffer;
-                }
-                os.write(bytes,0,i);
+                os.write(buffer,0,i);
                 os.flush();
                 i = bis.read(buffer);
             }
