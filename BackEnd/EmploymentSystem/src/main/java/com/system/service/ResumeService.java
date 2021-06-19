@@ -36,7 +36,7 @@ public class ResumeService{
     @Autowired
     UserInfoMapper userInfoMapper;
 
-    String absolutePath = this.getClass().getResource("/").getPath();
+    String absolutePath = "/root/resumes/";
     /**
      * 招聘者上传个人简历
      * @param token
