@@ -158,10 +158,10 @@ public class ResumeService{
                 int dotPos = file.getOriginalFilename().lastIndexOf(".");
                 String fileName = file.getOriginalFilename().substring(0,dotPos);
                 String suffix = file.getOriginalFilename().substring(dotPos+1);
-                qualifier = fileName + "$" + System.currentTimeMillis() + "$" + suffix;
+                qualifier = fileName + "_" + System.currentTimeMillis() + "_" + suffix;
                 String wholeName = qualifier + "." + suffix;
-                String encode = java.net.URLEncoder.encode(wholeName,"UTF-8");
-                String resumeAddress = absolutePath+"nowResumes/"+encode;
+                qualifier = java.net.URLEncoder.encode(wholeName,"UTF-8");
+                String resumeAddress = absolutePath+"nowResumes/"+qualifier;
                 File newFile = new File(resumeAddress);
                 if(!newFile.exists()){
                     newFile.mkdirs();
@@ -199,7 +199,7 @@ public class ResumeService{
             resumeAddress = userInfoMapper.searchResume(userId);
         }else{
             if(qualifier != null) {
-                String wholeName = qualifier + "." + qualifier.substring(qualifier.lastIndexOf("$")+1);
+                String wholeName = qualifier + "." + qualifier.substring(qualifier.lastIndexOf("_")+1);
                 resumeAddress = absolutePath + "nowResumes/" + wholeName;
             }else{
                 sendResult = 1;
@@ -243,11 +243,11 @@ public class ResumeService{
         int lastIndex = resumeAddress.lastIndexOf(".");
         String substr = resumeAddress.substring(firstIndex+1,lastIndex);
         String fileName = null;
-        if(!substr.contains("$")){ //个人简历
+        if(!substr.contains("_")){ //个人简历
             fileName = resumeAddress.substring(firstIndex+1);
         }else{
-            String prefix = substr.substring(0,substr.indexOf("$"));
-            String suffix = substr.substring(substr.lastIndexOf("$")+1);
+            String prefix = substr.substring(0,substr.indexOf("_"));
+            String suffix = substr.substring(substr.lastIndexOf("_")+1);
             fileName = prefix +"."+ suffix;
         }
         String message = DownloadUtil.download(fileName,resumeAddress,response);
@@ -299,11 +299,11 @@ public class ResumeService{
             int lastIndex = resumeAddress.lastIndexOf(".");
             String substr = resumeAddress.substring(firstIndex+1,lastIndex);
             String fileName = null;
-            if(!substr.contains("$")){ //个人简历
+            if(!substr.contains("_")){ //个人简历
                 fileName = resumeAddress.substring(firstIndex+1);
             }else{
-                String prefix = substr.substring(0,substr.indexOf("$"));
-                String suffix = substr.substring(substr.lastIndexOf("$")+1);
+                String prefix = substr.substring(0,substr.indexOf("_"));
+                String suffix = substr.substring(substr.lastIndexOf("_")+1);
                 fileName = prefix +"."+ suffix;
             }
             message = DownloadUtil.download(fileName,resumeAddress,response);
