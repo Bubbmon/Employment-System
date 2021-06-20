@@ -35,8 +35,8 @@ public class ResumeService{
     @Autowired
     UserInfoMapper userInfoMapper;
 
-//    String absolutePath = "/root/resumes/";
-    String absolutePath = this.getClass().getResource("/").getPath();
+    String absolutePath = "/root/resumes/";
+//    String absolutePath = this.getClass().getResource("/").getPath();
     /**
      * 招聘者上传个人简历
      * @param token
@@ -194,7 +194,7 @@ public class ResumeService{
             resumeAddress = userInfoMapper.searchResume(userId);
         }else{
             if(qualifier != null) {
-                String wholeName = qualifier + "." + qualifier.split("$")[2];
+                String wholeName = qualifier + "." + qualifier.substring(qualifier.lastIndexOf("$")+1);
                 resumeAddress = absolutePath + "nowResumes/" + wholeName;
             }else{
                 sendResult = 1;
@@ -241,8 +241,9 @@ public class ResumeService{
         if(!substr.contains("$")){ //个人简历
             fileName = resumeAddress.substring(firstIndex+1);
         }else{
-            String[] addressArray = substr.split("$");
-            fileName = addressArray[0]+"."+ addressArray[2];
+            String prefix = substr.substring(0,substr.indexOf("$"));
+            String suffix = substr.substring(substr.lastIndexOf("$")+1);
+            fileName = prefix +"."+ suffix;
         }
         String message = DownloadUtil.download(fileName,resumeAddress,response);
         return message;
@@ -296,8 +297,9 @@ public class ResumeService{
             if(!substr.contains("$")){ //个人简历
                 fileName = resumeAddress.substring(firstIndex+1);
             }else{
-                String[] addressArray = substr.split("$");
-                fileName = addressArray[0]+"."+ addressArray[2];
+                String prefix = substr.substring(0,substr.indexOf("$"));
+                String suffix = substr.substring(substr.lastIndexOf("$")+1);
+                fileName = prefix +"."+ suffix;
             }
             message = DownloadUtil.download(fileName,resumeAddress,response);
         }
