@@ -56,7 +56,8 @@ public class TalkService {
     public String getHistory(String from,String to){
         List<Talk> one = talkMapper.getTalk(from,to),
                    two = talkMapper.getTalk(to,from);
-        return JSON.toJSONString(one.addAll(two));
+        one.addAll(two);
+        return JSON.toJSONString(one);
     }
 
     public void talkTo(String from,String to,String message) throws IOException {
