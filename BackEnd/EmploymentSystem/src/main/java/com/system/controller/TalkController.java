@@ -52,8 +52,8 @@ public class TalkController {
         return "{\"dealResult\":0}";
     }
 
-    @NeedVerify
     @GetMapping("whoTalkedWithMe")
+    @NeedVerify
     public String getTalkerId(@RequestHeader String token){
         return talkService.getTalker(token);
     }
