@@ -21,4 +21,5 @@ public interface TalkMapper {
     void insertUnsentTalk(Talk talk);
     List<Talk> selectUnsentTalk(String to);
     void deleteUnsentTalk(String to);
+    List<Talk> getTalker(String id);
 }

@@ -51,4 +51,11 @@ public class TalkController {
         talkService.talkToToken(token,id,message);
         return "{\"dealResult\":0}";
     }
+
+    @NeedVerify
+    @GetMapping("whoTalkedWithMe")
+    public String getTalkerId(@RequestHeader String token){
+        return talkService.getTalker(token);
+    }
+
 }

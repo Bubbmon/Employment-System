@@ -59,7 +59,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
         String userId = talkService.getUserId(session);
         talkService.remove(session);
         talkService.remove(userId);
-        log.info("ws: some one close a connection.");
+        log.info("ws: "+userId +" close a connection.");
     }
 
 

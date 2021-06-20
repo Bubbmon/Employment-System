@@ -6,6 +6,10 @@
         select * from talk where `from` = #{from} and to = #{to}
     </select>
 
+    <select id="getTalker" resultType="com.system.entity.Talk">
+        select * from talk where `from`=#{id} or `to` = #{id};
+    </select>
+
     <insert id="insertHistoryTalk" parameterType="com.system.entity.Talk">
         insert into talk(`from`,`to`,message) values(#{from},#{to},#{message})
     </insert>

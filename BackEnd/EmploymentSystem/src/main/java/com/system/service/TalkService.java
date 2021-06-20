@@ -10,7 +10,9 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -60,7 +62,7 @@ public class TalkService {
     public void talkTo(String from,String to,String message) throws IOException {
         WebSocketSession session = map.get(to);
         if(session!=null&&session.isOpen()){
-            session.sendMessage(new TextMessage("{'id':'"+from+"','message':'"+message+"'}"));
+            session.sendMessage(new TextMessage("{\"id\":\""+from+"\",\"message\":\""+message+"\"}"));
             talkMapper.insertHistoryTalk(new Talk(from,to,message));
         }else{
             talkMapper.insertUnsentTalk(new Talk(from,to,message));
@@ -78,5 +80,17 @@ public class TalkService {
         talkMapper.insertHistoryTalks(talks);
         return JSON.toJSONString(talks);
 
+    }
+
+    public String getTalker(String token){
+        String userId = util.check(token);
+        Set<String> set = new HashSet<>();
+        if(userId==null) return "{}";
+        List<Talk> talks = talkMapper.getTalker(userId);
+        for(Talk talk:talks){
+            set.add(talk.getFrom());
+            set.add(talk.getTo());
+        }
+        return JSON.toJSONString(set);
     }
 }
