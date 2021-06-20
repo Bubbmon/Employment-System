@@ -662,11 +662,23 @@
     | ----- | -------------- |
     | token | 已登录用户标识 |
   
+  - 获得历史与谁聊过天
+
+    方式： GET
+
+    URL： /employment/talk/whoTalkedWithMe
+
+    | 名称    | 描述     |
+    | ------- | -------- |
+    | token | 已登录用户标识 |
+
+    返回参数：形如"["id1","id2"]"的id数组
+
   - 获得未登录时的消息
   
     方式： GET
     
-    URL：/employment/new
+    URL：/employment/talk/new
     
     请求参数：
     
@@ -687,7 +699,7 @@
     
     方式： POST
     
-    URL： /employment/talkTo
+    URL： /employment/talk/talkTo
     
     请求参数：
   
