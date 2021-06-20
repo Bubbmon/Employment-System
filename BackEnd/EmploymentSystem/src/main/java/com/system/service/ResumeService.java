@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +36,7 @@ public class ResumeService{
     UserInfoMapper userInfoMapper;
 
     String absolutePath = "/root/resumes/";
+//    String absolutePath = this.getClass().getResource("/").getPath();
     /**
      * 招聘者上传个人简历
      * @param token
@@ -48,8 +48,7 @@ public class ResumeService{
         StringBuilder sb = new StringBuilder();
         int resumeResult = 0;
         String userId = tokenUtil.check(token);
-        String encode = java.net.URLEncoder.encode(file.getOriginalFilename(),"utf-8");
-        String resumeAddress = absolutePath + "selfResumes/"+encode;
+        String resumeAddress = absolutePath + "selfResumes/"+file.getOriginalFilename();
         log.info(resumeAddress);
         File newFile = new File(resumeAddress);
         if(!newFile.exists()){
@@ -91,7 +90,6 @@ public class ResumeService{
      */
     public String getSendResumeInfo(String token){
         List<SendResumeInfo> sendResumes = new ArrayList<>();
-        //TODO:区分hr和招聘者
         if(token.charAt(0) == 'u'){
             String id = tokenUtil.check(token);
             List<Resume> resumes = resumeMapper.searchByUserId(id);
@@ -120,8 +118,8 @@ public class ResumeService{
     public String getHrResumes(String token,long positionId){
         List<ReceiveResumeInfo> receiveResumes = new ArrayList<>();
         PositionInfo positionInfo = positionMapper.getPositionInfo(positionId);
+        int hasPrivilege = 0;
         String hrId = positionInfo.getHrId();
-        //TODO:不是发布公告的HR怎么办
         if(tokenUtil.check(token).equals(hrId)){
             List<Resume> resumes = resumeMapper.searchByPositionId(positionId);
             for(Resume resume : resumes){
@@ -134,9 +132,12 @@ public class ResumeService{
                 receiveResume.setPhone(userInfo.getPhone());
                 receiveResume.setDealed(isDealed);
                 receiveResumes.add(receiveResume);
-          }
-       }
-        return JSON.toJSONString(receiveResumes);
+            }
+            hasPrivilege = 0;
+       }else{
+            hasPrivilege = 1;
+        }
+        return "{\"hasPrivilege\":"+hasPrivilege+",\"resumeList\":"+JSON.toJSONString(receiveResumes)+"}";
     }
 
     /**
@@ -156,7 +157,6 @@ public class ResumeService{
             String fileName = file.getOriginalFilename().substring(0,dotPos);
             String suffix = file.getOriginalFilename().substring(dotPos+1);
             qualifier = fileName + "$" + System.currentTimeMillis() + "$" + suffix;
-            qualifier = URLEncoder.encode(qualifier, "utf-8");
             String wholeName = qualifier + "." + suffix;
             String resumeAddress = absolutePath+"nowResumes/"+wholeName;
             log.info(resumeAddress);
@@ -194,7 +194,7 @@ public class ResumeService{
             resumeAddress = userInfoMapper.searchResume(userId);
         }else{
             if(qualifier != null) {
-                String wholeName = qualifier + "." + qualifier.split("$")[2];
+                String wholeName = qualifier + "." + qualifier.substring(qualifier.lastIndexOf("$")+1);
                 resumeAddress = absolutePath + "nowResumes/" + wholeName;
             }else{
                 sendResult = 1;
@@ -241,8 +241,9 @@ public class ResumeService{
         if(!substr.contains("$")){ //个人简历
             fileName = resumeAddress.substring(firstIndex+1);
         }else{
-            String[] addressArray = substr.split("$");
-            fileName = addressArray[0]+"."+ addressArray[2];
+            String prefix = substr.substring(0,substr.indexOf("$"));
+            String suffix = substr.substring(substr.lastIndexOf("$")+1);
+            fileName = prefix +"."+ suffix;
         }
         String message = DownloadUtil.download(fileName,resumeAddress,response);
         return message;
@@ -296,8 +297,9 @@ public class ResumeService{
             if(!substr.contains("$")){ //个人简历
                 fileName = resumeAddress.substring(firstIndex+1);
             }else{
-                String[] addressArray = substr.split("$");
-                fileName = addressArray[0]+"."+ addressArray[2];
+                String prefix = substr.substring(0,substr.indexOf("$"));
+                String suffix = substr.substring(substr.lastIndexOf("$")+1);
+                fileName = prefix +"."+ suffix;
             }
             message = DownloadUtil.download(fileName,resumeAddress,response);
         }

@@ -93,7 +93,7 @@ public class AccountController {
     public String userModify(@RequestHeader String id, @RequestHeader String password,
                              @RequestHeader String name, @RequestHeader String IDNO,
                              @RequestHeader String phone, @RequestHeader String email,
-                             @RequestHeader String ageStr, @RequestHeader String interest) {
+                             @RequestHeader("age") String ageStr, @RequestHeader String interest) {
         name = DecodeUtil.decode(name);
         // TODO: 密码的解码
         log.info("Receive userModify: id="+id+", pswd="+password+", name="+name+", IDNO="+IDNO+", " +
