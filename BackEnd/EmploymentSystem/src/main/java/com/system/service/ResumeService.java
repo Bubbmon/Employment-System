@@ -48,7 +48,8 @@ public class ResumeService{
         StringBuilder sb = new StringBuilder();
         int resumeResult = 0;
         String userId = tokenUtil.check(token);
-        String resumeAddress = absolutePath + "selfResumes/"+file.getOriginalFilename();
+        String encode = java.net.URLEncoder.encode(file.getOriginalFilename(),"UTF-8");
+        String resumeAddress = absolutePath + "selfResumes/"+encode;
         log.info(resumeAddress);
         File newFile = new File(resumeAddress);
         if(!newFile.exists()){
@@ -83,6 +84,7 @@ public class ResumeService{
         String result = DownloadUtil.download(fileName, path, response);
         return result;
     }
+
     /**
      * 招聘者查看已经投递的简历信息
      * @param token
@@ -152,24 +154,27 @@ public class ResumeService{
         int resumeResult = 1;
         String qualifier = "";
         if(!file.isEmpty()){
-            String id = tokenUtil.check(token);
-            int dotPos = file.getOriginalFilename().lastIndexOf(".");
-            String fileName = file.getOriginalFilename().substring(0,dotPos);
-            String suffix = file.getOriginalFilename().substring(dotPos+1);
-            qualifier = fileName + "$" + System.currentTimeMillis() + "$" + suffix;
-            String wholeName = qualifier + "." + suffix;
-            String resumeAddress = absolutePath+"nowResumes/"+wholeName;
-            log.info(resumeAddress);
-            File newFile = new File(resumeAddress);
-            if(!newFile.exists()){
-                newFile.mkdirs();
-            }
-            try{
-                file.transferTo(newFile);
-                resumeResult = 0;
-            }catch (IOException e){
-                e.printStackTrace();
-                resumeResult = 1;
+            if(token.charAt(0) == 'u'){
+                int dotPos = file.getOriginalFilename().lastIndexOf(".");
+                String fileName = file.getOriginalFilename().substring(0,dotPos);
+                String suffix = file.getOriginalFilename().substring(dotPos+1);
+                qualifier = fileName + "$" + System.currentTimeMillis() + "$" + suffix;
+                String wholeName = qualifier + "." + suffix;
+                String encode = java.net.URLEncoder.encode(wholeName,"UTF-8");
+                String resumeAddress = absolutePath+"nowResumes/"+encode;
+                File newFile = new File(resumeAddress);
+                if(!newFile.exists()){
+                    newFile.mkdirs();
+                }
+                try{
+                    file.transferTo(newFile);
+                    resumeResult = 0;
+                }catch (IOException e){
+                    e.printStackTrace();
+                    resumeResult = 1;
+                }
+            }else{
+                log.info("You are not a user.");
             }
         }
         sb.append("{\"resumeResult\":"+resumeResult+",\"qualifier\":\""+qualifier+"\"}");
