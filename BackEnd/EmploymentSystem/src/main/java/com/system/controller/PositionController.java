@@ -45,6 +45,7 @@ public class PositionController {
                                @RequestHeader String title, @RequestBody String content,
                                @RequestHeader String salary, @RequestHeader String degree) {
         title = DecodeUtil.decode(title);
+        content = DecodeUtil.decode(content);
         long positionId = positionService.postPosition(token,position,title,content,salary,degree);
         return "{\"positionResult\":0,\"positionId\":"+ positionId+"}";
     }

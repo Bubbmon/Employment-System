@@ -9,7 +9,7 @@
     <select id="search" resultType="PositionInfo">
         select id, `position`, enterpriseId, title, salary, hrId, degree, views from positionInfo
         where
-            (#{keyword} is null or match(title) against(#{keyword}) or match(content) against(#{keyword})) and
+            (#{keyword} is null or match(title,content) against(#{keyword})) and
             (#{degree} is null or degree=#{degree}) and
             (#{position} is null or `position`=#{position})
     </select>
