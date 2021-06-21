@@ -123,7 +123,7 @@ public class SendController {
      * @param isDealed 是否已处理
      * @return
      */
-    @GetMapping(path = "/hr/deal/{positionId}/{id}",produces = "application/json;charset=utf-8")
+    @PostMapping(path = "/hr/deal/{positionId}/{id}",produces = "application/json;charset=utf-8")
     @NeedVerify
     public String deal(@RequestHeader String token, @PathVariable("positionId") long positionId,
                        @PathVariable("id") String id, @RequestHeader boolean isDealed) {
