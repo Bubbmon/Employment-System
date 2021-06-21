@@ -3,7 +3,7 @@
 <mapper namespace="com.system.mapper.TalkMapper">
 
     <select id="getTalk" resultType="com.system.entity.Talk">
-        select * from talk where `from` = #{from} or `to` = #{to}
+        select * from talk where `from` = #{from} and `to` = #{to}
     </select>
 
     <select id="getTalker" resultType="com.system.entity.Talk">
