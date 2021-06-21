@@ -35,7 +35,7 @@
         select * from unsentTalk where `to` = #{to} and `from` = #{from}
     </select>
 
-    <select id="selectUnsentId" resultType="com.system.entity.Talk">
+    <select id="selectUnsentId" resultType="String">
         select `from` from unsentTalk where `to` = #{to}
     </select>
 

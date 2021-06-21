@@ -79,11 +79,7 @@ public class TalkService {
     }
 
     public String sendUnsentIdId(String to){
-        List<String> ids = new LinkedList<>();
-        for(Talk talk:talkMapper.selectUnsentId(to)){
-            ids.add(talk.getFrom());
-        }
-        return JSON.toJSONString(ids);
+        return JSON.toJSONString(talkMapper.selectUnsentId(to));
     }
 
 
