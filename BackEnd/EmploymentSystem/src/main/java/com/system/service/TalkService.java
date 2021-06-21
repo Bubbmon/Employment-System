@@ -11,6 +11,7 @@ import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -70,13 +71,30 @@ public class TalkService {
         }
     }
 
-    public String sendUnsentTalkToken(String token) {
+
+    public String sendUnsentIdToken(String token){
         String userId = util.check(token);
-        if(userId!=null) return sendUnsentTalk(userId);
-        else return "";
+        if(userId!=null) return sendUnsentIdId(userId);
+        else return "{}";
     }
-    public String sendUnsentTalk(String to) {
-        List<Talk> talks = talkMapper.selectUnsentTalk(to);
+
+    public String sendUnsentIdId(String to){
+        List<String> ids = new LinkedList<>();
+        for(Talk talk:talkMapper.selectUnsentId(to)){
+            ids.add(talk.getFrom());
+        }
+        return JSON.toJSONString(ids);
+    }
+
+
+    public String sendUnsentTalkToken(String token,String from) {
+        String userId = util.check(token);
+        if(userId!=null) return sendUnsentTalk(userId,from);
+        else return "{}";
+    }
+
+    public String sendUnsentTalk(String to,String from) {
+        List<Talk> talks = talkMapper.selectUnsentTalk(to,from);
         talkMapper.deleteUnsentTalk(to);
         talkMapper.insertHistoryTalks(talks);
         return JSON.toJSONString(talks);

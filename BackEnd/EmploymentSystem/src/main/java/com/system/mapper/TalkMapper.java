@@ -19,7 +19,8 @@ public interface TalkMapper {
     void insertHistoryTalks(List<Talk> talks);
     void insertHistoryTalk(Talk talk);
     void insertUnsentTalk(Talk talk);
-    List<Talk> selectUnsentTalk(String to);
+    List<Talk> selectUnsentTalk(String to,String from);
     void deleteUnsentTalk(String to);
     List<Talk> getTalker(String id);
+    List<Talk> selectUnsentId(String to);
 }

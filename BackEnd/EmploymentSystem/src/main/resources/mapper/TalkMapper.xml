@@ -32,7 +32,11 @@
     </insert>
     
     <select id="selectUnsentTalk" resultType="com.system.entity.Talk">
-        select * from unsentTalk where `to` = #{to}
+        select * from unsentTalk where `to` = #{to} and `from` = #{from}
+    </select>
+
+    <select id="selectUnsentId" resultType="com.system.entity.Talk">
+        select `from` from unsentTalk where `to` = #{to}
     </select>
 
     <delete id="deleteUnsentTalk">

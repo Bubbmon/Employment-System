@@ -40,7 +40,13 @@ public class TalkController {
     @GetMapping("/new")
     @NeedVerify
     public String getUnsentHistory(@RequestHeader String token) {
-        return talkService.sendUnsentTalkToken(token);
+        return talkService.sendUnsentIdToken(token);
+    }
+
+    @GetMapping("/newFrom")
+    @NeedVerify
+    public String getUnsentHistoryFrom(@RequestHeader String token,@RequestHeader String from){
+        return talkService.sendUnsentTalkToken(token,from);
     }
 
 
