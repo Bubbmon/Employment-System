@@ -10,8 +10,8 @@
         INSERT INTO humanResource(id,pswd,`name`,enterpriseId,phone) VALUES (#{id},#{pswd},#{name},#{enterpriseId},#{phone})
     </insert>
 
-    <update id="update">
-        UPDATE humanResource SET id=#{humanResource.id}, pswd=#{humanResource.pswd}, `name`=#{humanResource.name}, department=#{humanResource.department}, phone=#{humanResource.phone}, email=#{humanResource.email}
-        WHERE id=#{oldId}
+    <update id="update" parameterType="HumanResource">
+        UPDATE humanResource SET pswd=#{pswd}, `name`=#{name}, department=#{department}, phone=#{phone}, email=#{email}
+        WHERE id=#{id}
     </update>
 </mapper>

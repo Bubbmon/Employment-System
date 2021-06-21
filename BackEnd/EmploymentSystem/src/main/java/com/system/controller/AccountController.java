@@ -103,7 +103,7 @@ public class AccountController {
         log.info("Receive userModify: id="+id+", pswd="+password+", name="+name+", IDNO="+IDNO+", " +
                 "phone="+phone+", email="+email+", age="+ageStr+", interest="+interest);
         Integer age = null;
-        if (ageStr!=null && ageStr.length()==0) age = Integer.parseInt(ageStr);
+        if (ageStr!=null && ageStr.length()!=0) age = Integer.parseInt(ageStr);
         if (email!=null && email.length()==0) email = null;
         if (interest!=null && interest.length()==0) interest = null;
         UserInfo userInfo = new UserInfo();
