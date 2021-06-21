@@ -113,9 +113,9 @@ public class SearchController {
      * @return
      */
     @GetMapping(path = "/info")
-    public String infoList() {
+    public String infoList(@RequestHeader int count) {
         log.info("Receive infoList");
-        List<Info> list = infoMapper.searchAll();
+        List<Info> list = infoMapper.searchAll(count);
         String result = JSON.toJSONString(list);
         log.info("Result: "+result);
         return result;

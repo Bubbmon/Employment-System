@@ -2,6 +2,7 @@ package com.system.mapper;
 
 import com.system.entity.Info;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,6 +15,6 @@ import java.util.List;
 @Mapper
 @Component
 public interface InfoMapper {
-    List<Info> searchAll();
+    List<Info> searchAll(@Param("count") int count);
     Info searchById(Long id);
 }
