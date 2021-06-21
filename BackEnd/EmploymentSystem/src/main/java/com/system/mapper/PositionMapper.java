@@ -18,4 +18,5 @@ public interface PositionMapper{
     long updatePosition(PositionInfo positionInfo);
     void postPosition(PositionInfo positionInfo);
     void updateView(@Param("id") long positionId);
+    List<PositionInfo> hrFindPositions(long enterpriseId);
 }

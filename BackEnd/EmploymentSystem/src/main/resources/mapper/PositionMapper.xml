@@ -13,7 +13,7 @@
             (#{degree} is null or degree=#{degree}) and
             (#{position} is null or `position`=#{position})
     </select>
-    <select id="findFromEnterprise" parameterType="java.lang.Long" resultType="com.system.entity.PositionDetail">
+    <select id="findFromEnterprise" parameterType="java.lang.Long" resultType="com.system.entity.PositionInfo">
         select id,`position`,title,salary,degree,views from positionInfo
         where enterpriseId=#{enterpriseId}
     </select>
@@ -38,4 +38,9 @@
     <update id="updateView" parameterType="java.lang.Long">
         UPDATE positionInfo SET views = views + 1 WHERE id = #{id}
     </update>
+
+    <select id="hrFindPositions" parameterType="java.lang.Long" resultType="com.system.entity.PositionInfo">
+        select id,`position`,title,salary,degree,views,hrId from positionInfo
+        where enterpriseId=#{enterpriseId}
+    </select>
 </mapper>

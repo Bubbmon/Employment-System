@@ -73,7 +73,7 @@ public class PositionController {
     }
 
     /**
-     * 查看公司所有的招聘信息
+     * 非hr查看公司所有的招聘信息
      * @return
      */
     @GetMapping(path = "/enterprise/{enterpriseId}")
@@ -82,5 +82,12 @@ public class PositionController {
         return positionService.getEnterprisePosition(enterpriseId);
     }
 
-
+    /*hr查看公司所有的招聘信息*/
+    @PostMapping(path = "/enterprise/{enterpriseId}")
+    public String hrGetEnterprisePosition(@RequestHeader String token,@PathVariable("enterpriseId") long enterpriseId){
+        log.info("Receive token:"+token+",enterpriseId:"+enterpriseId);
+        String result = positionService.hrGetEnterprisePosition(token, enterpriseId);
+        log.info("Get position infos:"+result);
+        return result;
+    }
 }

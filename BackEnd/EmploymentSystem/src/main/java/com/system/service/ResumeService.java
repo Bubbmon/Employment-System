@@ -119,27 +119,19 @@ public class ResumeService{
      */
     public String getHrResumes(String token,long positionId){
         List<ReceiveResumeInfo> receiveResumes = new ArrayList<>();
-        PositionInfo positionInfo = positionMapper.getPositionInfo(positionId);
-        int hasPrivilege = 0;
-        String hrId = positionInfo.getHrId();
-        if(tokenUtil.check(token).equals(hrId)){
-            List<Resume> resumes = resumeMapper.searchByPositionId(positionId);
-            for(Resume resume : resumes){
-                String uid = resume.getUserId();
-                boolean isDealed = resume.isDealed();
-                UserInfo userInfo = userInfoMapper.search(uid);
-                ReceiveResumeInfo receiveResume = new ReceiveResumeInfo();
-                receiveResume.setId(uid);
-                receiveResume.setName(userInfo.getName());
-                receiveResume.setPhone(userInfo.getPhone());
-                receiveResume.setDealed(isDealed);
-                receiveResumes.add(receiveResume);
-            }
-            hasPrivilege = 0;
-       }else{
-            hasPrivilege = 1;
+        List<Resume> resumes = resumeMapper.searchByPositionId(positionId);
+        for(Resume resume : resumes){
+            String uid = resume.getUserId();
+            boolean isDealed = resume.isDealed();
+            UserInfo userInfo = userInfoMapper.search(uid);
+            ReceiveResumeInfo receiveResume = new ReceiveResumeInfo();
+            receiveResume.setId(uid);
+            receiveResume.setName(userInfo.getName());
+            receiveResume.setPhone(userInfo.getPhone());
+            receiveResume.setDealed(isDealed);
+            receiveResumes.add(receiveResume);
         }
-        return "{\"hasPrivilege\":"+hasPrivilege+",\"resumeList\":"+JSON.toJSONString(receiveResumes)+"}";
+        return JSON.toJSONString(receiveResumes);
     }
 
     /**

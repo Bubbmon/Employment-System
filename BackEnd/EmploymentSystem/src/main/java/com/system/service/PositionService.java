@@ -12,6 +12,9 @@ import com.system.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @program: EmploymentSystem
  * @description:
@@ -105,7 +108,32 @@ public class PositionService {
         return "{\"positionResult:\""+result+"}";
     }
 
+
+    /**
+     * 非hr查看公司的所有招聘职位
+     * @param enterpriseId
+     * @return
+     */
     public String getEnterprisePosition(long enterpriseId){
         return JSON.toJSONString(positionMapper.findFromEnterprise(enterpriseId));
+    }
+
+    /**
+     * hr查看公司的所有招聘职位
+     * @param token
+     * @param enterpriseId
+     * @return
+     */
+    public String hrGetEnterprisePosition(String token,long enterpriseId){
+        List<PositionInfo> positionInfos = positionMapper.hrFindPositions(enterpriseId);
+        List<PositionInfo> resultList = new ArrayList<>();
+        String hrId = tokenUtil.check(token);
+        for(PositionInfo positionInfo : positionInfos){
+            String phrId = positionInfo.getHrId();
+            int hasPrivilege = (hrId.equals(phrId)) ? 1 : 0;
+            positionInfo.setHasPrivilege(hasPrivilege);
+            resultList.add(positionInfo);
+        }
+        return JSON.toJSONString(resultList);
     }
 }

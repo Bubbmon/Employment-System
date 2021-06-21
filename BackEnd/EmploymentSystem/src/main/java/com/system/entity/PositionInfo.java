@@ -32,4 +32,5 @@ public class PositionInfo {
     @NonNull
     private char degree;
     private int views;
+    private int hasPrivilege;
 }
