@@ -17,13 +17,11 @@
     <insert id="insertHistoryTalks" parameterType="java.util.List">
         insert into talk(`from`,`to`,message,time)
         values
-        <foreach collection="talks" index="index" item="talk" separator=",">
-            (
-                #{item.from},
-                #{item.to},
-                #{item.message},
-                #{item.time}
-            )
+        <foreach collection="talks" index="index" item="talk" separator="," open="(" close=")">
+                #{talk.from},
+                #{talk.to},
+                #{talk.message},
+                #{talk.time}
         </foreach>
     </insert>
     
@@ -36,7 +34,7 @@
     </select>
 
     <select id="selectUnsentId" resultType="String">
-        select `from` from unsentTalk where `to` = #{to}
+        select distinct `from` from unsentTalk where `to` = #{to}
     </select>
 
     <delete id="deleteUnsentTalk">

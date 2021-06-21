@@ -16,7 +16,7 @@ import java.util.List;
 @Component
 public interface TalkMapper {
     List<Talk> getTalk(String from,String to);
-    void insertHistoryTalks(List<Talk> talks);
+    void insertHistoryTalks(@Param("talks") List<Talk> talks);
     void insertHistoryTalk(Talk talk);
     void insertUnsentTalk(Talk talk);
     List<Talk> selectUnsentTalk(String to,String from);
