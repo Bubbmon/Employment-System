@@ -10,8 +10,8 @@
         INSERT INTO userInfo(id,pswd,`name`,IDNO,phone) VALUES (#{id},#{pswd},#{name},#{IDNO},#{phone})
     </insert>
 
-    <update id="update" parameterType="com.system.entity.UserInfo">
-        UPDATE userInfo SET pswd=#{pswd}, `name`=#{name}, IDNO=#{IDNO}, phone=#{phone}, email=#{email}, age=#{age}, interest=#{interest} WHERE id = #{id}
+    <update id="update">
+        UPDATE userInfo SET id=#{userInfo.id}, pswd=#{userInfo.pswd}, `name`=#{userInfo.name}, IDNO=#{userInfo.IDNO}, phone=#{userInfo.phone}, email=#{userInfo.email}, age=#{userInfo.age}, interest=#{userInfo.interest} WHERE id = #{oldId}
     </update>
 
     <select id="searchResume" parameterType="java.lang.String" resultType="java.lang.String">

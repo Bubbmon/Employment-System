@@ -6,6 +6,7 @@ import com.system.interceptor.NeedVerify;
 import com.system.service.AccountService;
 import com.system.service.ResumeService;
 import com.system.util.DecodeUtil;
+import com.system.util.TokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,8 @@ public class AccountController {
     AccountService accountService;
     @Autowired
     ResumeService resumeService;
+    @Autowired
+    TokenUtil tokenUtil;
 
     /**
      * 招聘者注册
@@ -90,11 +93,12 @@ public class AccountController {
      */
     @NeedVerify
     @PostMapping(path = "/recruiter/modify", produces = "application/json;charset=utf-8")
-    public String userModify(@RequestHeader String id, @RequestHeader String password,
+    public String userModify(@RequestHeader String token, @RequestHeader String password,
                              @RequestHeader String name, @RequestHeader String IDNO,
                              @RequestHeader String phone, @RequestHeader String email,
                              @RequestHeader("age") String ageStr, @RequestHeader String interest) {
         name = DecodeUtil.decode(name);
+        String id = tokenUtil.check(token);
         // TODO: 密码的解码
         log.info("Receive userModify: id="+id+", pswd="+password+", name="+name+", IDNO="+IDNO+", " +
                 "phone="+phone+", email="+email+", age="+ageStr+", interest="+interest);
@@ -121,11 +125,12 @@ public class AccountController {
      */
     @NeedVerify
     @PostMapping(path = "/hr/modify", produces = "application/json;charset=utf-8")
-    public String hrModify(@RequestHeader String id, @RequestHeader String password,
+    public String hrModify(@RequestHeader String password, @RequestHeader String token,
                            @RequestHeader String name, @RequestHeader String phone,
                            @RequestHeader String email, @RequestHeader String department) {
         name = DecodeUtil.decode(name);
         department = DecodeUtil.decode(department);
+        String id = tokenUtil.check(token);
         // TODO: 密码的解码
         log.info("Receive hrModify: id="+id+", pswd="+password+", name="+name+
                 "phone="+phone+", email="+email+", department="+department);

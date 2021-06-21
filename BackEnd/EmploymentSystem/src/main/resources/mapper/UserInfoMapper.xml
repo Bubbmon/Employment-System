@@ -11,7 +11,8 @@
     </insert>
 
     <update id="update" parameterType="com.system.entity.UserInfo">
-        UPDATE userInfo SET pswd=#{pswd}, `name`=#{name}, IDNO=#{IDNO}, phone=#{phone}, email=#{email}, age=#{age}, interest=#{interest} WHERE id = #{id}
+        UPDATE userInfo SET pswd=#{pswd}, `name`=#{name}, IDNO=#{IDNO}, phone=#{phone}, email=#{email}, age=#{age}, interest=#{interest}
+        WHERE id = #{id}
     </update>
 
     <select id="searchResume" parameterType="java.lang.String" resultType="java.lang.String">
