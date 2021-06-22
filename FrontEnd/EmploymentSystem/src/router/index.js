@@ -15,6 +15,11 @@ let router = new VueRouter({
             meta: { title: "search" }
         },
         {
+            path: "/search",
+            component: () => import(/*webpackChunkName:"SearchT"*/'@/views/SearchT'),
+            meta: { title: "search" }
+        },
+        {
             path: "/retrievalT",
             component: () => import(/*webpackChunkName:"Retrieval"*/'@/views/RetrievalT'),
             meta: { title: "检索结果" }
@@ -85,6 +90,11 @@ let router = new VueRouter({
             meta: { title: "我的聊天" }
         },
         {
+            path: "/chatListC",
+            component: () => import(/*webpackChunkName:"chat"*/'@/views/Consumer/ChatListC'),
+            meta: { title: "我的聊天" }
+        },
+        {
             path: "/searchHR",
             component: () => import(/*webpackChunkName:"SearchT"*/'@/views/HR/SearchHR'),
             meta: { title: "search" }
@@ -123,6 +133,11 @@ let router = new VueRouter({
             path:"/recruimentList",
             component:()=>import(/*webpackChunkName:"resumeList"*/'@/views/HR/RecruimentList'),
             meta:{title:"已发布的招聘信息"}
+        },
+        {
+            path: "/chatListHR",
+            component: () => import(/*webpackChunkName:"chat"*/'@/views/HR/ChatListHR'),
+            meta: { title: "我的聊天" }
         },
         {
             path:"/resumeList",

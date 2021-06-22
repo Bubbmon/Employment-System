@@ -125,8 +125,8 @@ export default {
                     headers:{
                         "id": this.id,
                         "password": this.password,
-                        "name": this.name,
-                        "enterpriseName": this.enterpriseName,
+                        "name":  encodeURIComponent(this.name) ,
+                        "enterpriseName": encodeURIComponent(this.enterpriseName),
                         "phone": this.phone,
                         "code": this.code
                     }

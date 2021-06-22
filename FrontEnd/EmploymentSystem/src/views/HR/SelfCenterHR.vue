@@ -7,29 +7,30 @@
                 <span style="float:right;color:grey;cursor:pointer" @click="modify">[编辑]</span>
             </h2>
             <div>账户名：
-                <input type="text" v-model="id">
+                <!-- <input type="text" v-model="id" disabled="disabled"> -->
+                {{id}}
             </div>
             <div>姓名：
-                <input type="text" v-model="name">
+                <input type="text" v-model="name" disabled="disabled">
             </div>
             <div>企业名称
-                <input type="text" v-model="enterpriseName">
+                <input type="text" v-model="enterpriseName" disabled="disabled">
             </div>
             <div>手机号：
-                <input type="text" v-model="phone">
+                <input type="text" v-model="phone" disabled="disabled">
             </div>
             <div>邮箱：
-                <input type="text" v-model="email">
+                <input type="text" v-model="email" disabled="disabled">
             </div>
             <div>企业id：
-                <input type="text" v-model="enterpriseId">
+                <input type="text" v-model="enterpriseId" disabled="disabled">
             </div>
             <div>部门：
-                <input type="text" v-model="department">
+                <input type="text" v-model="department" disabled="disabled">
             </div>
             
             <div>修改信息请重新输入密码:
-                <input type="text" v-model="password">
+                <input type="text" v-model="password" disabled="disabled">
             </div>
             <button @click="save" style="margin-top:40px">保存修改</button>
         </div>
@@ -70,6 +71,7 @@ export default {
             var inputs = document.querySelectorAll('.selfcenter-pane input');
             for (var i = 0; i < inputs.length; i++) {
                 inputs[i].style.borderBottom = '1px solid black';
+                inputs[i].disabled='';
             }
         },
         save() {
@@ -77,7 +79,7 @@ export default {
                 method: "post",
                 url: "http://1.117.44.227:8088/employment/account/hr/modify",
                 headers: {
-                    "id": this.id,
+                    // "id": this.id,
                     "password": this.password,
                     "name": encodeURIComponent(this.name),
                     // "enterpriseName": encodeURIComponent(this.enterpriseName),
@@ -93,6 +95,7 @@ export default {
                     var inputs = document.querySelectorAll('.selfcenter-pane input');
                     for (var i = 0; i < inputs.length; i++) {
                         inputs[i].style.border = 'none';
+                        inputs[i].disabled='disabled';
                     }
                 } else {
                     window.alert("修改失败");

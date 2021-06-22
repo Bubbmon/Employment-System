@@ -22,7 +22,7 @@
                 </el-table-column>
                 <el-table-column label="状态" width="180">
                     <template slot-scope="scope">
-                        <el-tag size="medium">{{ scope.row.isDealed }}</el-tag>
+                        <el-tag size="medium">{{ scope.row.dealed }}</el-tag>
                     </template>
                 </el-table-column>
 
@@ -34,8 +34,8 @@
 
                 <el-table-column label="操作">
                     <template slot-scope="scope">
-                        <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                        <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                        <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑状态</el-button>
+                        <!-- <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button> -->
                     </template>
                 </el-table-column>
             </el-table>
@@ -53,60 +53,93 @@ export default {
         return {
             positionId: decodeURI(this.$route.query.positionId),
             resumeList: [],
-            tableData: [{
-                id: '001',
-                name: '龚之琳1',
-                phone: '13566870180',
-                isDealed: true
-            }, {
-                id: '002',
-                name: '王小虎',
-                phone: '111111111111',
-                isDealed: true
-            }, {
-                id: '003',
-                name: '王小',
-                phone: '2222222222',
-                isDealed: false
-            }, {
-                id: '0044',
-                name: '王虎',
-                phone: '3333333333333',
-                isDealed: true
-            }]
         }
+    },
+    mounted() {
+        this.getData();
     },
     methods: {
         async getData() {
             // const { data: ret } = await this.$http.get("http://1.117.44.227:8088/employment/send/hr/" + this.positionId + "?token=" + this.$store.state.token);
             // this.resumeList = ret;
             this.$http({
-                        method: "get",
-                        url: "/employment/send/hr/" + this.positionId,
-                        headers: {
-                            token: this.$store.state.token.value,
-                        }
-                    }).then(res => {
-                       this.resumeList = res.data;
-                    })
+                method: "get",
+                url: "http://1.117.44.227:8088/employment/send/hr/" + this.positionId,
+                headers: {
+                    token: this.$store.state.token.value,
+                }
+            }).then(res => {
+                this.resumeList = res.data.map(item => {
+                    if (item.isDealed == true) {
+                        item['isDealed'] = true;
+                    } else {
+                        item['isDealed'] = false;
+                    }
+                    return item;
+                })
+            })
         },
-        handleEdit(index, row){
-            console.log(index, row);
-            
-            if(row.isDealed == true){
-                row.isDealed = false;
-            }else{
-                row.isDealed = true;
-            }
+        handleEdit(index, row) {
+            // console.log(index, row);
+            // var isDealed2 = false;
+            // if (row.isDealed == false) {
+            //     isDealed2 = true;
+            // }
+            this.$http({
+                method: "post",
+                url: "http://1.117.44.227:8088/employment/send/hr/deal/" + this.positionId + "/" + row.id,
+                headers: {
+                    token: this.$store.state.token.value,
+                    isDealed:!row.dealed
+                }
+            }).then(res => {
+                var dealResult = res.data.dealResult;
+                if (dealResult == 0) {
+                    window.alert("修改成功");
+                    row.dealed = !row.dealed;
+                } else {
+                    window.alert("修改失败");
+                }
+            })
+
+            // if (row.isDealed == true) {
+            //     row.isDealed = false;
+            // } else {
+            //     row.isDealed = true;
+            // }
         },
-        handleDelete(index, row){
-            //TODO：是否需要添加删除简历的功能
-            console.log(index, row);
-        },
-        async handleDownload(index, row){
-            const {data:ret} = await this.$http.get("/employment/send/hr/" + this.positionId + "/"+row.id + "?token="+this.$store.state.token);
-            //TODO：如何读取stream的文件并下载
-            console.log(ret);
+        async handleDownload(index, row) {
+            // const { data: ret } = await this.$http.get("http://1.117.44.227:8088/employment/send/hr/" + this.positionId + "/" + row.id + "?token=" + this.$store.state.token);
+            this.$http({
+                method: "get",
+                url: "http://1.117.44.227:8088/employment/send/hr/" + this.positionId + "/" + row.id,
+                headers: {
+                    token: this.$store.state.token.value,
+                },
+                responseType: "blob"
+            }).then(res => {
+                console.log(res.data);
+                var resumeTitle = res.headers['content-disposition'].substring(20);
+                resumeTitle = decodeURI(resumeTitle);
+                // console.log(resumeTitle.substring(20))
+                let blob = new Blob([res.data], {
+                    type: 'application/pdf'
+                })
+                let fileName = decodeURI(resumeTitle);
+                if (window.navigator.msSaveOrOpenBlob) {
+                    // console.log(2)
+                    navigator.msSaveBlob(blob, fileName)
+                } else {
+                    // console.log(3)
+                    var link = document.createElement('a')
+                    link.href = window.URL.createObjectURL(blob)
+                    link.download = fileName
+                    link.click()
+                    //释放内存
+                    window.URL.revokeObjectURL(link.href)
+                }
+
+            })
         }
     }
 }

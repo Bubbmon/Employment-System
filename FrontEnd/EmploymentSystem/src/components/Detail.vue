@@ -32,7 +32,9 @@
                 </div>
                 <div>
                     <h2 style="margin-bottom:30px;">职位描述</h2>
-                    {{content}}
+                    <div v-html="content" style="white-space: pre-wrap;line-height:40px;"></div>
+                    
+                    <!-- {{content}} -->
                 </div>
                 <!-- TODO: 投递入口 -->
                 <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
@@ -40,8 +42,9 @@
                         <template slot="title">投递简历</template>
                         <el-menu-item index="0">投递已有简历
                         </el-menu-item>
-                        <el-menu-item index="1">上传新的简历
-                            <input type="file" id="newResume" name="newResume" value="newResume" accept=".jpg, .png, .pdf" multiple="false">
+                        <el-menu-item index="1">
+                            <input type="file" id="newResume" name="newResume" value="newResume" accept=".pdf" multiple="false" style="width:200px;">
+                            <button style="background-color:black; color:white; border:none; border-radius:0;cursor:pointer;padding:5px;">点击上传并投递</button>
                         </el-menu-item>
                     </el-submenu>
                 </el-menu>
@@ -50,6 +53,8 @@
     </div>
 </template>
 <script>
+import { positionTransfer } from '@/utils/positionTransfer';
+import { degreeTransfer } from '@/utils/degreeTransfer';
 export default {
     data() {
         return {
@@ -64,7 +69,7 @@ export default {
             hrId: null,
             hrName: null,
             content: null,
-            activeIndex: 1,
+            activeIndex: "1",
             index: null,
             newResume: null,
             enterpriseId: null
@@ -74,15 +79,14 @@ export default {
         async getData() {
             const infoId = decodeURI(this.$route.query.id);
             const { data: ret } = await this.$http.get('http://1.117.44.227:8088/employment/position/' + infoId);
-            // TODO: 将测试数据换成真实URL
-            // const { data: ret } = await this.$http.get('/data/detail.json');
             this.info = ret;
-            this.content = ret.content;
-            console.log(this.info);
+            this.info.position = positionTransfer(this.info.position).key;
+            this.info.degree = degreeTransfer(this.info.degree).key;
+            this.content = decodeURI(ret.content) ;
         },
-        chat(){
+        chat() {
             if (this.$route.path == "/detailC") {
-                this.$router.push("/myChatC" + "?hrId=" + this.info.hrId);
+                this.$router.push("/chatListC" + "?hrId=" + this.info.hrId);
             } else if (this.$route.path == "/detailT") {
                 window.alert("请先行登录");
             } else if (this.$route.path == "/detailHR") {
@@ -108,12 +112,12 @@ export default {
                 if (key == "0") {
                     this.$http({
                         method: "post",
-                        url: "/employment/send/recruiter",
-                        data: {
-                            token: this.$store.state.token.value,
-                            useSelf: true,
-                            positionId: this.info.id,
-                            qualifier: ""
+                        url: "http://1.117.44.227:8088/employment/send/recruiter",
+                        headers: {
+                            "token": this.$store.state.token.value,
+                            "useSelf": true,
+                            "positionId": this.info.id,
+                            "qualifier": null
                         }
                     }).then(res => {
                         var sendResult = res.data.sendResult;
@@ -127,44 +131,47 @@ export default {
                 } else if (key == "1") { //投递新的简历
                     const input = document.querySelector("input");
                     this.newResume = input.files[0];
+                    let fd = new FormData();
+                    fd.append("resume", this.newResume);
                     console.log(this.newResume);
                     let qualifier = null;
                     //将临时简历上传，获取qualifier
                     this.$http({
                         method: "post",
-                        url: "/employment/send/recruiter/upload",
-                        data: {
-                            token: this.$store.state.token,
-                            resume: this.newResume
-                        }
+                        url: "http://1.117.44.227:8088/employment/send/recruiter/upload",
+                        headers: {
+                            "Content-Type": "multipart/form-data;boundary=ebf9f03029db4c2799ae16b5428b06bd",
+                            "token": this.$store.state.token.value,
+                        },
+                        data: fd
                     }).then(res => {
                         var resumeResult = res.data.resumeResult;
                         qualifier = res.data.qualifier;
                         if (resumeResult == 0) {
                             window.alert("上传成功！");
+                            //将上传的临时简历进行投递
+                            this.$http({
+                                method: "post",
+                                url: "http://1.117.44.227:8088/employment/send/recruiter",
+                                headers: {
+                                    "token": this.$store.state.token.value,
+                                    "useSelf": false,
+                                    "positionId": this.info.id,
+                                    "qualifier": qualifier
+                                }
+                            }).then(res => {
+                                var sendResult = res.data.sendResult;
+                                if (sendResult == 0) {
+                                    window.alert("投递成功！");
+                                } else if (sendResult == 1) {
+                                    window.alert("投递失败");
+                                }
+                            })
                         } else if (resumeResult == 1) {
                             window.alert("上传失败");
                         }
                     })
-                    //将上传的临时简历进行投递
-                    this.$http({
-                        method: "post",
-                        url: "/employment/send/recruiter",
-                        data: {
-                            token: this.$store.state.token,
-                            useSelf: false,
-                            positionId: this.info.id,
-                            qualifier: qualifier
-                        }
-                    }).then(res => {
-                        var sendResult = res.data.sendResult;
 
-                        if (sendResult == 0) {
-                            window.alert("投递成功！");
-                        } else if (sendResult == 1) {
-                            window.alert("投递失败");
-                        }
-                    })
                 }
             }
         }
@@ -180,6 +187,9 @@ export default {
     height: 100%;
     overflow: hidden;
 }
+.detail-pane{
+    margin-bottom: 50px;
+}
 .atr-name {
     color: #666666;
     margin-right: 50px;
@@ -188,7 +198,8 @@ export default {
     width: 75%;
     margin: 0 auto;
 }
-.enterprise,.chatBtn {
+.enterprise,
+.chatBtn {
     width: 100px;
     height: 50px;
     margin: 30px 0;

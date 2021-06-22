@@ -123,30 +123,30 @@ export default {
             ]
         }
     },
-    methods: {
-        jump() {
-            //TODO: 修改router
-            if (this.keyword.length > 30 || this.keyword.length == 1) {
-                window.alert('请输入长度大于1且小于30的字符串！')
-            } else {
-                this.$router.push("/retrievalC" + "?keyword=" + this.keyword + "&position=" + this.position + "&degree=" + this.degree);
-            }
-        },
-        async getRecommendInfo() {
-            // const {data:ret} = await this.$http.get("/employment/recommend");
-            const { data: ret } = await this.$http.get('/data/retrieval.json');
-            this.recommendList = ret;
-        },
-        async getInfo() {
-            // const { data: ret } = await this.$http.get("/employment/info");
-            const {data:ret} = await this.$http.get('/data/info.json')
-            this.infoList = ret;
-        }
-    },
-    mounted() {
-        this.getRecommendInfo();
-        this.getInfo();
-    }
+    // methods: {
+    //     jump() {
+    //         //TODO: 修改router
+    //         if (this.keyword.length > 30 || this.keyword.length == 1) {
+    //             window.alert('请输入长度大于1且小于30的字符串！')
+    //         } else {
+    //             this.$router.push("/retrievalC" + "?keyword=" + this.keyword + "&position=" + this.position + "&degree=" + this.degree);
+    //         }
+    //     },
+    //     async getRecommendInfo() {
+    //         // const {data:ret} = await this.$http.get("/employment/recommend");
+    //         const { data: ret } = await this.$http.get('/data/retrieval.json');
+    //         this.recommendList = ret;
+    //     },
+    //     async getInfo() {
+    //         // const { data: ret } = await this.$http.get("/employment/info");
+    //         const {data:ret} = await this.$http.get('/data/info.json')
+    //         this.infoList = ret;
+    //     }
+    // },
+    // mounted() {
+    //     this.getRecommendInfo();
+    //     this.getInfo();
+    // }
 }
 </script>
 <style scoped>

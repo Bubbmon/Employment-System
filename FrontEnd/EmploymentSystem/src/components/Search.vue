@@ -20,7 +20,7 @@
                 <div style="margin-top:30px">
                     <div class="item" v-for="item in recommendList" :key="item.id">
                         <div @click="jumpToDetail(item.id)" class="url">
-                            【{{item.enterpriseName}}】 {{item.title}}
+                            【{{item.enterpriseId}}】 {{item.title}}
                         </div>
                         <div style="font-size:.8rem; margin:20px 5px">
                             <span>学历：{{item.degree}}</span>
@@ -45,12 +45,14 @@
     </div>
 </template>
 <script>
+import { positionTransfer } from '@/utils/positionTransfer';
+import { degreeTransfer } from '@/utils/degreeTransfer';
 export default {
     data() {
         return {
             keyword: "",
-            position: null,
-            degree: null,
+            position: "",
+            degree: "",
             recommendList: [],
             infoList: [],
             positions: [
@@ -119,15 +121,15 @@ export default {
     methods: {
         jump() {
             //TODO: 修改router
-            if (this.keyword.length > 30 || this.keyword.length == 1) {
-                window.alert('请输入长度大于1且小于30的字符串！');
-            }else if(this.position == null){
-                window.alert('请选择岗位');
-            }else if(this.degree == null){
-                window.alert('请选择学历要求');
+            if (this.keyword.length > 30 || this.keyword.length == 0) {
+                window.alert('请输入长度大于0且小于30的字符串！');
             }
+            // else if(this.position == null){
+            //     window.alert('请选择岗位');
+            // }else if(this.degree == null){
+            //     window.alert('请选择学历要求');
+            // }
             else {
-                // this.$router.push("/retrievalC" + "?keyword=" + this.keyword + "&position=" + this.position + "&degree=" + this.degree);
                 if (this.$route.path == "/searchC") {
                     this.$router.push("/retrievalC" + "?keyword=" + this.keyword + "&position=" + this.position + "&degree=" + this.degree);
                 } else if (this.$route.path == "/searchT" || this.$route.path == "/") {
@@ -146,15 +148,27 @@ export default {
                         count: this.count,//推荐条数
                     },
             }).then(res => {
-                this.recommendList = res.data;
+                this.recommendList = res.data.map(item=>{
+                    item.position = positionTransfer(item.position).key;
+                    item.degree = degreeTransfer(item.degree).key;
+                    return item;
+                })
             })
             // const { data: ret } = await this.$http.get('/data/retrieval.json');
             // this.recommendList = ret;
         },
         async getInfo() {
-            const { data: ret } = await this.$http.get("http://1.117.44.227:8088/employment/info");
-            // const { data: ret } = await this.$http.get('/data/info.json')
-            this.infoList = ret;
+            // const { data: ret } = await this.$http.get("http://1.117.44.227:8088/employment/info");
+            this.$http({
+                method: "get",
+                url: "http://1.117.44.227:8088/employment/info",
+                headers: {
+                    count:7
+                },
+            }).then(res => {
+                this.infoList = res.data;
+            })
+            // this.infoList = ret;
         },
         jumpToDetail(val) {
             if (this.$route.path == "/searchC") {

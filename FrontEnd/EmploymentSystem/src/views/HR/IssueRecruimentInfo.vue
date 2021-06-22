@@ -70,19 +70,18 @@ export default {
     },
     methods: {
       onSubmit() {
+          console.log(this.form.position)
         this.$http({
             method: "post",
                 url: "http://1.117.44.227:8088/employment/position/post",
                 headers: {
                     "token": this.$store.state.token.value,
-                    "position": this.position,
-                    "title": this.title,
-                    "salary": this.salary,
-                    "degree": this.degree
+                    "position": this.form.position,
+                    "title": encodeURIComponent(this.form.title),
+                    "salary": this.form.salary,
+                    "degree": this.form.degree
                 },
-                data:{
-                    content: this.content,
-                }
+                data: this.form.content
         }).then(res=>{
             this.positionResult = res.data.positionResult;
             this.positionId = res.data.positionId;

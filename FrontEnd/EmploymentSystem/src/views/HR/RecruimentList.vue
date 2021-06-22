@@ -6,7 +6,7 @@
                 <!-- TODO:不太确定，在表格中使用链接 -->
                 <template slot-scope="recruimentList">
                     <!-- <a href="'/resumeList?posionId='+recruimentList.row.id">{{recruimentList.row.id}}</a> -->
-                    <div @click="jumpToResumeList(recruimentList.row.id)" style="cursor:pointer">{{recruimentList.row.id}}</div>
+                    <div @click="jumpToResumeList(recruimentList.row.id,recruimentList.row.hasPrivilege)" style="cursor:pointer">{{recruimentList.row.id}}</div>
                 </template>
             </el-table-column>
             <el-table-column prop="position" label="岗位类型" width="100">
@@ -41,8 +41,12 @@ export default {
         }
     },
     methods: {
-        jumpToResumeList(val){
-            this.$router.push("/resumeList" + "?positionId=" + val);
+        jumpToResumeList(val, hasPrivilege) {
+            if (!hasPrivilege) {
+                window.alert("没有权限")
+            } else {
+                this.$router.push("/resumeList" + "?positionId=" + val);
+            }
         },
         async getEnterpriseId() {
             console.log("state.id=" + this.$store.state.id.value);
@@ -51,9 +55,18 @@ export default {
             this.enterpriseId = ret.enterpriseId;
             this.getAllRecruimentInfo()
         },
-        async getAllRecruimentInfo() {
-            const { data: ret } = await this.$http.get("http://1.117.44.227:8088/employment/position/enterprise/" + this.enterpriseId);
-            this.recruimentList = ret;
+        getAllRecruimentInfo() {
+            // const { data: ret } = await this.$http.get("http://1.117.44.227:8088/employment/position/enterprise/" + this.enterpriseId);
+            // this.recruimentList = ret;
+            this.$http({
+                method: "post",
+                url: "http://1.117.44.227:8088/employment/position/enterprise/" + this.enterpriseId,
+                headers: {
+                    "token": this.$store.state.token.value
+                }
+            }).then(res => {
+                this.recruimentList = res.data;
+            })
         }
     },
     mounted() {

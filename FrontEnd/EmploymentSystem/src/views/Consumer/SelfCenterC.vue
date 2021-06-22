@@ -7,22 +7,23 @@
                 <span style="float:right;color:grey;cursor:pointer" @click="modify">[编辑]</span>
             </h2>
             <div>账户名：
-                <input type="text" v-model="id">
+                <!-- <input type="text" v-model="id" disabled="disabled"> -->
+                {{id}}
             </div>
             <div>姓名：
-                <input type="text" v-model="name">
+                <input type="text" v-model="name" disabled="disabled">
             </div>
             <div>身份证号：
-                <input type="text" v-model="IDNO">
+                <input type="text" v-model="IDNO" disabled="disabled">
             </div>
             <div>手机号：
-                <input type="text" v-model="phone">
+                <input type="text" v-model="phone" disabled="disabled">
             </div>
             <div>邮箱：
-                <input type="text" v-model="email">
+                <input type="text" v-model="email" disabled="disabled">
             </div>
             <div>年龄：
-                <input type="text" v-model="age">
+                <input type="text" v-model="age" disabled="disabled">
             </div>
             <div>兴趣：
                 <el-select v-model="interest" placeholder="请选择岗位">
@@ -31,7 +32,7 @@
                 </el-select>
             </div>
             <div>修改信息请重新输入密码:
-                <input type="text" v-model="password">
+                <input type="text" v-model="password" disabled="disabled">
             </div>
             <button @click="save" style="margin-top:40px">保存修改</button>
         </div>
@@ -92,7 +93,6 @@ export default {
     },
     methods: {
         async getData() {
-            // console.log(this.$store.state.id)
             const { data: ret } = await this.$http.get("http://1.117.44.227:8088/employment/account/recruiter/info/" + this.$store.state.id.value);
             this.id = ret.id;
             this.name = ret.name;
@@ -106,6 +106,7 @@ export default {
             var inputs = document.querySelectorAll('.selfcenter-pane input');
             for (var i = 0; i < inputs.length; i++) {
                 inputs[i].style.borderBottom = '1px solid black';
+                inputs[i].disabled='';
             }
         },
         save() {
@@ -114,7 +115,7 @@ export default {
                 method: "post",
                 url: "http://1.117.44.227:8088/employment/account/recruiter/modify",
                 headers: {
-                    "id": this.id,
+                    // "id": this.id,
                     "password": this.password,
                     "name": encodeURIComponent(this.name),
                     "IDNO": this.IDNO,
@@ -131,6 +132,7 @@ export default {
                     var inputs = document.querySelectorAll('.selfcenter-pane input');
                     for (var i = 0; i < inputs.length; i++) {
                         inputs[i].style.border = 'none';
+                        inputs[i].disabled='disabled';
                     }
                 } else {
                     window.alert("修改失败");

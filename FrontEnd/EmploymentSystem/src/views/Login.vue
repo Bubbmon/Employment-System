@@ -54,6 +54,10 @@ export default {
             }).then(res => {
                 this.signInResult = res.data.signInResult;
                 this.token = res.data.token;
+                var identity = 0;
+                if(!isRecruiter){//如果是hr
+                    identity = 1;
+                }
                 // console.log("this.token" + res.data.token);
                 this.$store.commit('getToken', {
                     value: this.token
@@ -61,7 +65,9 @@ export default {
                 this.$store.commit('getId', {
                     value: this.id
                 });
-                console.log(this.$store.state.token.value);
+                this.$store.commit('getIdentity', {
+                    value: identity
+                });
                 if (this.signInResult == 0) {
                     if (isRecruiter) {
                         this.$router.push("/searchC");

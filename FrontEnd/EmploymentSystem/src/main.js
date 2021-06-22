@@ -8,6 +8,8 @@ Vue.use(ElementUI);
 import vuex from 'vuex'
 Vue.use(vuex);
 import store from './store'
+import vuescroll from 'vuescroll';
+Vue.use(vuescroll);
 
 Vue.config.productionTip = false
 Vue.prototype.$echarts = window.echarts

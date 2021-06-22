@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <div class="pagination">
-                        <el-pagination layout="prev, pager, next" :total=num :page-size="20" @current-change="handleCurrentChange">
+                        <el-pagination layout="prev, pager, next" :total=num :page-size="10" @current-change="handleCurrentChange">
                         </el-pagination>
                     </div>
                 </div>
@@ -42,6 +42,8 @@
     </div>
 </template>
 <script>
+import { positionTransfer } from '@/utils/positionTransfer';
+import { degreeTransfer } from '@/utils/degreeTransfer';
 export default {
     data() {
         return {
@@ -116,36 +118,36 @@ export default {
     },
     methods: {
         async getData(val) {
-            let keyword = decodeURI(this.$route.query.keyword);
-            keyword = encodeURIComponent(keyword);
-            console.log(keyword);
-            const position = decodeURI(this.$route.query.position);
-            const degree = decodeURI(this.$route.query.degree);
+            // let keyword = decodeURI(this.$route.query.keyword);
+            // keyword = encodeURIComponent(keyword);
+            // const position = decodeURI(this.$route.query.position);
+            // const degree = decodeURI(this.$route.query.degree);
             this.$http({
                 method: "get",
-                url: "http://1.117.44.227:8088/employment/search?keyword=" + keyword + "&position=" +position+"&degree="+degree+"&page=" + val + "&pageSize=20",
+                url: "http://1.117.44.227:8088/employment/search?keyword=" + this.keyword + "&position=" +this.position+"&degree="+this.degree+"&page=" + val + "&pageSize=10",
             }).then(res => {
-                this.resultList = res.data.info
+                this.resultList = res.data.info.map(item=>{
+                    item.position = positionTransfer(item.position).key;
+                    item.degree = degreeTransfer(item.degree).key;
+                    return item;
+                })
                 this.num = res.data.num;
                 
             })
-            // console.log(val);
-            // const { data: ret } = await this.$http.get('/data/retrieval.json');
-            // this.resultList = ret;
         },
         handleCurrentChange(val){
             console.log("点击的页码为" + val);
             this.getData(val);
         },
         jump() {
-            //TODO: 修改router
-            if (this.keyword.length > 30 || this.keyword.length == 1) {
-                window.alert('请输入长度大于1且小于30的字符串！')
-            }else if(this.position == null){
-                window.alert('请选择岗位');
-            }else if(this.degree == null){
-                window.alert('请选择学历要求');
+            if (this.keyword.length > 30 || this.keyword.length == 0) {
+                window.alert('请输入长度大于0且小于30的字符串！')
             }
+            // else if(this.position == null){
+            //     window.alert('请选择岗位');
+            // }else if(this.degree == null){
+            //     window.alert('请选择学历要求');
+            // }
             else {
                 this.getData(1);
             }

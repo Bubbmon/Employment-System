@@ -4,7 +4,10 @@
         <div class="chatbox">
             <div class="message">
                 <div class="item" v-for="(item,index) in messageList" :key="index">
-                    <div>{{item.msg}}</div>
+                    <div style="height:30px">
+                        <span style="width:100px;text-align:center;margin-right:20px;">{{item.from}} </span>
+                        <span>{{item.msg}}</span>
+                    </div>
                 </div>
             </div>
             <div class="inputbox">
@@ -18,7 +21,7 @@
 import HeaderC from "../../components/Consumer/HeaderC.vue"
 export default {
     name: 'test',
-    components:{
+    components: {
         HeaderC
     },
     data() {
@@ -26,9 +29,10 @@ export default {
             webSocketObj: null,
             wsHeartflag: false,
             reconnectTime: 0,
-            message:"",
-            newMessage:"",
-            messageList:[]
+            message: "",
+            newMessage: "",
+            messageList: [],
+            talkerId: decodeURI(this.$route.query.hrId)
         }
     },
     created() {
@@ -38,13 +42,27 @@ export default {
         // this.websock.close() //离开路由之后断开websocket连接
     },
     methods: {
-        send(){
-            this.webSocketObj.send(this.newMessage);
-            this.newMessage=""
+        send() {
+            // this.webSocketObj.send(this.newMessage);
+            this.messageList.push({ from: this.$store.state.id.value, msg: this.newMessage });
+            this.newMessage = encodeURIComponent(this.newMessage);
+            this.$http({
+                method: "post",
+                url: "http://1.117.44.227:8088/employment/talk/talkTo",
+                headers: {
+                    "token": this.$store.state.token.value,
+                    //TODO:把id换成消息接受者
+                    "id": this.talkerId,
+                    "message": this.newMessage
+                },
+            }).then(res => {
+                this.newMessage = "";
+                console.log(res.data);
+            })
         },
         initWebSocket() {
             this.webSocketObj = new WebSocket(
-                "ws://localhost:8081/servletAdvance/webSocketTest/" + "applicant1" + "/" + "hr1"
+                "ws://1.117.44.227:8088/employment/webSocket"
             );
             this.webSocketObj.onopen = this.onOpen
             this.webSocketObj.onmessage = this.onMessage
@@ -52,11 +70,11 @@ export default {
             this.webSocketObj.onclose = this.onClose
         },
         onOpen() {
-            
-                //- readyState 等于1 的时候建立链接成功
-                this.wsHeartflag = true;
-                this.webSocketObj.send("hello hr");
-                this.reconnectTime = 0;
+
+            //- readyState 等于1 的时候建立链接成功
+            this.wsHeartflag = true;
+            this.webSocketObj.send("#open#" + this.$store.state.token.value);
+            this.reconnectTime = 0;
         },
         timingHeart() {
             // 心跳检测  每4.5分钟发送一次 
@@ -69,8 +87,8 @@ export default {
         },
         onMessage(evt) {
             console.log("message" + evt.data);
-            this.message = evt.data;
-            this.messageList.push({msg:this.message});
+            this.message = JSON.parse(evt.data);
+            this.messageList.push({ from: this.message.id, msg: this.message.message });
             // var received_msg = evt && JSON.parse(evt.data);
             // if (received_msg.code === '1') {
             //     // 支付成功
@@ -96,6 +114,7 @@ export default {
             }
         },
         onClose() {
+            this.webSocketObj.send("#close#" + this.$store.state.token.value);
             this.wsHeartflag = false;
             this.webSocketObj && this.webSocketObj.close && this.webSocketObj.close();
         },
@@ -103,21 +122,34 @@ export default {
 }
 </script>
 <style scoped>
-.chatbox{
-    width: 600px;
-    height: 700px;
-    border: 1px solid black;
-    margin: 30px auto;
-    padding: 10px;
+.test {
+    background-color: #f6f6f6;
 }
-.message{
-    height: 550px;
+.chatbox {
+    width: 570px;
+    height: 600px;
+    border: 1px solid #e9e9e9;
+    margin: 10px auto;
+    background-color: #fff;
+    justify-content: center;
 }
-.inputbox{
+.message {
+    height: 560px;
+}
+.inputbox {
     display: flex;
 }
-input{
-    width: 500px;
-    height: 30px;
+input {
+    width: 510px;
+    height: 40px;
+    border: 1px solid #e9e9e9;
+    line-height: 40px;
+}
+button {
+    border: none;
+    background-color: black;
+    color: #fff;
+    width: 60px;
+    cursor: pointer;
 }
 </style>
