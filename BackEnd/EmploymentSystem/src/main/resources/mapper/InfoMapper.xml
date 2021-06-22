@@ -3,7 +3,7 @@
 <mapper namespace="com.system.mapper.InfoMapper">
 
     <select id="searchAll" resultType="Info">
-        select * from info order by id desc limit #{count}
+        select id,title from info order by id desc limit #{count}
     </select>
 
     <select id="searchById" parameterType="java.lang.Long" resultType="Info">
