@@ -151,9 +151,9 @@ public class ResumeService{
                 String fileName = file.getOriginalFilename().substring(0,dotPos);
                 String suffix = file.getOriginalFilename().substring(dotPos+1);
                 qualifier = fileName + "_" + System.currentTimeMillis() + "_" + suffix;
+                qualifier = java.net.URLEncoder.encode(qualifier,"UTF-8");
                 String wholeName = qualifier + "." + suffix;
-                qualifier = java.net.URLEncoder.encode(wholeName,"UTF-8");
-                String resumeAddress = absolutePath+"nowResumes/"+qualifier;
+                String resumeAddress = absolutePath+"nowResumes/"+wholeName;
                 File newFile = new File(resumeAddress);
                 if(!newFile.exists()){
                     newFile.mkdirs();
