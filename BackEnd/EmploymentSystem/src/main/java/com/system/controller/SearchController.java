@@ -103,6 +103,10 @@ public class SearchController {
             }
         }
         List<PositionInfo> list = positionMapper.recommend(interest, count);
+        for (PositionInfo positionInfo : list) {
+            Enterprise enterprise = enterpriseMapper.searchById(positionInfo.getEnterpriseId());
+            positionInfo.setEnterpriseName(enterprise.getName());
+        }
         String result = JSON.toJSONString(list);
         log.info("Result: "+result);
         return result;
