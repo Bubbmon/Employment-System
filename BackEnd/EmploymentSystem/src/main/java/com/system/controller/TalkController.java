@@ -34,7 +34,7 @@ public class TalkController {
     @GetMapping("/history")
     @NeedVerify
     public String talkHistory(@RequestHeader String token, @RequestHeader String id) {
-        return talkService.getHistory(util.check(token),id);
+        return talkService.getHistoryBetween(util.check(token),id);
     }
 
     @GetMapping("/new")

@@ -2,8 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.system.mapper.TalkMapper">
 
-    <select id="getTalk" resultType="com.system.entity.Talk">
-        select * from talk where `from` = #{from} and `to` = #{to}
+    <select id="getTalkBetween" resultType="com.system.entity.Talk">
+        select * from talk where (`from` = #{id1} and `to` = #{id2}) or (`from` = #{id2} and `to` = #{id1})
+        order by `time` asc
     </select>
 
     <select id="getTalker" resultType="com.system.entity.Talk">

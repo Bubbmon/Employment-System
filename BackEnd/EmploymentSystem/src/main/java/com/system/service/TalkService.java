@@ -11,7 +11,6 @@ import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -54,10 +53,8 @@ public class TalkService {
         talkTo(util.check(token),to,message);
     }
 
-    public String getHistory(String from,String to){
-        List<Talk> one = talkMapper.getTalk(from,to),
-                   two = talkMapper.getTalk(to,from);
-        one.addAll(two);
+    public String getHistoryBetween(String id1, String id2){
+        List<Talk> one = talkMapper.getTalkBetween(id1,id2);
         return JSON.toJSONString(one);
     }
 
