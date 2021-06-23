@@ -78,7 +78,7 @@ export default {
                     "token": this.$store.state.token.value,
                     "position": this.form.position,
                     "title": encodeURIComponent(this.form.title),
-                    "salary": this.form.salary,
+                    "salary": encodeURIComponent(this.form.salary),
                     "degree": this.form.degree
                 },
                 data: this.form.content

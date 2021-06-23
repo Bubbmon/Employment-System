@@ -20,7 +20,7 @@
                 <div style="margin-top:30px">
                     <div class="item" v-for="item in recommendList" :key="item.id">
                         <div @click="jumpToDetail(item.id)" class="url">
-                            【{{item.enterpriseId}}】 {{item.title}}
+                            【{{item.enterpriseName}}】 {{item.title}}
                         </div>
                         <div style="font-size:.8rem; margin:20px 5px">
                             <span>学历：{{item.degree}}</span>
@@ -89,7 +89,7 @@ export default {
                     label: "高级管理"
                 }
             ],
-            count:5,
+            count: 5,
             degrees: [
                 {
                     value: '0',
@@ -115,7 +115,8 @@ export default {
                     value: '5',
                     label: "博士"
                 }
-            ]
+            ],
+            token: ""
         }
     },
     methods: {
@@ -140,15 +141,18 @@ export default {
             }
         },
         async getRecommendInfo() {
+            if (this.$store.state.token != null) {
+                this.token = this.$store.state.token.value;
+            }
             this.$http({
                 method: "get",
-                url:"http://1.117.44.227:8088/employment/recommend",
+                url: "http://1.117.44.227:8088/employment/recommend",
                 headers: {
-                        token: this.$store.state.token.value,
-                        count: this.count,//推荐条数
-                    },
+                    token: this.token,
+                    count: this.count,//推荐条数
+                },
             }).then(res => {
-                this.recommendList = res.data.map(item=>{
+                this.recommendList = res.data.map(item => {
                     item.position = positionTransfer(item.position).key;
                     item.degree = degreeTransfer(item.degree).key;
                     return item;
@@ -163,7 +167,7 @@ export default {
                 method: "get",
                 url: "http://1.117.44.227:8088/employment/info",
                 headers: {
-                    count:7
+                    count: 7
                 },
             }).then(res => {
                 this.infoList = res.data;

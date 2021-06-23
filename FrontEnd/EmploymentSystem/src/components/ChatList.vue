@@ -2,10 +2,10 @@
     <div style="background:#f6f6f6">
         <div style="display:flex;">
             <div class="list">
-                <h2 style="margin:40px;">正在聊天</h2>
+                <!-- <h2 style="margin:40px;">正在聊天</h2>
                 <div class="onlineTalker">
                     {{onlineTalker}}
-                </div>
+                </div> -->
                 <h2 style="margin:40px;">聊天记录</h2>
                 <div class="item" v-for="(item, index) in talkerList" :key="'talker'+index" @click="chatWith(item)">
                     {{item}}

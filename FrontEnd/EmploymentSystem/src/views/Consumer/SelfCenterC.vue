@@ -31,9 +31,9 @@
                     </el-option>
                 </el-select>
             </div>
-            <div>修改信息请重新输入密码:
+            <!-- <div>修改密码:
                 <input type="text" v-model="password" disabled="disabled">
-            </div>
+            </div> -->
             <button @click="save" style="margin-top:40px">保存修改</button>
         </div>
     </div>
@@ -95,18 +95,29 @@ export default {
         async getData() {
             const { data: ret } = await this.$http.get("http://1.117.44.227:8088/employment/account/recruiter/info/" + this.$store.state.id.value);
             this.id = ret.id;
-            this.name = ret.name;
-            this.IDNO = ret.iDNO;
-            this.phone = ret.phone;
-            this.email = ret.email;
-            this.age = ret.age;
-            this.interest = ret.interest;
+            if (ret.name != null)
+                this.name = ret.name;
+            if (ret.IDNO != null)
+                this.IDNO = ret.iDNO;
+            if (ret.phone != null)
+                this.phone = ret.phone;
+            if (ret.email != null) {
+                this.email = ret.email;
+            }
+
+            if (ret.age != null) {
+                this.age = ret.age;
+            }
+            if (ret.interest != null) {
+                this.interest = ret.interest;
+            }
+
         },
         modify() {
             var inputs = document.querySelectorAll('.selfcenter-pane input');
             for (var i = 0; i < inputs.length; i++) {
                 inputs[i].style.borderBottom = '1px solid black';
-                inputs[i].disabled='';
+                inputs[i].disabled = '';
             }
         },
         save() {
@@ -116,14 +127,14 @@ export default {
                 url: "http://1.117.44.227:8088/employment/account/recruiter/modify",
                 headers: {
                     // "id": this.id,
-                    "password": this.password,
+                    // "password": this.password,
                     "name": encodeURIComponent(this.name),
                     "IDNO": this.IDNO,
                     "phone": this.phone,
                     "email": this.email,
                     "age": this.age,
                     "interest": this.interest,
-                    "token":this.$store.state.token.value
+                    "token": this.$store.state.token.value
                 }
             }).then(res => {
                 this.modifyResult = res.data.modifyResult;
@@ -132,7 +143,7 @@ export default {
                     var inputs = document.querySelectorAll('.selfcenter-pane input');
                     for (var i = 0; i < inputs.length; i++) {
                         inputs[i].style.border = 'none';
-                        inputs[i].disabled='disabled';
+                        inputs[i].disabled = 'disabled';
                     }
                 } else {
                     window.alert("修改失败");
