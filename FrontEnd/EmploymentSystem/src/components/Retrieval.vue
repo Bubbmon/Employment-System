@@ -19,6 +19,7 @@
                     </el-select>
                 </div>
                 <div class="content">
+                    <div class="num">共有{{num}}条</div>
                     <div class="item" v-for="item in resultList" :key="item.id" style="width:100%;">
                         <div @click="jumpToDetail(item.id)" class="url">
                             【{{item.enterpriseName}}】 {{item.title}}
@@ -132,7 +133,6 @@ export default {
                     return item;
                 })
                 this.num = res.data.num;
-                
             })
         },
         handleCurrentChange(val){
@@ -172,6 +172,10 @@ export default {
     background-color: #f6f6f6;
     height: 100%;
     overflow: hidden;
+}
+.num{
+    font-size: .8rem;
+    color: #666666;
 }
 .url {
     text-decoration: none;

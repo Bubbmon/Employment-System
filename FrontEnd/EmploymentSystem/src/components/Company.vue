@@ -55,9 +55,9 @@ export default {
             this.recruimentList = ret;
         },
         jumpToDetail(id) {
-            if (this.$store.state.identity == 0) {
+            if (this.$store.state.identity.value == 0) {
                 this.$router.push("/detailC" + "?id=" + id);
-            } else if (this.$store.state.identity == 1) {
+            } else if (this.$store.state.identity.value == 1) {
                 this.$router.push("/detailHR" + "?id=" + id);
             } else {
                 this.$router.push("/detailT" + "?id=" + id);

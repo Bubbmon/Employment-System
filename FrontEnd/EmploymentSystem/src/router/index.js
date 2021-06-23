@@ -140,6 +140,11 @@ let router = new VueRouter({
             meta: { title: "我的聊天" }
         },
         {
+            path: "/infoDetailHR",
+            component: () => import(/*webpackChunkName:"infoDetail"*/'@/views/HR/InfoDetailHR'),
+            meta: { title: "资讯" }
+        },
+        {
             path:"/resumeList",
             component:()=>import(/*webpackChunkName:"resumeList"*/'@/views/HR/ResumeList'),
             meta:{title:"简历列表"}
