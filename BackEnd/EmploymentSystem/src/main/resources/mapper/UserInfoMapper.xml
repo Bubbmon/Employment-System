@@ -11,7 +11,7 @@
     </insert>
 
     <update id="update" parameterType="com.system.entity.UserInfo">
-        UPDATE userInfo SET pswd=#{pswd}, `name`=#{name}, IDNO=#{IDNO}, phone=#{phone}, email=#{email}, age=#{age}, interest=#{interest}
+        UPDATE userInfo SET `name`=#{name}, IDNO=#{IDNO}, phone=#{phone}, email=#{email}, age=#{age}, interest=#{interest}
         WHERE id = #{id}
     </update>
 

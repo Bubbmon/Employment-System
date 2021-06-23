@@ -11,7 +11,7 @@
     </insert>
 
     <update id="update" parameterType="HumanResource">
-        UPDATE humanResource SET pswd=#{pswd}, `name`=#{name}, department=#{department}, phone=#{phone}, email=#{email}
+        UPDATE humanResource SET `name`=#{name}, department=#{department}, phone=#{phone}, email=#{email}
         WHERE id=#{id}
     </update>
 </mapper>

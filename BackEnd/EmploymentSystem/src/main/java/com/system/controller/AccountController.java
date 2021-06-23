@@ -93,14 +93,14 @@ public class AccountController {
      */
     @NeedVerify
     @PostMapping(path = "/recruiter/modify", produces = "application/json;charset=utf-8")
-    public String userModify(@RequestHeader String token, @RequestHeader String password,
+    public String userModify(@RequestHeader String token,
                              @RequestHeader String name, @RequestHeader String IDNO,
                              @RequestHeader String phone, @RequestHeader String email,
                              @RequestHeader("age") String ageStr, @RequestHeader String interest) {
         name = DecodeUtil.decode(name);
         String id = tokenUtil.check(token);
         // TODO: 密码的解码
-        log.info("Receive userModify: id="+id+", pswd="+password+", name="+name+", IDNO="+IDNO+", " +
+        log.info("Receive userModify: id="+id+", name="+name+", IDNO="+IDNO+", " +
                 "phone="+phone+", email="+email+", age="+ageStr+", interest="+interest);
         Integer age = null;
         if (ageStr!=null && ageStr.length()!=0) age = Integer.parseInt(ageStr);
@@ -108,7 +108,6 @@ public class AccountController {
         if (interest!=null && interest.length()==0) interest = null;
         UserInfo userInfo = new UserInfo();
         userInfo.setId(id);
-        userInfo.setPswd(password);
         userInfo.setName(name);
         userInfo.setIDNO(IDNO);
         userInfo.setPhone(phone);
@@ -125,18 +124,17 @@ public class AccountController {
      */
     @NeedVerify
     @PostMapping(path = "/hr/modify", produces = "application/json;charset=utf-8")
-    public String hrModify(@RequestHeader String password, @RequestHeader String token,
+    public String hrModify(@RequestHeader String token,
                            @RequestHeader String name, @RequestHeader String phone,
                            @RequestHeader String email, @RequestHeader String department) {
         name = DecodeUtil.decode(name);
         department = DecodeUtil.decode(department);
         String id = tokenUtil.check(token);
         // TODO: 密码的解码
-        log.info("Receive hrModify: id="+id+", pswd="+password+", name="+name+
+        log.info("Receive hrModify: id="+id+", name="+name+
                 "phone="+phone+", email="+email+", department="+department);
         HumanResource humanResource = new HumanResource();
         humanResource.setId(id);
-        humanResource.setPswd(password);
         humanResource.setName(name);
         humanResource.setPhone(phone);
         humanResource.setEmail(email);
